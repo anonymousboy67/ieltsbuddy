@@ -85,11 +85,29 @@
   will-change: width;
 }
 
+/* Step transition for onboarding */
+@keyframes step-enter {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-step-enter {
+  animation: step-enter 0.3s ease-out forwards;
+  will-change: transform, opacity;
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-progress-ring,
-  .animate-progress-bar {
+  .animate-progress-bar,
+  .animate-step-enter {
     animation: none;
     opacity: 1;
     stroke-dashoffset: var(--ring-target);
