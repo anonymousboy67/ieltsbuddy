@@ -49,11 +49,16 @@ export default function OnboardingFlow() {
           <div className="h-10 w-10" />
         )}
         <div className="flex-1">
-          <div className="h-1 w-full rounded-full bg-[#2A3150]">
+          <div className="relative h-[3px] w-full rounded-full bg-[#1E2540]">
             <div
-              className="h-1 rounded-full bg-[#6366F1] transition-[width] duration-300 ease-out"
+              className="progress-glow-bar relative h-[3px] rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
-            />
+            >
+              <div className="progress-shimmer absolute inset-0 overflow-hidden rounded-full">
+                <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              </div>
+              <div className="progress-glow-dot absolute -right-[3px] top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-white" />
+            </div>
           </div>
         </div>
       </div>

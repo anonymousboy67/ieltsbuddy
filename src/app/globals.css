@@ -85,6 +85,38 @@
   will-change: width;
 }
 
+/* Onboarding progress bar */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 4px white, 0 0 8px rgba(99, 102, 241, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 6px white, 0 0 12px rgba(99, 102, 241, 0.8);
+  }
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.progress-glow-bar {
+  background: linear-gradient(90deg, #6366F1, #818CF8, #A78BFA);
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+.progress-glow-dot {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+.progress-shimmer {
+  animation: shimmer-sweep 2.5s ease-in-out infinite;
+}
+
 /* Step transition for onboarding */
 @keyframes step-enter {
   from {
@@ -107,9 +139,15 @@
   .animate-fade-up,
   .animate-progress-ring,
   .animate-progress-bar,
-  .animate-step-enter {
+  .animate-step-enter,
+  .progress-glow-dot,
+  .progress-shimmer {
     animation: none;
     opacity: 1;
     stroke-dashoffset: var(--ring-target);
+  }
+
+  .progress-glow-bar {
+    box-shadow: none;
   }
 }
