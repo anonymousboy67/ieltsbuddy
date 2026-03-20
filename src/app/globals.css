@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0B0F1A;
+  --surface: #12172B;
+  --card: #1E2540;
+  --card-border: #2A3150;
+  --primary: #6366F1;
+  --primary-hover: #818CF8;
+  --primary-text: #EEF2FF;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
+
+  /* Skill colors */
+  --speaking: #0EA5E9;
+  --writing: #F97316;
+  --reading: #A855F7;
+  --listening: #22C55E;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-heading);
+}
+
+/* Slide-up fade-in entrance animation */
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress ring stroke animation */
+@keyframes progress-ring {
+  from {
+    stroke-dashoffset: var(--ring-circumference);
+  }
+  to {
+    stroke-dashoffset: var(--ring-target);
+  }
+}
+
+/* Progress bar width animation */
+@keyframes progress-bar {
+  from {
+    width: 0%;
+  }
+}
+
+.animate-fade-up {
+  opacity: 0;
+  animation: fade-slide-up 0.4s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.animate-fade-up-1 { animation-delay: 100ms; }
+.animate-fade-up-2 { animation-delay: 200ms; }
+.animate-fade-up-3 { animation-delay: 300ms; }
+.animate-fade-up-4 { animation-delay: 400ms; }
+.animate-fade-up-5 { animation-delay: 500ms; }
+.animate-fade-up-6 { animation-delay: 600ms; }
+.animate-fade-up-7 { animation-delay: 700ms; }
+.animate-fade-up-8 { animation-delay: 800ms; }
+.animate-fade-up-9 { animation-delay: 900ms; }
+
+.animate-progress-ring {
+  animation: progress-ring 1s ease-out 0.6s forwards;
+  stroke-dashoffset: var(--ring-circumference);
+  will-change: stroke-dashoffset;
+}
+
+.animate-progress-bar {
+  animation: progress-bar 0.8s ease-out forwards;
+  will-change: width;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-progress-ring,
+  .animate-progress-bar {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: var(--ring-target);
+  }
+}
