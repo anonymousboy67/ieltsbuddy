@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mic, PenLine, BookOpen, Headphones } from "lucide-react";
 
 const skills = [
@@ -6,24 +7,28 @@ const skills = [
     icon: Mic,
     color: "#0EA5E9",
     bg: "rgba(14,165,233,0.15)",
+    href: "/dashboard/speaking",
   },
   {
     name: "Writing",
     icon: PenLine,
     color: "#F97316",
     bg: "rgba(249,115,22,0.15)",
+    href: "/dashboard/writing",
   },
   {
     name: "Reading",
     icon: BookOpen,
     color: "#A855F7",
     bg: "rgba(168,85,247,0.15)",
+    href: "/dashboard/reading",
   },
   {
     name: "Listening",
     icon: Headphones,
     color: "#22C55E",
     bg: "rgba(34,197,94,0.15)",
+    href: "/dashboard/listening",
   },
 ];
 
@@ -44,8 +49,9 @@ export default function PracticeArea() {
         {skills.map((skill, i) => {
           const Icon = skill.icon;
           return (
-            <div
+            <Link
               key={skill.name}
+              href={skill.href}
               className={`animate-fade-up ${staggerClass[i]} group cursor-pointer rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]`}
             >
               <div
@@ -58,7 +64,7 @@ export default function PracticeArea() {
                 {skill.name}
               </p>
               <p className="mt-0.5 text-xs text-[#64748B]">Start Practice</p>
-            </div>
+            </Link>
           );
         })}
       </div>

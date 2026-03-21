@@ -138,6 +138,25 @@ html {
   will-change: transform, opacity;
 }
 
+/* Mic pulse rings */
+@keyframes mic-pulse-outer {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.6; }
+}
+
+@keyframes mic-pulse-inner {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+.mic-ring-outer.pulsing {
+  animation: mic-pulse-outer 1.8s ease-in-out infinite;
+}
+
+.mic-ring-inner.pulsing {
+  animation: mic-pulse-inner 1.8s ease-in-out 0.2s infinite;
+}
+
 /* Scroll-triggered reveal */
 .scroll-reveal {
   opacity: 0;
@@ -158,7 +177,9 @@ html {
   .animate-progress-bar,
   .animate-step-enter,
   .progress-glow-dot,
-  .progress-shimmer {
+  .progress-shimmer,
+  .mic-ring-outer.pulsing,
+  .mic-ring-inner.pulsing {
     animation: none;
     opacity: 1;
     stroke-dashoffset: var(--ring-target);

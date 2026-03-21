@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mic, PenLine, BookOpen, Headphones, ChevronRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -10,6 +11,7 @@ interface LearningItem {
   icon: LucideIcon;
   color: string;
   bg: string;
+  href: string;
 }
 
 const items: LearningItem[] = [
@@ -22,6 +24,7 @@ const items: LearningItem[] = [
     icon: Headphones,
     color: "#22C55E",
     bg: "rgba(34,197,94,0.15)",
+    href: "/dashboard/listening",
   },
   {
     skill: "Reading",
@@ -32,6 +35,7 @@ const items: LearningItem[] = [
     icon: BookOpen,
     color: "#A855F7",
     bg: "rgba(168,85,247,0.15)",
+    href: "/dashboard/reading/test-1",
   },
   {
     skill: "Writing",
@@ -42,6 +46,7 @@ const items: LearningItem[] = [
     icon: PenLine,
     color: "#F97316",
     bg: "rgba(249,115,22,0.15)",
+    href: "/dashboard/writing/book-10/task-1",
   },
   {
     skill: "Speaking",
@@ -52,6 +57,7 @@ const items: LearningItem[] = [
     icon: Mic,
     color: "#0EA5E9",
     bg: "rgba(14,165,233,0.15)",
+    href: "/dashboard/speaking/test-1",
   },
 ];
 
@@ -74,8 +80,9 @@ export default function ContinueLearning() {
           const percent = (item.completed / item.total) * 100;
 
           return (
-            <div
+            <Link
               key={i}
+              href={item.href}
               className={`animate-fade-up ${staggerClass[i]} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)] hover:bg-[#232948]`}
             >
               <div
@@ -115,7 +122,7 @@ export default function ContinueLearning() {
                 strokeWidth={1.75}
                 className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
               />
-            </div>
+            </Link>
           );
         })}
       </div>
