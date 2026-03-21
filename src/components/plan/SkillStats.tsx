@@ -9,38 +9,45 @@ interface SkillStat {
   bg: string;
 }
 
-const stats: SkillStat[] = [
-  {
-    label: "Listening",
-    value: 0,
-    icon: Headphones,
-    color: "#22C55E",
-    bg: "rgba(34,197,94,0.15)",
-  },
-  {
-    label: "Reading",
-    value: 0,
-    icon: BookOpen,
-    color: "#A855F7",
-    bg: "rgba(168,85,247,0.15)",
-  },
-  {
-    label: "Writing",
-    value: 0,
-    icon: PenLine,
-    color: "#F97316",
-    bg: "rgba(249,115,22,0.15)",
-  },
-  {
-    label: "Speaking",
-    value: 0,
-    icon: Mic,
-    color: "#0EA5E9",
-    bg: "rgba(14,165,233,0.15)",
-  },
-];
+interface SkillStatsProps {
+  listening: number;
+  reading: number;
+  writing: number;
+  speaking: number;
+}
 
-export default function SkillStats() {
+export default function SkillStats({ listening, reading, writing, speaking }: SkillStatsProps) {
+  const stats: SkillStat[] = [
+    {
+      label: "Listening",
+      value: listening,
+      icon: Headphones,
+      color: "#22C55E",
+      bg: "rgba(34,197,94,0.15)",
+    },
+    {
+      label: "Reading",
+      value: reading,
+      icon: BookOpen,
+      color: "#A855F7",
+      bg: "rgba(168,85,247,0.15)",
+    },
+    {
+      label: "Writing",
+      value: writing,
+      icon: PenLine,
+      color: "#F97316",
+      bg: "rgba(249,115,22,0.15)",
+    },
+    {
+      label: "Speaking",
+      value: speaking,
+      icon: Mic,
+      color: "#0EA5E9",
+      bg: "rgba(14,165,233,0.15)",
+    },
+  ];
+
   return (
     <div className="animate-fade-up animate-fade-up-2 mt-5 grid grid-cols-2 gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 sm:grid-cols-4 sm:gap-0">
       {stats.map((stat, i) => {

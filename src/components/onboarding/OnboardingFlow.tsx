@@ -13,6 +13,19 @@ import Complete from "./steps/Complete";
 
 const TOTAL_STEPS = 7;
 
+const levelMap: Record<string, string> = {
+  beginner: "beginner",
+  intermediate: "intermediate",
+  advanced: "advanced",
+};
+
+const studyTimeMap: Record<string, string> = {
+  "15 min / day": "15min",
+  "30 min / day": "30min",
+  "1 hour / day": "1hour",
+  "2+ hours / day": "2hours",
+};
+
 export default function OnboardingFlow() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -23,14 +36,37 @@ export default function OnboardingFlow() {
   const [level, setLevel] = useState("");
   const [challenges, setChallenges] = useState<string[]>([]);
   const [studyTime, setStudyTime] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const progress = (step / TOTAL_STEPS) * 100;
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (step < TOTAL_STEPS) {
       setStep(step + 1);
     } else {
-      router.push("/dashboard");
+      setSubmitting(true);
+      try {
+        const res = await fetch("/api/onboarding", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            targetBand: band,
+            testType: testType.toLowerCase() === "general training" ? "general" : "academic",
+            testDate: booked && testDate ? testDate : undefined,
+            currentLevel: levelMap[level.toLowerCase()] || "intermediate",
+            weaknesses: challenges,
+            dailyStudyTime: studyTimeMap[studyTime] || "30min",
+          }),
+        });
+        const data = await res.json();
+        if (data.userId) {
+          localStorage.setItem("userId", data.userId);
+        }
+        router.push("/dashboard");
+      } catch {
+        setSubmitting(false);
+        router.push("/dashboard");
+      }
     }
   };
 
@@ -90,9 +126,10 @@ export default function OnboardingFlow() {
         <div className="mx-auto max-w-lg">
           <button
             onClick={handleContinue}
-            className="w-full cursor-pointer rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+            disabled={submitting}
+            className="w-full cursor-pointer rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {step === TOTAL_STEPS ? "Let's get started!" : "Continue"}
+            {submitting ? "Setting up..." : step === TOTAL_STEPS ? "Let's get started!" : "Continue"}
           </button>
         </div>
       </div>

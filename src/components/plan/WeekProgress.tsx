@@ -1,7 +1,16 @@
-export default function WeekProgress() {
-  const done = 0;
-  const total = 23;
+interface WeekProgressProps {
+  done: number;
+  total: number;
+}
+
+export default function WeekProgress({ done, total }: WeekProgressProps) {
   const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  function getColor(p: number) {
+    if (p >= 75) return "#22C55E";
+    if (p >= 40) return "#F59E0B";
+    return "#EF4444";
+  }
 
   return (
     <div className="animate-fade-up animate-fade-up-3 mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
@@ -12,7 +21,12 @@ export default function WeekProgress() {
             {done}/{total} tasks done
           </p>
         </div>
-        <span className="flex-shrink-0 text-2xl font-bold text-[#EF4444]">{percent}%</span>
+        <span
+          className="flex-shrink-0 text-2xl font-bold"
+          style={{ color: getColor(percent) }}
+        >
+          {percent}%
+        </span>
       </div>
       <div className="mt-3 h-1 w-full rounded-full bg-[#2A3150]">
         <div
