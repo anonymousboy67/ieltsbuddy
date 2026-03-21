@@ -79,7 +79,7 @@ Respond with ONLY this JSON structure, nothing else:
   // Replace newlines that appear inside quoted strings with \\n
   try {
     console.log("[claude] Attempt 3: fixing newlines in strings");
-    const fixed = cleaned.replace(/"([^"]*)"(?=\s*[,:\]}])/gs, (_match, value: string) => {
+    const fixed = cleaned.replace(/"([^"]*)"/g, (_match, value: string) => {
       const escaped = value.replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
       return `"${escaped}"`;
     });
