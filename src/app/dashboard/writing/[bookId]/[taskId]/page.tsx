@@ -31,7 +31,11 @@ export default function WritingTaskPage() {
           minWords={150}
           timeMinutes={20}
         />
-        <WritingEditor minWords={150} />
+        <WritingEditor
+          minWords={150}
+          taskInstructions="The chart below shows the number of households in the US by their annual income in 2007, 2011, and 2015."
+          taskType="task1"
+        />
       </div>
     </>
   );

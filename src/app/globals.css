@@ -188,6 +188,32 @@ html {
   animation: spin 1s linear infinite;
 }
 
+/* Band score gauge ring animation */
+@keyframes gauge-ring {
+  from {
+    stroke-dashoffset: var(--gauge-circumference);
+  }
+  to {
+    stroke-dashoffset: var(--gauge-target);
+  }
+}
+
+.animate-gauge-ring {
+  animation: gauge-ring 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+  stroke-dashoffset: var(--gauge-circumference);
+  will-change: stroke-dashoffset;
+}
+
+/* Loading spinner pulse */
+@keyframes loading-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-loading-pulse {
+  animation: loading-pulse 1.5s ease-in-out infinite;
+}
+
 /* Scroll-triggered reveal */
 .scroll-reveal {
   opacity: 0;
@@ -207,6 +233,8 @@ html {
   .animate-progress-ring,
   .animate-progress-bar,
   .animate-step-enter,
+  .animate-gauge-ring,
+  .animate-loading-pulse,
   .progress-glow-dot,
   .progress-shimmer,
   .mic-ring-outer.pulsing,
