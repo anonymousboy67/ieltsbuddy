@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   BookOpen,
   ChevronRight,
@@ -7,6 +8,7 @@ import {
 } from "lucide-react";
 
 interface ReadingTest {
+  id: string;
   name: string;
   passages: number;
   completed: number;
@@ -14,12 +16,12 @@ interface ReadingTest {
 }
 
 const tests: ReadingTest[] = [
-  { name: "IELTS Book 10 Test 1", passages: 3, completed: 0, locked: false },
-  { name: "IELTS Book 10 Test 2", passages: 3, completed: 0, locked: true },
-  { name: "IELTS Book 10 Test 3", passages: 3, completed: 0, locked: true },
-  { name: "IELTS Book 10 Test 4", passages: 3, completed: 0, locked: true },
-  { name: "IELTS Book 11 Test 1", passages: 3, completed: 0, locked: true },
-  { name: "IELTS Book 11 Test 2", passages: 3, completed: 0, locked: true },
+  { id: "book10-test1", name: "IELTS Book 10 Test 1", passages: 3, completed: 0, locked: false },
+  { id: "book10-test2", name: "IELTS Book 10 Test 2", passages: 3, completed: 0, locked: true },
+  { id: "book10-test3", name: "IELTS Book 10 Test 3", passages: 3, completed: 0, locked: true },
+  { id: "book10-test4", name: "IELTS Book 10 Test 4", passages: 3, completed: 0, locked: true },
+  { id: "book11-test1", name: "IELTS Book 11 Test 1", passages: 3, completed: 0, locked: true },
+  { id: "book11-test2", name: "IELTS Book 11 Test 2", passages: 3, completed: 0, locked: true },
 ];
 
 const staggerClass = [
@@ -38,56 +40,51 @@ export default function ReadingTestList() {
         Available Tests
       </h2>
       <div className="mt-4 flex flex-col gap-3">
-        {tests.map((test, i) => (
-          <div
-            key={i}
-            className={`animate-fade-up ${staggerClass[i]} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out ${
-              test.locked
-                ? "opacity-60"
-                : "hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]"
-            }`}
-          >
-            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[rgba(168,85,247,0.15)]">
-              <BookOpen size={20} strokeWidth={1.75} className="text-[#A855F7]" />
-            </div>
+        {tests.map((test, i) => {
+          const className = `animate-fade-up ${staggerClass[i]} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out ${
+            test.locked
+              ? "opacity-60"
+              : "hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]"
+          }`;
 
-            <div className="flex-1 min-w-0">
-              <p className="text-[15px] font-medium text-[#F8FAFC]">
-                {test.name}
-              </p>
-              {test.locked ? (
-                <p className="mt-1 text-[13px] text-[#64748B]">
-                  Premium Content
+          const content = (
+            <>
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[rgba(168,85,247,0.15)]">
+                <BookOpen size={20} strokeWidth={1.75} className="text-[#A855F7]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[15px] font-medium text-[#F8FAFC]">
+                  {test.name}
                 </p>
+                {test.locked ? (
+                  <p className="mt-1 text-[13px] text-[#64748B]">Premium Content</p>
+                ) : (
+                  <div className="mt-1 flex items-center gap-4">
+                    <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                      <List size={14} strokeWidth={1.75} />
+                      {test.passages} Passages
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                      <CheckCircle size={14} strokeWidth={1.75} />
+                      {test.completed}/{test.passages} Completed
+                    </span>
+                  </div>
+                )}
+              </div>
+              {test.locked ? (
+                <Lock size={18} strokeWidth={1.75} className="flex-shrink-0 text-[#64748B]" />
               ) : (
-                <div className="mt-1 flex items-center gap-4">
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
-                    <List size={14} strokeWidth={1.75} />
-                    {test.passages} Passages
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
-                    <CheckCircle size={14} strokeWidth={1.75} />
-                    {test.completed}/{test.passages} Completed
-                  </span>
-                </div>
+                <ChevronRight size={20} strokeWidth={1.75} className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5" />
               )}
-            </div>
+            </>
+          );
 
-            {test.locked ? (
-              <Lock
-                size={18}
-                strokeWidth={1.75}
-                className="flex-shrink-0 text-[#64748B]"
-              />
-            ) : (
-              <ChevronRight
-                size={20}
-                strokeWidth={1.75}
-                className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
-              />
-            )}
-          </div>
-        ))}
+          return test.locked ? (
+            <div key={test.id} className={className}>{content}</div>
+          ) : (
+            <Link key={test.id} href={`/dashboard/reading/${test.id}`} className={className}>{content}</Link>
+          );
+        })}
       </div>
     </section>
   );
