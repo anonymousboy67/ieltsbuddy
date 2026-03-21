@@ -157,6 +157,37 @@ html {
   animation: mic-pulse-inner 1.8s ease-in-out 0.2s infinite;
 }
 
+/* Audio bar visualization */
+@keyframes audio-bar {
+  0%, 100% { height: 8px; }
+  50% { height: var(--bar-max, 32px); }
+}
+
+.audio-bar {
+  animation: audio-bar var(--bar-duration, 0.8s) ease-in-out infinite;
+  animation-delay: var(--bar-delay, 0s);
+  will-change: height;
+}
+
+/* Pulse dot */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Search spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 /* Scroll-triggered reveal */
 .scroll-reveal {
   opacity: 0;
@@ -179,7 +210,10 @@ html {
   .progress-glow-dot,
   .progress-shimmer,
   .mic-ring-outer.pulsing,
-  .mic-ring-inner.pulsing {
+  .mic-ring-inner.pulsing,
+  .audio-bar,
+  .pulse-dot,
+  .animate-spin {
     animation: none;
     opacity: 1;
     stroke-dashoffset: var(--ring-target);

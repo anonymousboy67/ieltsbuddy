@@ -9,6 +9,7 @@ import {
   BookOpen,
   PenLine,
   Headphones,
+  Users,
   Settings,
   User,
 } from "lucide-react";
@@ -20,6 +21,7 @@ const navItems = [
   { label: "Reading", href: "/dashboard/reading", icon: BookOpen },
   { label: "Writing", href: "/dashboard/writing", icon: PenLine },
   { label: "Listening", href: "/dashboard/listening", icon: Headphones },
+  { label: "Practice Room", href: "/dashboard/practice-room", icon: Users },
 ];
 
 export default function Sidebar() {

@@ -7,7 +7,7 @@ import {
   Calendar,
   Mic,
   BookOpen,
-  PenLine,
+  Users,
 } from "lucide-react";
 
 const tabs = [
@@ -15,7 +15,7 @@ const tabs = [
   { label: "Plan", href: "/dashboard/plan", icon: Calendar },
   { label: "Speaking", href: "/dashboard/speaking", icon: Mic },
   { label: "Reading", href: "/dashboard/reading", icon: BookOpen },
-  { label: "Writing", href: "/dashboard/writing", icon: PenLine },
+  { label: "Practice", href: "/dashboard/practice-room", icon: Users },
 ];
 
 export default function BottomNav() {
