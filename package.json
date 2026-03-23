@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",
+    "cloudinary": "^2.9.0",
     "lucide-react": "^0.577.0",
     "mongoose": "^9.3.1",
     "next": "16.2.0",

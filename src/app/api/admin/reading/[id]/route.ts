@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
-import ReadingPassage from "@/models/ReadingPassage";
+import ReadingSection from "@/models/ReadingSection";
 
 export async function DELETE(
   _request: Request,
@@ -9,7 +9,7 @@ export async function DELETE(
   try {
     await dbConnect();
     const { id } = await params;
-    const deleted = await ReadingPassage.findByIdAndDelete(id);
+    const deleted = await ReadingSection.findByIdAndDelete(id);
     if (!deleted) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
