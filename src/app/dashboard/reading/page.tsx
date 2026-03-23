@@ -7,7 +7,7 @@ interface ReadingPassage {
   _id: string;
   bookNumber: number;
   testNumber: number;
-  partNumber: number;
+  passageNumber?: number;
   title: string;
 }
 
