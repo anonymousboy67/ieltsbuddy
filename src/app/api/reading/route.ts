@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await dbConnect();
     const passages = await ReadingSection.find()
-      .sort({ bookNumber: 1, testNumber: 1, partNumber: 1 })
+      .sort({ bookNumber: 1, testNumber: 1, passageNumber: 1 })
       .lean();
 
     const grouped: Record<
@@ -16,7 +16,7 @@ export async function GET() {
         testNumber: number;
         passages: {
           _id: string;
-          partNumber: number;
+          passageNumber: number;
           title: string;
           topic: string;
           difficulty: string;
@@ -42,7 +42,7 @@ export async function GET() {
       );
       grouped[key].passages.push({
         _id: String(p._id),
-        partNumber: p.partNumber,
+        passageNumber: p.passageNumber,
         title: p.title,
         topic: p.topic,
         difficulty: p.difficulty,

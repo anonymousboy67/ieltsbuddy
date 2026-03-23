@@ -77,7 +77,7 @@ interface ReadingItem {
   _id: string;
   bookNumber: number;
   testNumber: number;
-  partNumber: number;
+  passageNumber: number;
   title: string;
   questionGroups?: { questions: { questionNumber: number }[] }[];
 }
@@ -124,7 +124,7 @@ export default function ReadingTab({ onToast }: ReadingTabProps) {
   const [form, setForm] = useState({
     bookNumber: "",
     testNumber: "",
-    partNumber: "1",
+    passageNumber: "1",
     title: "",
     topic: "",
     difficulty: "beginner",
@@ -204,7 +204,7 @@ export default function ReadingTab({ onToast }: ReadingTabProps) {
     const payload = {
       bookNumber: Number(form.bookNumber),
       testNumber: Number(form.testNumber),
-      partNumber: Number(form.partNumber),
+      passageNumber: Number(form.passageNumber),
       title: form.title,
       topic: form.topic,
       difficulty: form.difficulty,
@@ -238,7 +238,7 @@ export default function ReadingTab({ onToast }: ReadingTabProps) {
 
     if (res.ok) {
       onToast("Reading passage added", "success");
-      setForm({ bookNumber: "", testNumber: "", partNumber: "1", title: "", topic: "", difficulty: "beginner", passage: "" });
+      setForm({ bookNumber: "", testNumber: "", passageNumber: "1", title: "", topic: "", difficulty: "beginner", passage: "" });
       setGroups([]);
       fetchItems();
     } else {
@@ -271,10 +271,10 @@ export default function ReadingTab({ onToast }: ReadingTabProps) {
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <input type="number" placeholder="Book #" required value={form.bookNumber} onChange={(e) => setForm({ ...form, bookNumber: e.target.value })} className={inputCls} />
           <input type="number" placeholder="Test #" required value={form.testNumber} onChange={(e) => setForm({ ...form, testNumber: e.target.value })} className={inputCls} />
-          <select value={form.partNumber} onChange={(e) => setForm({ ...form, partNumber: e.target.value })} className={inputCls}>
-            <option value="1">Part 1</option>
-            <option value="2">Part 2</option>
-            <option value="3">Part 3</option>
+          <select value={form.passageNumber} onChange={(e) => setForm({ ...form, passageNumber: e.target.value })} className={inputCls}>
+            <option value="1">Passage 1</option>
+            <option value="2">Passage 2</option>
+            <option value="3">Passage 3</option>
           </select>
           <select value={form.difficulty} onChange={(e) => setForm({ ...form, difficulty: e.target.value })} className={inputCls}>
             <option value="beginner">Beginner</option>
@@ -546,7 +546,7 @@ export default function ReadingTab({ onToast }: ReadingTabProps) {
             <div className="min-w-0">
               <p className="text-sm font-medium text-[#F8FAFC]">{item.title}</p>
               <p className="text-xs text-[#64748B]">
-                Book {item.bookNumber} - Test {item.testNumber} - Part {item.partNumber} - {totalQuestions(item)} Qs
+                Book {item.bookNumber} - Test {item.testNumber} - Passage {item.passageNumber} - {totalQuestions(item)} Qs
               </p>
             </div>
             <button

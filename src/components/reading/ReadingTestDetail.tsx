@@ -13,7 +13,7 @@ interface QuestionGroup {
 
 interface Passage {
   _id: string;
-  partNumber: number;
+  passageNumber: number;
   title: string;
   topic: string;
   difficulty: string;
@@ -115,7 +115,7 @@ export default function ReadingTestDetail({
                 : "text-[#94A3B8] hover:text-[#F8FAFC]"
             }`}
           >
-            <span className="block text-sm font-medium">Part {p.partNumber}</span>
+            <span className="block text-sm font-medium">Passage {p.passageNumber}</span>
             <span className="block text-[11px] opacity-80">
               {difficultyLabel[p.difficulty] || p.difficulty}
             </span>

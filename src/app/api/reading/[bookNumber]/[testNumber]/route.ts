@@ -13,7 +13,7 @@ export async function GET(
       bookNumber: Number(bookNumber),
       testNumber: Number(testNumber),
     })
-      .sort({ partNumber: 1 })
+      .sort({ passageNumber: 1 })
       .lean();
 
     return NextResponse.json(passages);

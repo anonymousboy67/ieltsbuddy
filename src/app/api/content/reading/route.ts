@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
-import ReadingPassage from "@/models/ReadingPassage";
+import ReadingSection from "@/models/ReadingSection";
 
 export async function GET() {
   try {
     await dbConnect();
-    const passages = await ReadingPassage.find()
-      .sort({ bookNumber: 1, testNumber: 1, partNumber: 1 })
+    const passages = await ReadingSection.find()
+      .sort({ bookNumber: 1, testNumber: 1, passageNumber: 1 })
       .lean();
     return NextResponse.json(passages);
   } catch (error) {

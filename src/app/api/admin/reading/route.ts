@@ -17,15 +17,23 @@ export async function POST(request: Request) {
   try {
     await dbConnect();
     const body = await request.json();
+    const totalQuestions = (body.questionGroups || []).reduce(
+      (sum: number, g: { questions: unknown[] }) => sum + g.questions.length,
+      0
+    );
     const passage = await ReadingSection.create({
       bookNumber: body.bookNumber,
       testNumber: body.testNumber,
-      partNumber: body.partNumber,
+      passageNumber: body.passageNumber ?? body.partNumber,
       title: body.title,
+      subtitle: body.subtitle,
       topic: body.topic,
       difficulty: body.difficulty,
       passage: body.passage,
+      passageSections: body.passageSections,
+      totalQuestions,
       questionGroups: body.questionGroups,
+      footnotes: body.footnotes,
     });
     return NextResponse.json(passage, { status: 201 });
   } catch (error) {

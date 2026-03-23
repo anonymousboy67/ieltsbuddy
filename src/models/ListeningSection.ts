@@ -1,6 +1,6 @@
 import mongoose, { Schema, type Document } from "mongoose";
 import { QuestionType } from "@/types/ielts";
-import type { IReadingSection } from "@/types/ielts";
+import type { IListeningSection } from "@/types/ielts";
 
 const QuestionSchema = new Schema(
   {
@@ -47,41 +47,27 @@ const QuestionGroupSchema = new Schema(
   { _id: false }
 );
 
-const PassageSectionSchema = new Schema(
-  {
-    label: { type: String },
-    text: { type: String },
-  },
-  { _id: false }
-);
+export interface IListeningSectionDoc extends Omit<IListeningSection, "questionGroups">, Document {}
 
-export interface IReadingSectionDoc extends Omit<IReadingSection, "questionGroups">, Document {}
-
-const ReadingSectionSchema = new Schema(
+const ListeningSectionSchema = new Schema(
   {
     bookNumber: { type: Number, required: true },
     testNumber: { type: Number, required: true },
-    passageNumber: { type: Number, required: true },
-    title: { type: String, required: true },
-    subtitle: { type: String },
-    passage: { type: String, required: true },
-    passageSections: [PassageSectionSchema],
-    topic: { type: String },
-    difficulty: {
-      type: String,
-      enum: ["beginner", "intermediate", "advanced"],
-    },
+    partNumber: { type: Number, required: true },
+    title: { type: String },
+    audioUrl: { type: String },
+    transcript: { type: String },
+    context: { type: String },
     totalQuestions: { type: Number, required: true },
     questionGroups: [QuestionGroupSchema],
-    footnotes: [String],
   },
   { timestamps: true }
 );
 
-ReadingSectionSchema.index(
-  { bookNumber: 1, testNumber: 1, passageNumber: 1 },
+ListeningSectionSchema.index(
+  { bookNumber: 1, testNumber: 1, partNumber: 1 },
   { unique: true }
 );
 
-export default mongoose.models.ReadingSection ||
-  mongoose.model<IReadingSectionDoc>("ReadingSection", ReadingSectionSchema);
+export default mongoose.models.ListeningSection ||
+  mongoose.model<IListeningSectionDoc>("ListeningSection", ListeningSectionSchema);
