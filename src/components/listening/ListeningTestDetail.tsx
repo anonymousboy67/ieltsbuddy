@@ -1,12 +1,86 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, List, HelpCircle, Headphones } from "lucide-react";
-import TestStructure from "./TestStructure";
 
-export default function ListeningTestDetail() {
+interface Part {
+  partNumber: number;
+  title?: string;
+  totalQuestions: number;
+  audioUrl?: string;
+  questionGroups?: unknown[];
+}
+
+interface ListeningTestDetailProps {
+  bookNumber: number;
+  testNumber: number;
+}
+
+const PART_DESCRIPTIONS = [
+  "A conversation between two people set in an everyday social context.",
+  "A monologue set in an everyday social context, e.g. a speech about local facilities.",
+  "A conversation between up to four people set in an educational or training context.",
+  "A monologue on an academic subject, e.g. a university lecture.",
+];
+
+const staggerClass = [
+  "animate-fade-up-4",
+  "animate-fade-up-5",
+  "animate-fade-up-6",
+  "animate-fade-up-7",
+];
+
+export default function ListeningTestDetail({
+  bookNumber,
+  testNumber,
+}: ListeningTestDetailProps) {
+  const router = useRouter();
+  const [parts, setParts] = useState<Part[]>([]);
+  const [loading, setLoading] = useState(true);
   const [audioControls, setAudioControls] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/listening/${bookNumber}/${testNumber}`)
+      .then((r) => r.json())
+      .then((data) => setParts(Array.isArray(data) ? data : []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [bookNumber, testNumber]);
+
+  const totalQuestions = parts.reduce((sum, p) => sum + p.totalQuestions, 0);
+  const title = `IELTS Book ${bookNumber} Test ${testNumber}`;
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
+          <div className="h-5 w-48 animate-pulse rounded bg-[#1E2540]" />
+        </div>
+        <div className="h-40 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-16 animate-pulse rounded-xl bg-[#1E2540]" />
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="h-20 animate-pulse rounded-xl bg-[#1E2540]" />
+        ))}
+      </div>
+    );
+  }
+
+  if (parts.length === 0) {
+    return (
+      <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
+        <p className="text-[15px] text-[#94A3B8]">Test not found</p>
+        <Link
+          href="/dashboard/listening"
+          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+        >
+          Back to Listening
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -17,24 +91,22 @@ export default function ListeningTestDetail() {
         >
           <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
         </Link>
-        <h1 className="text-base font-medium text-[#F8FAFC]">
-          IELTS Book 10 Test 1
-        </h1>
+        <h1 className="text-base font-medium text-[#F8FAFC]">{title}</h1>
       </div>
 
       <div className="animate-fade-up animate-fade-up-1 mt-6 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5">
         <h2 className="font-heading text-xl font-bold text-[#F8FAFC]">
-          IELTS Book 10 Test 1
+          {title}
         </h2>
         <div className="mt-2 flex items-center gap-2 text-sm">
           <span className="flex items-center gap-1.5 text-[#22C55E]">
             <List size={14} strokeWidth={1.75} />
-            4 Sections
+            {parts.length} Sections
           </span>
           <span className="text-[#2A3150]">-</span>
           <span className="flex items-center gap-1.5 text-[#64748B]">
             <HelpCircle size={14} strokeWidth={1.75} />
-            40 Questions
+            {totalQuestions} Questions
           </span>
         </div>
         <p className="mt-3 text-sm text-[#94A3B8]">
@@ -69,9 +141,41 @@ export default function ListeningTestDetail() {
         </button>
       </div>
 
-      <TestStructure />
+      <section className="mt-6">
+        <h2 className="animate-fade-up animate-fade-up-3 font-heading text-lg font-semibold text-[#F8FAFC]">
+          Test Structure
+        </h2>
+        <div className="mt-4 flex flex-col gap-3">
+          {parts.map((p, i) => (
+            <div
+              key={p.partNumber}
+              className={`animate-fade-up ${staggerClass[i] || ""} rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-base font-semibold text-[#F8FAFC]">
+                  Part {p.partNumber}
+                  {p.title ? `: ${p.title}` : ""}
+                </span>
+                <span className="text-sm text-[#64748B]">
+                  {p.totalQuestions} Questions
+                </span>
+              </div>
+              <p className="mt-2 text-[13px] text-[#94A3B8]">
+                {PART_DESCRIPTIONS[p.partNumber - 1] || ""}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-      <button className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]">
+      <button
+        onClick={() =>
+          router.push(
+            `/dashboard/listening/test/${bookNumber}/${testNumber}?controls=${audioControls}`
+          )
+        }
+        className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+      >
         <Headphones size={18} strokeWidth={1.75} />
         Start Test
       </button>
