@@ -13,7 +13,7 @@ import {
   SkipForward,
   AlertCircle,
 } from "lucide-react";
-import { useSocket } from "@/hooks/useSocket";
+import { useSocketContext } from "@/contexts/SocketContext";
 import { useWebRTC } from "@/hooks/useWebRTC";
 import AudioBars from "./AudioBars";
 
@@ -37,7 +37,7 @@ export default function PracticeCall() {
   const isInitiator = searchParams.get("initiator") === "true";
   const router = useRouter();
 
-  const socketRef = useSocket();
+  const { socket } = useSocketContext();
   const {
     localStream,
     remoteStream,
@@ -46,7 +46,7 @@ export default function PracticeCall() {
     toggleMute,
     endCall,
   } = useWebRTC({
-    socket: socketRef.current,
+    socket,
     roomId,
     isInitiator,
   });
@@ -76,7 +76,6 @@ export default function PracticeCall() {
 
   // Handle partner leaving
   useEffect(() => {
-    const socket = socketRef.current;
     if (!socket) return;
 
     function onPartnerLeft() {
@@ -91,7 +90,7 @@ export default function PracticeCall() {
     return () => {
       socket.off("partner-left", onPartnerLeft);
     };
-  }, [socketRef, router]);
+  }, [socket, router]);
 
   const handleEndCall = useCallback(() => {
     endCall();

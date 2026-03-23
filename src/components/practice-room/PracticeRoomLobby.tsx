@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Users, Search, X, Loader, MessageSquare } from "lucide-react";
-import { useSocket } from "@/hooks/useSocket";
+import { useSocketContext } from "@/contexts/SocketContext";
 
 type LobbyState = "idle" | "searching" | "matched";
 
@@ -16,11 +16,10 @@ const steps = [
 export default function PracticeRoomLobby() {
   const [state, setState] = useState<LobbyState>("idle");
   const [onlineCount, setOnlineCount] = useState(0);
-  const socketRef = useSocket();
+  const { socket } = useSocketContext();
   const router = useRouter();
 
   useEffect(() => {
-    const socket = socketRef.current;
     if (!socket) return;
 
     function onOnlineCount(count: number) {
@@ -47,17 +46,15 @@ export default function PracticeRoomLobby() {
       socket.off("waiting", onWaiting);
       socket.off("matched", onMatched);
     };
-  }, [socketRef, router]);
+  }, [socket, router]);
 
   function handleFindPartner() {
-    const socket = socketRef.current;
     if (!socket) return;
     setState("searching");
     socket.emit("find-partner", {});
   }
 
   function handleCancel() {
-    const socket = socketRef.current;
     if (!socket) return;
     setState("idle");
     socket.emit("cancel-search");
