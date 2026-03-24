@@ -113,10 +113,10 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const inputCls =
-  "w-full rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2.5 text-sm text-[#F8FAFC] outline-none transition-colors placeholder:text-[#64748B] focus:border-[#6366F1]";
+  "w-full rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] px-3 py-2.5 text-sm text-[#292524] outline-none transition-colors placeholder:text-[#78716C] focus:border-[#047857]";
 
 const selectCls =
-  "w-full rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2.5 text-sm text-[#F8FAFC] outline-none transition-colors focus:border-[#6366F1]";
+  "w-full rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] px-3 py-2.5 text-sm text-[#292524] outline-none transition-colors focus:border-[#047857]";
 
 /* ── UI atoms ─────────────────────────────────────────────────── */
 
@@ -135,19 +135,19 @@ function RadioOption({
     <label
       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
         selected
-          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
       }`}
     >
       <input type="radio" name={name} checked={selected} onChange={onChange} className="sr-only" />
       <span
         className={`flex h-4 w-4 items-center justify-center rounded-full border-[1.5px] ${
-          selected ? "border-[#6366F1]" : "border-[#64748B]"
+          selected ? "border-[#047857]" : "border-[#78716C]"
         }`}
       >
-        {selected && <span className="h-2 w-2 rounded-full bg-[#6366F1]" />}
+        {selected && <span className="h-2 w-2 rounded-full bg-[#047857]" />}
       </span>
-      <span className={`text-sm ${selected ? "text-[#F8FAFC]" : "text-[#94A3B8]"}`}>{label}</span>
+      <span className={`text-sm ${selected ? "text-[#292524]" : "text-[#57534E]"}`}>{label}</span>
     </label>
   );
 }
@@ -165,14 +165,14 @@ function CheckboxOption({
     <label
       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
         checked
-          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
       }`}
     >
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
       <span
         className={`flex h-4 w-4 items-center justify-center rounded border-[1.5px] ${
-          checked ? "border-[#6366F1] bg-[#6366F1]" : "border-[#64748B]"
+          checked ? "border-[#047857] bg-[#047857]" : "border-[#78716C]"
         }`}
       >
         {checked && (
@@ -181,7 +181,7 @@ function CheckboxOption({
           </svg>
         )}
       </span>
-      <span className={`text-sm ${checked ? "text-[#F8FAFC]" : "text-[#94A3B8]"}`}>{label}</span>
+      <span className={`text-sm ${checked ? "text-[#292524]" : "text-[#57534E]"}`}>{label}</span>
     </label>
   );
 }
@@ -203,20 +203,20 @@ function CompletionTemplate({
   const qNums = new Set(questions.map((q) => q.questionNumber));
 
   return (
-    <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-4 text-sm leading-relaxed text-[#94A3B8]">
+    <div className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-4 text-sm leading-relaxed text-[#57534E]">
       {parts.map((part, i) => {
         if (i % 2 === 1) {
           const num = parseInt(part);
           if (qNums.has(num)) {
             return (
               <span key={i} className="inline-flex items-center gap-1">
-                <span className="text-xs font-bold text-[#6366F1]">({num})</span>
+                <span className="text-xs font-bold text-[#047857]">({num})</span>
                 <input
                   type="text"
                   value={answers[num] || ""}
                   onChange={(e) => onAnswer(num, e.target.value)}
                   placeholder="..."
-                  className="mx-1 inline-block w-32 rounded border-[0.5px] border-[#2A3150] bg-[#1E2540] px-2 py-1 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1]"
+                  className="mx-1 inline-block w-32 rounded border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] px-2 py-1 text-sm text-[#292524] outline-none focus:border-[#047857]"
                 />
               </span>
             );
@@ -289,12 +289,12 @@ function AudioPlayer({
   const pct = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+    <div className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
       <audio ref={audioRef} src={src} preload="metadata" />
       <div className="flex items-center gap-3">
         <button
           onClick={toggle}
-          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#6366F1] text-white transition-colors hover:bg-[#818CF8]"
+          className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#047857] text-white transition-colors hover:bg-[#0F766E]"
         >
           {playing ? (
             <Pause size={18} strokeWidth={1.75} />
@@ -303,9 +303,9 @@ function AudioPlayer({
           )}
         </button>
         <div className="min-w-0 flex-1">
-          <div className="relative h-1.5 w-full rounded-full bg-[#2A3150]">
+          <div className="relative h-1.5 w-full rounded-full bg-[#E7E5E4]">
             <div
-              className="h-1.5 rounded-full bg-[#22C55E] transition-all"
+              className="h-1.5 rounded-full bg-[#047857] transition-all"
               style={{ width: `${pct}%` }}
             />
             {showControls && (
@@ -319,12 +319,12 @@ function AudioPlayer({
               />
             )}
           </div>
-          <div className="mt-1 flex justify-between text-xs text-[#64748B]">
+          <div className="mt-1 flex justify-between text-xs text-[#78716C]">
             <span>{formatTime(Math.floor(currentTime))}</span>
             <span>{duration > 0 ? formatTime(Math.floor(duration)) : "--:--"}</span>
           </div>
         </div>
-        <Volume2 size={16} strokeWidth={1.75} className="flex-shrink-0 text-[#64748B]" />
+        <Volume2 size={16} strokeWidth={1.75} className="flex-shrink-0 text-[#78716C]" />
       </div>
     </div>
   );
@@ -371,23 +371,23 @@ function QuestionGroupRenderer({
 
   return (
     <div className="space-y-3">
-      <div className="rounded-lg border-[0.5px] border-[rgba(99,102,241,0.2)] bg-[rgba(99,102,241,0.05)] px-4 py-3">
-        <p className="text-sm font-semibold text-[#818CF8]">{group.groupLabel}</p>
-        <p className="mt-1 text-xs text-[#94A3B8]">
+      <div className="rounded-lg border-[0.5px] border-[rgba(4,120,87,0.22)] bg-[rgba(4,120,87,0.06)] px-4 py-3">
+        <p className="text-sm font-semibold text-[#0F766E]">{group.groupLabel}</p>
+        <p className="mt-1 text-xs text-[#57534E]">
           {TYPE_LABELS[t] || t}
-          {group.wordLimit && <span className="ml-2 text-[#64748B]">({group.wordLimit})</span>}
-          {group.allowRepeat && <span className="ml-2 text-[#64748B]">(answers may be reused)</span>}
+          {group.wordLimit && <span className="ml-2 text-[#78716C]">({group.wordLimit})</span>}
+          {group.allowRepeat && <span className="ml-2 text-[#78716C]">(answers may be reused)</span>}
         </p>
         {group.instructions && (
-          <p className="mt-2 text-xs leading-relaxed text-[#64748B]">{group.instructions}</p>
+          <p className="mt-2 text-xs leading-relaxed text-[#78716C]">{group.instructions}</p>
         )}
       </div>
 
       {group.wordBank && group.wordBank.length > 0 && (
-        <div className="flex flex-wrap gap-2 rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-3">
-          <span className="text-xs font-medium text-[#64748B]">Word bank:</span>
+        <div className="flex flex-wrap gap-2 rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-3">
+          <span className="text-xs font-medium text-[#78716C]">Word bank:</span>
           {group.wordBank.map((w) => (
-            <span key={w} className="rounded-full bg-[#1E2540] px-2.5 py-0.5 text-xs text-[#94A3B8]">{w}</span>
+            <span key={w} className="rounded-full bg-[#FDF8F2] px-2.5 py-0.5 text-xs text-[#57534E]">{w}</span>
           ))}
         </div>
       )}
@@ -396,10 +396,10 @@ function QuestionGroupRenderer({
         (t === QuestionType.MATCHING_SENTENCE_ENDINGS ||
           t === QuestionType.MATCHING_FEATURES ||
           t === QuestionType.MATCHING_HEADINGS) && (
-          <div className="rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-3 text-xs text-[#94A3B8]">
+          <div className="rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-3 text-xs text-[#57534E]">
             {group.matchingOptions?.map((o) => (
               <p key={o.letter} className="py-0.5">
-                <span className="font-bold text-[#F8FAFC]">{o.letter}</span> {o.text}
+                <span className="font-bold text-[#292524]">{o.letter}</span> {o.text}
               </p>
             ))}
           </div>
@@ -415,12 +415,12 @@ function QuestionGroupRenderer({
       )}
 
       {t === QuestionType.TABLE_COMPLETION && group.tableData && (
-        <div className="overflow-x-auto rounded-lg border-[0.5px] border-[#2A3150]">
+        <div className="overflow-x-auto rounded-lg border-[0.5px] border-[#E7E5E4]">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#12172B]">
+              <tr className="bg-[#F8F5F1]">
                 {group.tableData.headers.map((h, i) => (
-                  <th key={i} className="border-[0.5px] border-[#2A3150] px-3 py-2 text-left text-xs font-medium text-[#94A3B8]">{h}</th>
+                  <th key={i} className="border-[0.5px] border-[#E7E5E4] px-3 py-2 text-left text-xs font-medium text-[#57534E]">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -432,22 +432,22 @@ function QuestionGroupRenderer({
                     if (blankMatch) {
                       const qNum = parseInt(blankMatch[1]);
                       return (
-                        <td key={ci} className="border-[0.5px] border-[#2A3150] px-2 py-1.5">
+                        <td key={ci} className="border-[0.5px] border-[#E7E5E4] px-2 py-1.5">
                           <div className="flex items-center gap-1">
-                            <span className="text-xs font-bold text-[#6366F1]">({qNum})</span>
+                            <span className="text-xs font-bold text-[#047857]">({qNum})</span>
                             <input
                               type="text"
                               value={answers[qNum] || ""}
                               onChange={(e) => onAnswer(qNum, e.target.value)}
                               placeholder="..."
-                              className="w-full rounded border-[0.5px] border-[#2A3150] bg-[#1E2540] px-2 py-1 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1]"
+                              className="w-full rounded border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] px-2 py-1 text-sm text-[#292524] outline-none focus:border-[#047857]"
                             />
                           </div>
                         </td>
                       );
                     }
                     return (
-                      <td key={ci} className="border-[0.5px] border-[#2A3150] px-3 py-1.5 text-[#94A3B8]">{cell}</td>
+                      <td key={ci} className="border-[0.5px] border-[#E7E5E4] px-3 py-1.5 text-[#57534E]">{cell}</td>
                     );
                   })}
                 </tr>
@@ -459,7 +459,7 @@ function QuestionGroupRenderer({
 
       {(t === QuestionType.DIAGRAM_LABELLING || t === QuestionType.MAP_LABELLING) &&
         group.imageUrl && (
-          <div className="flex justify-center rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-4">
+          <div className="flex justify-center rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={group.imageUrl} alt="Diagram" className="max-h-80 rounded object-contain" />
           </div>
@@ -474,9 +474,9 @@ function QuestionGroupRenderer({
         if (t === QuestionType.TABLE_COMPLETION && group.tableData) return null;
 
         return (
-          <div key={q.questionNumber} className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
-            <p className="mb-3 text-sm text-[#F8FAFC]">
-              <span className="mr-1.5 font-bold text-[#6366F1]">{q.questionNumber}.</span>
+          <div key={q.questionNumber} className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
+            <p className="mb-3 text-sm text-[#292524]">
+              <span className="mr-1.5 font-bold text-[#047857]">{q.questionNumber}.</span>
               {q.questionText || ""}
             </p>
 
@@ -505,13 +505,13 @@ function QuestionGroupRenderer({
                       key={i}
                       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
                         answer === letter
-                          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-                          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+                          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+                          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
                       }`}
                     >
                       <input type="radio" name={name} checked={answer === letter} onChange={() => onAnswer(q.questionNumber, letter)} className="sr-only" />
-                      <span className={`flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium ${answer === letter ? "bg-[#6366F1] text-white" : "bg-[#2A3150] text-[#94A3B8]"}`}>{letter}</span>
-                      <span className={`text-sm ${answer === letter ? "text-[#F8FAFC]" : "text-[#94A3B8]"}`}>{o}</span>
+                      <span className={`flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium ${answer === letter ? "bg-[#047857] text-white" : "bg-[#E7E5E4] text-[#57534E]"}`}>{letter}</span>
+                      <span className={`text-sm ${answer === letter ? "text-[#292524]" : "text-[#57534E]"}`}>{o}</span>
                     </label>
                   );
                 })}
@@ -592,13 +592,13 @@ function ScoreGauge({ correct, total }: { correct: number; total: number }) {
     <div className="flex flex-col items-center gap-4">
       <div className="relative h-36 w-36">
         <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
-          <circle cx="60" cy="60" r="54" fill="none" stroke="#2A3150" strokeWidth="8" />
+          <circle cx="60" cy="60" r="54" fill="none" stroke="#E7E5E4" strokeWidth="8" />
           <circle
             cx="60"
             cy="60"
             r="54"
             fill="none"
-            stroke="#22C55E"
+            stroke="#047857"
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -607,11 +607,11 @@ function ScoreGauge({ correct, total }: { correct: number; total: number }) {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-bold text-[#F8FAFC]">{band}</span>
-          <span className="text-xs text-[#64748B]">Band Score</span>
+          <span className="text-3xl font-bold text-[#292524]">{band}</span>
+          <span className="text-xs text-[#78716C]">Band Score</span>
         </div>
       </div>
-      <p className="text-sm text-[#94A3B8]">
+      <p className="text-sm text-[#57534E]">
         {correct} / {total} correct
       </p>
     </div>
@@ -743,11 +743,11 @@ export default function ListeningTestPage() {
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
-          <div className="h-5 w-48 animate-pulse rounded bg-[#1E2540]" />
+          <div className="h-10 w-10 animate-pulse rounded-full bg-[#FDF8F2]" />
+          <div className="h-5 w-48 animate-pulse rounded bg-[#FDF8F2]" />
         </div>
-        <div className="h-20 animate-pulse rounded-xl bg-[#1E2540]" />
-        <div className="h-96 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-20 animate-pulse rounded-xl bg-[#FDF8F2]" />
+        <div className="h-96 animate-pulse rounded-xl bg-[#FDF8F2]" />
       </div>
     );
   }
@@ -755,10 +755,10 @@ export default function ListeningTestPage() {
   if (parts.length === 0) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Test not found</p>
+        <p className="text-[15px] text-[#57534E]">Test not found</p>
         <button
           onClick={() => router.push("/dashboard/listening")}
-          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+          className="rounded-xl bg-[#047857] px-6 py-3 text-sm font-medium text-white hover:bg-[#0F766E]"
         >
           Back to Listening
         </button>
@@ -773,11 +773,11 @@ export default function ListeningTestPage() {
         <div className="animate-fade-up flex items-center gap-3">
           <button
             onClick={() => router.push("/dashboard/listening")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
           </button>
-          <h1 className="text-base font-medium text-[#F8FAFC]">Test Results</h1>
+          <h1 className="text-base font-medium text-[#292524]">Test Results</h1>
         </div>
 
         {gradableTotal > 0 ? (
@@ -786,54 +786,54 @@ export default function ListeningTestPage() {
           </div>
         ) : (
           <div className="animate-fade-up mt-8 flex flex-col items-center gap-2">
-            <p className="text-lg font-semibold text-[#F8FAFC]">Answers Submitted</p>
-            <p className="text-sm text-[#94A3B8]">Answer key not available for auto-grading.</p>
+            <p className="text-lg font-semibold text-[#292524]">Answers Submitted</p>
+            <p className="text-sm text-[#57534E]">Answer key not available for auto-grading.</p>
           </div>
         )}
 
         <div className="mt-8 space-y-3">
-          <h2 className="text-base font-semibold text-[#F8FAFC]">Answer Review</h2>
+          <h2 className="text-base font-semibold text-[#292524]">Answer Review</h2>
           {results.map((r) => (
             <div
               key={r.questionNumber}
               className={`rounded-xl border-[0.5px] p-4 ${
                 !r.hasAnswer
-                  ? "border-[#2A3150] bg-[#1E2540]"
+                  ? "border-[#E7E5E4] bg-[#FDF8F2]"
                   : r.isCorrect
-                    ? "border-[rgba(34,197,94,0.3)] bg-[#1E2540]"
-                    : "border-[rgba(239,68,68,0.3)] bg-[#1E2540]"
+                    ? "border-[rgba(4,120,87,0.28)] bg-[#FDF8F2]"
+                    : "border-[rgba(185,28,28,0.25)] bg-[#FDF8F2]"
               }`}
             >
               <div className="flex items-start gap-3">
                 {r.hasAnswer ? (
                   r.isCorrect ? (
-                    <CheckCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#22C55E]" />
+                    <CheckCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#047857]" />
                   ) : (
-                    <XCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#EF4444]" />
+                    <XCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#B91C1C]" />
                   )
                 ) : (
-                  <FileText size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#64748B]" />
+                  <FileText size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#78716C]" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm text-[#F8FAFC]">
-                    <span className="font-medium text-[#64748B]">Q{r.questionNumber}.</span>{" "}
+                  <p className="text-sm text-[#292524]">
+                    <span className="font-medium text-[#78716C]">Q{r.questionNumber}.</span>{" "}
                     {r.questionText || `(${TYPE_LABELS[r.questionType] || r.questionType})`}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-[13px]">
-                    <span className="text-[#94A3B8]">
+                    <span className="text-[#57534E]">
                       Your answer:{" "}
                       <span
                         className={`font-medium ${
-                          !r.hasAnswer ? "text-[#F8FAFC]" : r.isCorrect ? "text-[#22C55E]" : "text-[#EF4444]"
+                          !r.hasAnswer ? "text-[#292524]" : r.isCorrect ? "text-[#047857]" : "text-[#B91C1C]"
                         }`}
                       >
                         {r.studentAnswer || "(blank)"}
                       </span>
                     </span>
                     {r.hasAnswer && !r.isCorrect && (
-                      <span className="text-[#94A3B8]">
+                      <span className="text-[#57534E]">
                         Correct:{" "}
-                        <span className="font-medium text-[#22C55E]">
+                        <span className="font-medium text-[#047857]">
                           {Array.isArray(r.correctAnswer) ? r.correctAnswer.join(", ") : r.correctAnswer}
                         </span>
                       </span>
@@ -854,13 +854,13 @@ export default function ListeningTestPage() {
               setActivePart(0);
               setTimeLeft(40 * 60);
             }}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] py-3 text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] py-3 text-[15px] font-medium text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800"
           >
             Practice Again
           </button>
           <button
             onClick={() => router.push("/dashboard/listening")}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
           >
             Back to Listening
           </button>
@@ -877,19 +877,19 @@ export default function ListeningTestPage() {
       {/* Leave dialog */}
       {showLeaveDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-sm rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-6">
-            <h3 className="text-base font-semibold text-[#F8FAFC]">Leave test?</h3>
-            <p className="mt-2 text-sm text-[#94A3B8]">Your progress will be lost.</p>
+          <div className="w-full max-w-sm rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-6">
+            <h3 className="text-base font-semibold text-[#292524]">Leave test?</h3>
+            <p className="mt-2 text-sm text-[#57534E]">Your progress will be lost.</p>
             <div className="mt-5 flex gap-3">
               <button
                 onClick={() => setShowLeaveDialog(false)}
-                className="flex-1 rounded-lg border-[0.5px] border-[#2A3150] py-2.5 text-sm font-medium text-[#94A3B8] transition-all hover:border-[#6366F1] hover:text-white"
+                className="flex-1 rounded-lg border-[0.5px] border-[#E7E5E4] py-2.5 text-sm font-medium text-[#57534E] transition-all hover:border-[#047857] hover:text-stone-800"
               >
                 Stay
               </button>
               <button
                 onClick={() => router.push(`/dashboard/listening/${bookNumber}/${testNumber}`)}
-                className="flex-1 rounded-lg bg-[#EF4444] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#DC2626]"
+                className="flex-1 rounded-lg bg-[#B91C1C] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#DC2626]"
               >
                 Leave
               </button>
@@ -902,16 +902,16 @@ export default function ListeningTestPage() {
       <div className="animate-fade-up flex items-center justify-between">
         <button
           onClick={handleBack}
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
         </button>
-        <h1 className="text-base font-medium text-[#F8FAFC]">
+        <h1 className="text-base font-medium text-[#292524]">
           Book {bookNumber} Test {testNumber}
         </h1>
         <span
           className={`flex items-center gap-1.5 text-sm font-medium ${
-            timeLeft < 300 ? "text-[#EF4444]" : "text-[#64748B]"
+            timeLeft < 300 ? "text-[#B91C1C]" : "text-[#78716C]"
           }`}
         >
           <Clock size={16} strokeWidth={1.75} />
@@ -927,8 +927,8 @@ export default function ListeningTestPage() {
             onClick={() => setActivePart(i)}
             className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-medium transition-all ${
               activePart === i
-                ? "bg-[#6366F1] text-white"
-                : "bg-[#1E2540] text-[#94A3B8] hover:bg-[#2A3150]"
+                ? "bg-[#047857] text-white"
+                : "bg-[#FDF8F2] text-[#57534E] hover:bg-[#E7E5E4]"
             }`}
           >
             <Headphones size={14} strokeWidth={1.75} />
@@ -943,7 +943,7 @@ export default function ListeningTestPage() {
           {currentPart.audioUrl ? (
             <AudioPlayer src={currentPart.audioUrl} showControls={showControls} />
           ) : (
-            <div className="flex items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 text-sm text-[#64748B]">
+            <div className="flex items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4 text-sm text-[#78716C]">
               <Volume2 size={16} strokeWidth={1.75} />
               Audio not available for this part
             </div>
@@ -953,23 +953,23 @@ export default function ListeningTestPage() {
 
       {/* Context */}
       {currentPart?.context && (
-        <div className="mt-3 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
-          <p className="text-sm italic text-[#94A3B8]">{currentPart.context}</p>
+        <div className="mt-3 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
+          <p className="text-sm italic text-[#57534E]">{currentPart.context}</p>
         </div>
       )}
 
       {/* Questions */}
       <div className="mt-4 flex-1 overflow-y-auto">
-        <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5">
+        <div className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-5">
           {currentPart && (
             <div className="space-y-6">
-              <h2 className="text-base font-semibold text-[#F8FAFC]">
+              <h2 className="text-base font-semibold text-[#292524]">
                 Part {currentPart.partNumber}
                 {currentPart.title ? `: ${currentPart.title}` : ""}
                 {" "}({currentPart.totalQuestions} Questions)
               </h2>
               {!currentPart.questionGroups || currentPart.questionGroups.length === 0 ? (
-                <p className="text-sm text-[#64748B]">No questions available for this part.</p>
+                <p className="text-sm text-[#78716C]">No questions available for this part.</p>
               ) : (
                 currentPart.questionGroups.map((group, i) => (
                   <QuestionGroupRenderer
@@ -988,31 +988,31 @@ export default function ListeningTestPage() {
       </div>
 
       {/* Part navigation + submit */}
-      <div className="mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+      <div className="mt-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActivePart((p) => Math.max(0, p - 1))}
               disabled={activePart === 0}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border-[0.5px] border-[#2A3150] text-[#94A3B8] transition-all hover:border-[#6366F1] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border-[0.5px] border-[#E7E5E4] text-[#57534E] transition-all hover:border-[#047857] hover:text-stone-800 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronLeft size={18} strokeWidth={1.75} />
             </button>
             <button
               onClick={() => setActivePart((p) => Math.min(parts.length - 1, p + 1))}
               disabled={activePart === parts.length - 1}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border-[0.5px] border-[#2A3150] text-[#94A3B8] transition-all hover:border-[#6366F1] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border-[0.5px] border-[#E7E5E4] text-[#57534E] transition-all hover:border-[#047857] hover:text-stone-800 disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronRight size={18} strokeWidth={1.75} />
             </button>
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-right text-[13px] text-[#64748B]">
+            <p className="text-right text-[13px] text-[#78716C]">
               {answeredCount} of {totalQuestions} answered
             </p>
-            <div className="mt-1.5 h-1 w-full rounded-full bg-[#2A3150]">
+            <div className="mt-1.5 h-1 w-full rounded-full bg-[#E7E5E4]">
               <div
-                className="h-1 rounded-full bg-[#6366F1] transition-all duration-300"
+                className="h-1 rounded-full bg-[#047857] transition-all duration-300"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -1020,7 +1020,7 @@ export default function ListeningTestPage() {
           <button
             onClick={handleSubmit}
             disabled={answeredCount === 0}
-            className="shrink-0 rounded-xl bg-[#6366F1] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-xl bg-[#047857] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Submit
           </button>

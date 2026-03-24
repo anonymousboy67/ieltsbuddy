@@ -1,4 +1,5 @@
 import mongoose, { Schema, type Document } from "mongoose";
+import { getContentConnection } from "@/lib/mongodb-connections";
 
 export interface ISpeakingQuestion extends Document {
   bookNumber: number;
@@ -18,5 +19,7 @@ const SpeakingQuestionSchema = new Schema<ISpeakingQuestion>({
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.SpeakingQuestion ||
-  mongoose.model<ISpeakingQuestion>("SpeakingQuestion", SpeakingQuestionSchema);
+const contentConnection = getContentConnection();
+
+export default (contentConnection.models.SpeakingQuestion as mongoose.Model<ISpeakingQuestion>) ||
+  contentConnection.model<ISpeakingQuestion>("SpeakingQuestion", SpeakingQuestionSchema);

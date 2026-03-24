@@ -22,34 +22,34 @@ export default function SkillStats({ listening, reading, writing, speaking }: Sk
       label: "Listening",
       value: listening,
       icon: Headphones,
-      color: "#22C55E",
-      bg: "rgba(34,197,94,0.15)",
+      color: "#047857",
+      bg: "#D1FAE5",
     },
     {
       label: "Reading",
       value: reading,
       icon: BookOpen,
-      color: "#A855F7",
-      bg: "rgba(168,85,247,0.15)",
+      color: "#B45309",
+      bg: "#FEF3C7",
     },
     {
       label: "Writing",
       value: writing,
       icon: PenLine,
-      color: "#F97316",
-      bg: "rgba(249,115,22,0.15)",
+      color: "#C2410C",
+      bg: "#FFEDD5",
     },
     {
       label: "Speaking",
       value: speaking,
       icon: Mic,
-      color: "#0EA5E9",
-      bg: "rgba(14,165,233,0.15)",
+      color: "#0F766E",
+      bg: "#CCFBF1",
     },
   ];
 
   return (
-    <div className="animate-fade-up animate-fade-up-2 mt-5 grid grid-cols-2 gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 sm:grid-cols-4 sm:gap-0">
+    <div className="panel animate-fade-up animate-fade-up-2 mt-5 grid grid-cols-2 gap-4 p-4 sm:grid-cols-4 sm:gap-0">
       {stats.map((stat, i) => {
         const Icon = stat.icon;
         return (
@@ -57,7 +57,7 @@ export default function SkillStats({ listening, reading, writing, speaking }: Sk
             key={stat.label}
             className={`flex flex-col items-center gap-1.5 ${
               i < stats.length - 1
-                ? "sm:border-r-[0.5px] sm:border-[rgba(255,255,255,0.06)]"
+                ? "sm:border-r sm:border-stone-100"
                 : ""
             }`}
           >
@@ -67,8 +67,8 @@ export default function SkillStats({ listening, reading, writing, speaking }: Sk
             >
               <Icon size={16} strokeWidth={1.75} style={{ color: stat.color }} />
             </div>
-            <span className="text-xl font-bold text-[#F8FAFC]">{stat.value}</span>
-            <span className="text-xs text-[#64748B]">{stat.label}</span>
+            <span className="text-xl font-bold text-stone-800">{stat.value}</span>
+            <span className="text-xs text-stone-500">{stat.label}</span>
           </div>
         );
       })}

@@ -14,7 +14,7 @@ export default function SpeakingTestPage() {
   if (!bookNumber || !testNumber) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Invalid test ID</p>
+        <p className="text-[15px] text-[#57534E]">Invalid test ID</p>
       </div>
     );
   }

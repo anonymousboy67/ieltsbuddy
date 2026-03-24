@@ -54,15 +54,15 @@ export default function ReadingTestDetail({
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/reading"
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-[#FDF8F2]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-stone-600" />
           </Link>
-          <h1 className="text-base font-medium text-[#F8FAFC]">
+          <h1 className="text-base font-medium text-stone-800">
             IELTS Book {bookNumber} Test {testNumber}
           </h1>
         </div>
-        <p className="mt-6 text-sm text-[#64748B]">Loading...</p>
+        <p className="mt-6 text-sm text-stone-500">Loading...</p>
       </div>
     );
   }
@@ -73,15 +73,15 @@ export default function ReadingTestDetail({
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/reading"
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-[#FDF8F2]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-stone-600" />
           </Link>
-          <h1 className="text-base font-medium text-[#F8FAFC]">
+          <h1 className="text-base font-medium text-stone-800">
             IELTS Book {bookNumber} Test {testNumber}
           </h1>
         </div>
-        <p className="mt-6 text-center text-sm text-[#64748B]">
+        <p className="mt-6 text-center text-sm text-stone-500">
           No passages found for this test
         </p>
       </div>
@@ -95,24 +95,24 @@ export default function ReadingTestDetail({
       <div className="animate-fade-up flex items-center gap-3">
         <Link
           href="/dashboard/reading"
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-[#FDF8F2] transition-all duration-200 hover:bg-stone-100"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-stone-600" />
         </Link>
-        <h1 className="text-base font-medium text-[#F8FAFC]">
+        <h1 className="text-base font-medium text-stone-800">
           IELTS Book {bookNumber} Test {testNumber}
         </h1>
       </div>
 
-      <div className="animate-fade-up animate-fade-up-1 mt-6 flex w-full rounded-xl bg-[#1E2540] p-1">
+      <div className="animate-fade-up animate-fade-up-1 mt-6 flex w-full rounded-xl border border-stone-200 bg-stone-100 p-1">
         {passages.map((p, idx) => (
           <button
             key={p._id}
             onClick={() => setActive(idx)}
             className={`flex-1 cursor-pointer rounded-lg py-2.5 text-center transition-all duration-200 ${
               active === idx
-                ? "bg-[#6366F1] text-white"
-                : "text-[#94A3B8] hover:text-[#F8FAFC]"
+                ? "bg-emerald-700 text-white"
+                : "text-stone-600 hover:text-stone-800"
             }`}
           >
             <span className="block text-sm font-medium">Passage {p.passageNumber}</span>
@@ -130,7 +130,7 @@ export default function ReadingTestDetail({
       <div className="mt-8 pb-4">
         <Link
           href={`/dashboard/reading/test/${currentPassage._id}`}
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-700 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-teal-700"
         >
           <BookOpen size={18} strokeWidth={1.75} />
           Start Test

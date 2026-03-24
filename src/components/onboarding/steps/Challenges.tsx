@@ -30,10 +30,10 @@ export default function Challenges({ value, onChange }: ChallengesProps) {
 
   return (
     <div>
-      <h2 className="font-heading text-2xl font-bold text-[#F8FAFC]">
+      <h2 className="font-heading text-2xl font-bold text-[#292524]">
         What&apos;s stopping you from reaching your goal?
       </h2>
-      <p className="mt-2 text-sm text-[#94A3B8]">Select all that apply.</p>
+      <p className="mt-2 text-sm text-[#57534E]">Select all that apply.</p>
       <div className="mt-6 flex flex-col gap-3">
         {options.map((opt) => {
           const Icon = opt.icon;
@@ -44,18 +44,18 @@ export default function Challenges({ value, onChange }: ChallengesProps) {
               onClick={() => toggle(opt.id)}
               className={`flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selected
-                  ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-                  : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+                  ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+                  : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
               }`}
             >
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-[rgba(99,102,241,0.15)]">
-                <Icon size={20} strokeWidth={1.75} className="text-[#6366F1]" />
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-[rgba(4,120,87,0.15)]">
+                <Icon size={20} strokeWidth={1.75} className="text-[#047857]" />
               </div>
-              <span className="flex-1 text-[15px] font-medium text-[#F8FAFC]">
+              <span className="flex-1 text-[15px] font-medium text-[#292524]">
                 {opt.label}
               </span>
               {selected && (
-                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#6366F1]">
+                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#047857]">
                   <Check size={14} strokeWidth={2.5} className="text-white" />
                 </div>
               )}

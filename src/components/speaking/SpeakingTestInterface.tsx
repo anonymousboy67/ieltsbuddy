@@ -406,12 +406,12 @@ export default function SpeakingTestInterface({
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
-          <div className="h-5 w-48 animate-pulse rounded bg-[#1E2540]" />
+          <div className="h-10 w-10 animate-pulse rounded-full bg-[#FDF8F2]" />
+          <div className="h-5 w-48 animate-pulse rounded bg-[#FDF8F2]" />
         </div>
-        <div className="h-12 animate-pulse rounded-xl bg-[#1E2540]" />
-        <div className="h-40 animate-pulse rounded-xl bg-[#1E2540]" />
-        <div className="h-32 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-12 animate-pulse rounded-xl bg-[#FDF8F2]" />
+        <div className="h-40 animate-pulse rounded-xl bg-[#FDF8F2]" />
+        <div className="h-32 animate-pulse rounded-xl bg-[#FDF8F2]" />
       </div>
     );
   }
@@ -419,10 +419,10 @@ export default function SpeakingTestInterface({
   if (parts.length === 0) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Test not found</p>
+        <p className="text-[15px] text-[#57534E]">Test not found</p>
         <Link
           href="/dashboard/speaking"
-          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+          className="rounded-xl bg-[#047857] px-6 py-3 text-sm font-medium text-white hover:bg-[#0F766E]"
         >
           Back to Speaking
         </Link>
@@ -445,24 +445,24 @@ export default function SpeakingTestInterface({
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard/speaking"
-              className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+              className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
             >
-              <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+              <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
             </Link>
-            <h1 className="text-base font-medium text-[#F8FAFC]">
+            <h1 className="text-base font-medium text-[#292524]">
               Speaking Results
             </h1>
           </div>
         </div>
 
         {/* Overall band */}
-        <div className="animate-fade-up animate-fade-up-1 mt-6 flex flex-col items-center rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-6">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-[#6366F1] bg-[rgba(99,102,241,0.1)]">
-            <span className="text-3xl font-bold text-[#F8FAFC]">
+        <div className="animate-fade-up animate-fade-up-1 mt-6 flex flex-col items-center rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-6">
+          <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-[#047857] bg-[rgba(4,120,87,0.10)]">
+            <span className="text-3xl font-bold text-[#292524]">
               {evalResult.overallBand}
             </span>
           </div>
-          <p className="mt-3 text-sm font-medium text-[#94A3B8]">
+          <p className="mt-3 text-sm font-medium text-[#57534E]">
             Overall Band Score
           </p>
         </div>
@@ -472,57 +472,57 @@ export default function SpeakingTestInterface({
           {criteriaEntries.map(([key, val]) => (
             <div
               key={key}
-              className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4"
+              className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <BarChart3
                     size={16}
                     strokeWidth={1.75}
-                    className="text-[#6366F1]"
+                    className="text-[#047857]"
                   />
-                  <span className="text-sm font-medium text-[#F8FAFC]">
+                  <span className="text-sm font-medium text-[#292524]">
                     {CRITERIA_LABELS[key] || key}
                   </span>
                 </div>
-                <span className="text-lg font-bold text-[#6366F1]">
+                <span className="text-lg font-bold text-[#047857]">
                   {val.score}
                 </span>
               </div>
-              <div className="mt-2 h-1.5 w-full rounded-full bg-[#2A3150]">
+              <div className="mt-2 h-1.5 w-full rounded-full bg-[#E7E5E4]">
                 <div
-                  className="h-1.5 rounded-full bg-[#6366F1] transition-all duration-500"
+                  className="h-1.5 rounded-full bg-[#047857] transition-all duration-500"
                   style={{ width: `${(val.score / 9) * 100}%` }}
                 />
               </div>
-              <p className="mt-2 text-xs text-[#94A3B8]">{val.feedback}</p>
+              <p className="mt-2 text-xs text-[#57534E]">{val.feedback}</p>
             </div>
           ))}
         </div>
 
         {/* Overall feedback */}
-        <div className="animate-fade-up animate-fade-up-3 mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+        <div className="animate-fade-up animate-fade-up-3 mt-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
           <div className="flex items-center gap-2">
-            <Star size={16} strokeWidth={1.75} className="text-[#F59E0B]" />
-            <span className="text-sm font-medium text-[#F8FAFC]">
+            <Star size={16} strokeWidth={1.75} className="text-[#B45309]" />
+            <span className="text-sm font-medium text-[#292524]">
               Examiner Feedback
             </span>
           </div>
-          <p className="mt-2 text-sm text-[#94A3B8]">
+          <p className="mt-2 text-sm text-[#57534E]">
             {evalResult.overallFeedback}
           </p>
         </div>
 
         {/* Improvements */}
         {evalResult.improvements.length > 0 && (
-          <div className="animate-fade-up animate-fade-up-4 mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+          <div className="animate-fade-up animate-fade-up-4 mt-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
             <div className="flex items-center gap-2">
               <TrendingUp
                 size={16}
                 strokeWidth={1.75}
-                className="text-[#22C55E]"
+                className="text-[#047857]"
               />
-              <span className="text-sm font-medium text-[#F8FAFC]">
+              <span className="text-sm font-medium text-[#292524]">
                 Areas for Improvement
               </span>
             </div>
@@ -530,9 +530,9 @@ export default function SpeakingTestInterface({
               {evalResult.improvements.map((imp, i) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-sm text-[#94A3B8]"
+                  className="flex items-start gap-2 text-sm text-[#57534E]"
                 >
-                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#22C55E]" />
+                  <span className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-[#047857]" />
                   {imp}
                 </li>
               ))}
@@ -541,9 +541,9 @@ export default function SpeakingTestInterface({
         )}
 
         {/* Your transcript */}
-        <div className="animate-fade-up animate-fade-up-5 mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-4">
-          <p className="text-xs font-medium text-[#64748B]">Your Response</p>
-          <p className="mt-2 text-sm text-[#94A3B8]">{transcript}</p>
+        <div className="animate-fade-up animate-fade-up-5 mt-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-4">
+          <p className="text-xs font-medium text-[#78716C]">Your Response</p>
+          <p className="mt-2 text-sm text-[#57534E]">{transcript}</p>
         </div>
 
         {/* Sample answer */}
@@ -551,17 +551,17 @@ export default function SpeakingTestInterface({
           <div className="animate-fade-up animate-fade-up-6 mt-4">
             <button
               onClick={() => setShowSample(!showSample)}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] py-3 text-sm font-medium text-[#94A3B8] transition-all hover:border-[#6366F1] hover:text-white"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] py-3 text-sm font-medium text-[#57534E] transition-all hover:border-[#047857] hover:text-stone-800"
             >
               <BookOpen size={16} strokeWidth={1.75} />
               {showSample ? "Hide Sample Answer" : "Show Sample Answer"}
             </button>
             {showSample && (
-              <div className="mt-3 rounded-xl border-[0.5px] border-[rgba(34,197,94,0.3)] bg-[#1E2540] p-4">
-                <p className="text-xs font-medium text-[#22C55E]">
+              <div className="mt-3 rounded-xl border-[0.5px] border-[rgba(4,120,87,0.28)] bg-[#FDF8F2] p-4">
+                <p className="text-xs font-medium text-[#047857]">
                   Sample Answer
                 </p>
-                <p className="mt-2 whitespace-pre-wrap text-sm text-[#94A3B8]">
+                <p className="mt-2 whitespace-pre-wrap text-sm text-[#57534E]">
                   {sampleAnswer}
                 </p>
               </div>
@@ -578,7 +578,7 @@ export default function SpeakingTestInterface({
               setRecordDuration(0);
               setShowSample(false);
             }}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] py-3 text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] py-3 text-[15px] font-medium text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800"
           >
             <RotateCcw size={16} strokeWidth={1.75} />
             Try Again
@@ -586,7 +586,7 @@ export default function SpeakingTestInterface({
           {qIdx < totalQ - 1 ? (
             <button
               onClick={nextQuestion}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
             >
               Next Question
               <ChevronRight size={18} strokeWidth={1.75} />
@@ -594,7 +594,7 @@ export default function SpeakingTestInterface({
           ) : partIdx < parts.length - 1 ? (
             <button
               onClick={() => changePart(partIdx + 1)}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
             >
               Next Part
               <ChevronRight size={18} strokeWidth={1.75} />
@@ -602,7 +602,7 @@ export default function SpeakingTestInterface({
           ) : (
             <Link
               href="/dashboard/speaking"
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
             >
               Finish Test
             </Link>
@@ -621,15 +621,15 @@ export default function SpeakingTestInterface({
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/speaking"
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
           </Link>
-          <h1 className="text-base font-medium text-[#F8FAFC]">
+          <h1 className="text-base font-medium text-[#292524]">
             Book {bookNumber} Test {testNumber} - Part {part?.partNumber}
           </h1>
         </div>
-        <span className="flex items-center gap-1.5 text-sm text-[#64748B]">
+        <span className="flex items-center gap-1.5 text-sm text-[#78716C]">
           <Clock size={16} strokeWidth={1.75} />
           {phase !== "idle" ? formatTime(countdown) : formatTime(recordDuration)}
         </span>
@@ -643,8 +643,8 @@ export default function SpeakingTestInterface({
             onClick={() => changePart(i)}
             className={`cursor-pointer rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 ${
               i === partIdx
-                ? "bg-[#6366F1] text-white"
-                : "bg-[#1E2540] text-[#94A3B8] hover:text-[#F8FAFC]"
+                ? "bg-[#047857] text-white"
+                : "bg-[#FDF8F2] text-[#57534E] hover:text-[#292524]"
             }`}
           >
             Part {p.partNumber}
@@ -653,7 +653,7 @@ export default function SpeakingTestInterface({
       </div>
 
       {/* Instructions */}
-      <p className="animate-fade-up animate-fade-up-2 mt-3 text-sm text-[#94A3B8]">
+      <p className="animate-fade-up animate-fade-up-2 mt-3 text-sm text-[#57534E]">
         {part?.instructions || (
           isCueCard
             ? "You will be given a topic card. You have 1 minute to prepare, then speak for 1-2 minutes."
@@ -665,12 +665,12 @@ export default function SpeakingTestInterface({
 
       {/* Part 2 prep phase */}
       {isCueCard && phase === "prep" && (
-        <div className="mt-5 animate-pulse rounded-xl border-[0.5px] border-[rgba(249,115,22,0.4)] bg-[rgba(249,115,22,0.08)] p-5 text-center">
-          <p className="text-sm font-medium text-[#F59E0B]">Preparation Time</p>
-          <p className="mt-1 font-mono text-3xl font-bold text-[#F59E0B]">
+        <div className="mt-5 animate-pulse rounded-xl border-[0.5px] border-[rgba(180,83,9,0.32)] bg-[rgba(180,83,9,0.10)] p-5 text-center">
+          <p className="text-sm font-medium text-[#B45309]">Preparation Time</p>
+          <p className="mt-1 font-mono text-3xl font-bold text-[#B45309]">
             {formatTime(countdown)}
           </p>
-          <p className="mt-2 text-xs text-[#94A3B8]">
+          <p className="mt-2 text-xs text-[#57534E]">
             Read the card and prepare your answer. Speaking will start automatically.
           </p>
         </div>
@@ -679,9 +679,9 @@ export default function SpeakingTestInterface({
       {/* Part 2 speak phase indicator */}
       {isCueCard && phase === "speak" && (
         <div className="mt-3 flex items-center justify-center gap-2 text-sm">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-[#EF4444]" />
-          <span className="text-[#94A3B8]">Speaking time remaining:</span>
-          <span className={`font-mono font-medium ${countdown < 30 ? "text-[#EF4444]" : "text-[#F8FAFC]"}`}>
+          <span className="h-2 w-2 animate-pulse rounded-full bg-[#B91C1C]" />
+          <span className="text-[#57534E]">Speaking time remaining:</span>
+          <span className={`font-mono font-medium ${countdown < 30 ? "text-[#B91C1C]" : "text-[#292524]"}`}>
             {formatTime(countdown)}
           </span>
         </div>
@@ -712,7 +712,7 @@ export default function SpeakingTestInterface({
         <div className="mt-6 flex justify-center">
           <button
             onClick={() => startPrepPhase()}
-            className="rounded-xl bg-[#6366F1] px-8 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[#818CF8]"
+            className="rounded-xl bg-[#047857] px-8 py-3 text-[15px] font-medium text-white transition-colors hover:bg-[#0F766E]"
           >
             Start Preparation
           </button>
@@ -720,12 +720,12 @@ export default function SpeakingTestInterface({
       )}
 
       {/* Live transcript */}
-      <div className="mt-6 rounded-xl bg-[#12172B] p-4">
-        <p className="text-sm font-medium text-[#64748B]">Your Response</p>
+      <div className="mt-6 rounded-xl bg-[#F8F5F1] p-4">
+        <p className="text-sm font-medium text-[#78716C]">Your Response</p>
         {transcript ? (
-          <p className="mt-2 text-sm text-[#F8FAFC]">{transcript}</p>
+          <p className="mt-2 text-sm text-[#292524]">{transcript}</p>
         ) : (
-          <p className="mt-2 text-sm italic text-[#94A3B8]">
+          <p className="mt-2 text-sm italic text-[#57534E]">
             {micState === "listening"
               ? "Listening... speak now"
               : "Your spoken response will appear here after you start speaking..."}
@@ -738,7 +738,7 @@ export default function SpeakingTestInterface({
         <button
           onClick={handleEvaluate}
           disabled={micState === "processing"}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-[#047857] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {micState === "processing" ? (
             <>
@@ -760,7 +760,7 @@ export default function SpeakingTestInterface({
           <button
             onClick={prevQuestion}
             disabled={qIdx === 0}
-            className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] py-3 text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#2A3150] disabled:hover:text-[#94A3B8]"
+            className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] py-3 text-[15px] font-medium text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#E7E5E4] disabled:hover:text-[#57534E]"
           >
             <ChevronLeft size={18} strokeWidth={1.75} />
             Previous
@@ -768,7 +768,7 @@ export default function SpeakingTestInterface({
           <button
             onClick={nextQuestion}
             disabled={qIdx === totalQ - 1}
-            className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Next Question
             <ChevronRight size={18} strokeWidth={1.75} />

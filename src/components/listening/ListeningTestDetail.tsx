@@ -56,13 +56,13 @@ export default function ListeningTestDetail({
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
-          <div className="h-5 w-48 animate-pulse rounded bg-[#1E2540]" />
+          <div className="h-10 w-10 animate-pulse rounded-full bg-stone-200" />
+          <div className="h-5 w-48 animate-pulse rounded bg-stone-200" />
         </div>
-        <div className="h-40 animate-pulse rounded-xl bg-[#1E2540]" />
-        <div className="h-16 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-40 animate-pulse rounded-xl bg-stone-200" />
+        <div className="h-16 animate-pulse rounded-xl bg-stone-200" />
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="h-20 animate-pulse rounded-xl bg-[#1E2540]" />
+          <div key={i} className="h-20 animate-pulse rounded-xl bg-stone-200" />
         ))}
       </div>
     );
@@ -71,10 +71,10 @@ export default function ListeningTestDetail({
   if (parts.length === 0) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Test not found</p>
+        <p className="text-[15px] text-stone-600">Test not found</p>
         <Link
           href="/dashboard/listening"
-          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+          className="rounded-xl bg-emerald-700 px-6 py-3 text-sm font-medium text-white hover:bg-teal-700"
         >
           Back to Listening
         </Link>
@@ -87,54 +87,54 @@ export default function ListeningTestDetail({
       <div className="animate-fade-up flex items-center gap-3">
         <Link
           href="/dashboard/listening"
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-stone-200 bg-[#FDF8F2] transition-all duration-200 hover:bg-stone-100"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-stone-600" />
         </Link>
-        <h1 className="text-base font-medium text-[#F8FAFC]">{title}</h1>
+        <h1 className="text-base font-medium text-stone-800">{title}</h1>
       </div>
 
-      <div className="animate-fade-up animate-fade-up-1 mt-6 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5">
-        <h2 className="font-heading text-xl font-bold text-[#F8FAFC]">
+      <div className="panel animate-fade-up animate-fade-up-1 mt-6 p-5">
+        <h2 className="font-heading text-xl font-bold text-stone-800">
           {title}
         </h2>
         <div className="mt-2 flex items-center gap-2 text-sm">
-          <span className="flex items-center gap-1.5 text-[#22C55E]">
+          <span className="flex items-center gap-1.5 text-emerald-700">
             <List size={14} strokeWidth={1.75} />
             {parts.length} Sections
           </span>
-          <span className="text-[#2A3150]">-</span>
-          <span className="flex items-center gap-1.5 text-[#64748B]">
+          <span className="text-stone-300">-</span>
+          <span className="flex items-center gap-1.5 text-stone-500">
             <HelpCircle size={14} strokeWidth={1.75} />
             {totalQuestions} Questions
           </span>
         </div>
-        <p className="mt-3 text-sm text-[#94A3B8]">
+        <p className="mt-3 text-sm text-stone-600">
           The Listening test takes approximately 30-40 minutes. You will hear
           four recordings of native English speakers and then write your answers
           to a series of questions.
         </p>
       </div>
 
-      <div className="animate-fade-up animate-fade-up-2 mt-4 flex items-center justify-between rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+      <div className="panel animate-fade-up animate-fade-up-2 mt-4 flex items-center justify-between p-4">
         <div className="min-w-0">
-          <p className="text-[15px] font-medium text-[#F8FAFC]">
+          <p className="text-[15px] font-medium text-stone-800">
             Enable Audio Controls
           </p>
-          <p className="mt-0.5 text-[13px] text-[#64748B]">
+          <p className="mt-0.5 text-[13px] text-stone-500">
             Allow pausing, rewinding, and fast-forwarding.
           </p>
         </div>
         <button
           onClick={() => setAudioControls(!audioControls)}
           className={`relative ml-4 h-7 w-12 flex-shrink-0 cursor-pointer rounded-full transition-colors duration-200 ${
-            audioControls ? "bg-[#6366F1]" : "bg-[#2A3150]"
+            audioControls ? "bg-emerald-700" : "bg-stone-300"
           }`}
           role="switch"
           aria-checked={audioControls}
         >
           <span
-            className={`absolute top-1 left-1 h-5 w-5 rounded-full bg-white transition-transform duration-200 ${
+            className={`absolute top-1 left-1 h-5 w-5 rounded-full bg-[#FDF8F2] transition-transform duration-200 ${
               audioControls ? "translate-x-5" : "translate-x-0"
             }`}
           />
@@ -142,25 +142,25 @@ export default function ListeningTestDetail({
       </div>
 
       <section className="mt-6">
-        <h2 className="animate-fade-up animate-fade-up-3 font-heading text-lg font-semibold text-[#F8FAFC]">
+        <h2 className="animate-fade-up animate-fade-up-3 font-heading text-lg font-semibold text-stone-800">
           Test Structure
         </h2>
         <div className="mt-4 flex flex-col gap-3">
           {parts.map((p, i) => (
             <div
               key={p.partNumber}
-              className={`animate-fade-up ${staggerClass[i] || ""} rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4`}
+              className={`panel animate-fade-up ${staggerClass[i] || ""} p-4`}
             >
               <div className="flex items-center justify-between">
-                <span className="text-base font-semibold text-[#F8FAFC]">
+                <span className="text-base font-semibold text-stone-800">
                   Part {p.partNumber}
                   {p.title ? `: ${p.title}` : ""}
                 </span>
-                <span className="text-sm text-[#64748B]">
+                <span className="text-sm text-stone-500">
                   {p.totalQuestions} Questions
                 </span>
               </div>
-              <p className="mt-2 text-[13px] text-[#94A3B8]">
+              <p className="mt-2 text-[13px] text-stone-600">
                 {PART_DESCRIPTIONS[p.partNumber - 1] || ""}
               </p>
             </div>
@@ -174,7 +174,7 @@ export default function ListeningTestDetail({
             `/dashboard/listening/test/${bookNumber}/${testNumber}?controls=${audioControls}`
           )
         }
-        className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+        className="mt-6 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-700 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-teal-700"
       >
         <Headphones size={18} strokeWidth={1.75} />
         Start Test

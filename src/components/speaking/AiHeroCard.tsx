@@ -8,7 +8,7 @@ const pills = [
 
 export default function AiHeroCard() {
   return (
-    <div className="animate-fade-up animate-fade-up-1 group mt-6 cursor-pointer rounded-xl bg-gradient-to-r from-[#6366F1] to-[#4F46E5] p-6 transition-transform duration-200 ease-out hover:scale-[1.01]">
+    <div className="animate-fade-up animate-fade-up-1 group mt-6 cursor-pointer rounded-xl bg-gradient-to-r from-[#047857] to-[#4F46E5] p-6 transition-transform duration-200 ease-out hover:scale-[1.01]">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -29,7 +29,7 @@ export default function AiHeroCard() {
               return (
                 <span
                   key={pill.label}
-                  className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs text-white/80"
+                  className="flex items-center gap-1.5 rounded-full bg-[#FDF8F2]/15 px-3 py-1 text-xs text-white/80"
                 >
                   <Icon size={12} strokeWidth={1.75} />
                   {pill.label}
@@ -38,7 +38,7 @@ export default function AiHeroCard() {
             })}
           </div>
         </div>
-        <div className="flex h-[60px] w-[60px] flex-shrink-0 items-center justify-center rounded-full bg-white/20">
+        <div className="flex h-[60px] w-[60px] flex-shrink-0 items-center justify-center rounded-full bg-[#FDF8F2]/20">
           <AudioLines size={28} strokeWidth={1.75} className="text-white" />
         </div>
       </div>

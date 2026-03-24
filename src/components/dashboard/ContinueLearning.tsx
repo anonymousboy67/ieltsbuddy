@@ -77,8 +77,8 @@ export default function ContinueLearning() {
       progress: "0 tests available",
       total: 0,
       icon: Headphones,
-      color: "#22C55E",
-      bg: "rgba(34,197,94,0.15)",
+      color: "#047857",
+      bg: "rgba(4,120,87,0.15)",
       href: "/dashboard/listening",
     },
     {
@@ -87,8 +87,8 @@ export default function ContinueLearning() {
       progress: `${counts.reading} passages available`,
       total: counts.reading,
       icon: BookOpen,
-      color: "#A855F7",
-      bg: "rgba(168,85,247,0.15)",
+      color: "#B45309",
+      bg: "rgba(180,83,9,0.15)",
       href: counts.firstReadingId
         ? `/dashboard/reading/passage/${counts.firstReadingId}`
         : "/dashboard/reading",
@@ -99,8 +99,8 @@ export default function ContinueLearning() {
       progress: `${counts.writing} tasks available`,
       total: counts.writing,
       icon: PenLine,
-      color: "#F97316",
-      bg: "rgba(249,115,22,0.15)",
+      color: "#C2410C",
+      bg: "rgba(194,65,12,0.15)",
       href: counts.firstWritingId
         ? `/dashboard/writing/task/${counts.firstWritingId}`
         : "/dashboard/writing",
@@ -111,8 +111,8 @@ export default function ContinueLearning() {
       progress: `${counts.speaking} question sets available`,
       total: counts.speaking,
       icon: Mic,
-      color: "#0EA5E9",
-      bg: "rgba(14,165,233,0.15)",
+      color: "#0F766E",
+      bg: "rgba(15,118,110,0.15)",
       href: "/dashboard/speaking",
     },
   ];
@@ -120,20 +120,20 @@ export default function ContinueLearning() {
   if (loading) {
     return (
       <section className="mt-8">
-        <h2 className="font-heading text-xl font-semibold text-[#F8FAFC]">
+        <h2 className="font-heading text-xl font-semibold text-[#292524]">
           Continue Learning
         </h2>
         <div className="mt-4 flex flex-col gap-3">
           {[0, 1, 2, 3].map((i) => (
             <div
               key={i}
-              className="flex items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4"
+              className="flex items-center gap-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4"
             >
-              <div className="h-10 w-10 animate-pulse rounded-[10px] bg-[#2A3150]" />
+              <div className="h-10 w-10 animate-pulse rounded-[10px] bg-[#E7E5E4]" />
               <div className="flex-1 space-y-2">
-                <div className="h-4 w-24 animate-pulse rounded bg-[#2A3150]" />
-                <div className="h-3 w-40 animate-pulse rounded bg-[#2A3150]" />
-                <div className="h-1 w-full animate-pulse rounded bg-[#2A3150]" />
+                <div className="h-4 w-24 animate-pulse rounded bg-[#E7E5E4]" />
+                <div className="h-3 w-40 animate-pulse rounded bg-[#E7E5E4]" />
+                <div className="h-1 w-full animate-pulse rounded bg-[#E7E5E4]" />
               </div>
             </div>
           ))}
@@ -144,7 +144,7 @@ export default function ContinueLearning() {
 
   return (
     <section className="mt-8">
-      <h2 className="font-heading text-xl font-semibold text-[#F8FAFC]">
+      <h2 className="font-heading text-xl font-semibold text-[#292524]">
         Continue Learning
       </h2>
       <div className="mt-4 flex flex-col gap-3">
@@ -155,7 +155,7 @@ export default function ContinueLearning() {
             <Link
               key={i}
               href={item.href}
-              className={`animate-fade-up ${staggerClass[i]} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)] hover:bg-[#232948]`}
+              className={`animate-fade-up ${staggerClass[i]} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(4,120,87,0.28)] hover:bg-stone-100`}
             >
               <div
                 className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px]"
@@ -173,16 +173,16 @@ export default function ContinueLearning() {
                     {item.skill}
                   </span>
                 </div>
-                <p className="mt-1.5 truncate text-[15px] font-medium text-[#F8FAFC]">
+                <p className="mt-1.5 truncate text-[15px] font-medium text-[#292524]">
                   {item.title}
                 </p>
-                <p className="mt-1 text-xs text-[#64748B]">{item.progress}</p>
+                <p className="mt-1 text-xs text-[#78716C]">{item.progress}</p>
               </div>
 
               <ChevronRight
                 size={20}
                 strokeWidth={1.75}
-                className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
+                className="flex-shrink-0 text-[#78716C] transition-transform duration-200 group-hover:translate-x-0.5"
               />
             </Link>
           );

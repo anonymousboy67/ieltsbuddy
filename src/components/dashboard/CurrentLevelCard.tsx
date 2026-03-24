@@ -10,7 +10,7 @@ export default function CurrentLevelCard() {
   const strokeDashoffset = circumference - (score / 9) * circumference;
 
   return (
-    <div className="animate-fade-up animate-fade-up-1 group mt-6 flex cursor-pointer items-center gap-5 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]">
+    <div className="animate-fade-up animate-fade-up-1 group mt-6 flex cursor-pointer items-center gap-5 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(4,120,87,0.28)]">
       <div className="relative flex-shrink-0">
         <svg width="88" height="88" viewBox="0 0 88 88">
           <circle
@@ -18,7 +18,7 @@ export default function CurrentLevelCard() {
             cy="44"
             r={radius}
             fill="none"
-            stroke="#2A3150"
+            stroke="#E7E5E4"
             strokeWidth="6"
           />
           <circle
@@ -26,7 +26,7 @@ export default function CurrentLevelCard() {
             cy="44"
             r={radius}
             fill="none"
-            stroke="#6366F1"
+            stroke="#047857"
             strokeWidth="6"
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -38,26 +38,26 @@ export default function CurrentLevelCard() {
             transform="rotate(-90 44 44)"
           />
         </svg>
-        <span className="absolute inset-0 flex items-center justify-center font-heading text-2xl font-bold text-[#F8FAFC]">
+        <span className="absolute inset-0 flex items-center justify-center font-heading text-2xl font-bold text-[#292524]">
           {score}
         </span>
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-[#64748B]">Current Level</p>
-        <p className="mt-1 text-xl font-semibold text-[#F8FAFC]">
+        <p className="text-xs text-[#78716C]">Current Level</p>
+        <p className="mt-1 text-xl font-semibold text-[#292524]">
           Pre-Intermediate
         </p>
-        <p className="mt-1 text-sm text-[#6366F1]">
+        <p className="mt-1 text-sm text-[#047857]">
           Start practicing to track your level!
         </p>
         <div className="mt-3">
-          <p className="text-xs text-[#64748B]">
+          <p className="text-xs text-[#78716C]">
             {completed}/{total} practices
           </p>
-          <div className="mt-1.5 h-1 w-full rounded-full bg-[#2A3150]">
+          <div className="mt-1.5 h-1 w-full rounded-full bg-[#E7E5E4]">
             <div
-              className="animate-progress-bar h-1 rounded-full bg-[#6366F1]"
+              className="animate-progress-bar h-1 rounded-full bg-[#047857]"
               style={{ width: `${progress}%`, animationDelay: "0.6s" }}
             />
           </div>
@@ -67,7 +67,7 @@ export default function CurrentLevelCard() {
       <ChevronRight
         size={20}
         strokeWidth={1.75}
-        className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
+        className="flex-shrink-0 text-[#78716C] transition-transform duration-200 group-hover:translate-x-0.5"
       />
     </div>
   );

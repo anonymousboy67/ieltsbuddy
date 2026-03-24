@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectContentDb } from "@/lib/mongodb-connections";
 import ListeningSection from "@/models/ListeningSection";
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ bookNumber: string; testNumber: string }> }
 ) {
   try {
-    await dbConnect();
+    await connectContentDb();
     const { bookNumber, testNumber } = await params;
     const sections = await ListeningSection.find({
       bookNumber: Number(bookNumber),

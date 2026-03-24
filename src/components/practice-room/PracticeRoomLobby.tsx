@@ -66,24 +66,24 @@ export default function PracticeRoomLobby() {
   return (
     <>
       <div className="animate-fade-up">
-        <h1 className="font-heading text-[28px] font-bold text-[#F8FAFC]">
+        <h1 className="font-heading text-[28px] font-bold text-[#292524]">
           Practice Room
         </h1>
-        <p className="mt-1 text-sm text-[#94A3B8]">
+        <p className="mt-1 text-sm text-[#57534E]">
           Find a partner and practice IELTS speaking together
         </p>
       </div>
 
-      <div className="animate-fade-up animate-fade-up-1 mt-6 flex items-center gap-5 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-6">
-        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(99,102,241,0.15)]">
-          <Users size={28} strokeWidth={1.75} className="text-[#6366F1]" />
+      <div className="animate-fade-up animate-fade-up-1 mt-6 flex items-center gap-5 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-6">
+        <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(4,120,87,0.15)]">
+          <Users size={28} strokeWidth={1.75} className="text-[#047857]" />
         </div>
         <div>
-          <p className="flex items-center gap-2 text-lg font-medium text-[#F8FAFC]">
+          <p className="flex items-center gap-2 text-lg font-medium text-[#292524]">
             {onlineCount} {onlineCount === 1 ? "student" : "students"} online
-            <span className="pulse-dot h-2 w-2 rounded-full bg-[#22C55E]" />
+            <span className="pulse-dot h-2 w-2 rounded-full bg-[#047857]" />
           </p>
-          <p className="mt-0.5 text-[13px] text-[#94A3B8]">Ready to practice now</p>
+          <p className="mt-0.5 text-[13px] text-[#57534E]">Ready to practice now</p>
         </div>
       </div>
 
@@ -91,29 +91,29 @@ export default function PracticeRoomLobby() {
         {state === "idle" ? (
           <button
             onClick={handleFindPartner}
-            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#047857] py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
           >
             <Search size={20} strokeWidth={1.75} />
             Find Practice Partner
           </button>
         ) : state === "searching" ? (
-          <div className="flex flex-col items-center gap-3 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] py-8">
-            <Loader size={28} strokeWidth={1.75} className="animate-spin text-[#6366F1]" />
-            <p className="text-[15px] font-medium text-[#F8FAFC]">
+          <div className="flex flex-col items-center gap-3 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] py-8">
+            <Loader size={28} strokeWidth={1.75} className="animate-spin text-[#047857]" />
+            <p className="text-[15px] font-medium text-[#292524]">
               Searching for a partner...
             </p>
             <button
               onClick={handleCancel}
-              className="mt-1 inline-flex cursor-pointer items-center gap-1.5 rounded-lg border-[0.5px] border-[#2A3150] px-4 py-2 text-sm text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
+              className="mt-1 inline-flex cursor-pointer items-center gap-1.5 rounded-lg border-[0.5px] border-[#E7E5E4] px-4 py-2 text-sm text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800"
             >
               <X size={14} strokeWidth={1.75} />
               Cancel
             </button>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-3 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#6366F1] border-t-transparent" />
-            <p className="text-[15px] font-medium text-[#22C55E]">
+          <div className="flex flex-col items-center gap-3 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] py-8">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#047857] border-t-transparent" />
+            <p className="text-[15px] font-medium text-[#047857]">
               Partner found! Connecting...
             </p>
           </div>
@@ -121,33 +121,33 @@ export default function PracticeRoomLobby() {
       </div>
 
       <section className="mt-8">
-        <h2 className="animate-fade-up animate-fade-up-3 font-heading text-lg font-semibold text-[#F8FAFC]">
+        <h2 className="animate-fade-up animate-fade-up-3 font-heading text-lg font-semibold text-[#292524]">
           How it works
         </h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {steps.map((s, i) => (
             <div
               key={s.num}
-              className={`animate-fade-up animate-fade-up-${i + 4} rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5`}
+              className={`animate-fade-up animate-fade-up-${i + 4} rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-5`}
             >
-              <span className="font-heading text-[32px] font-bold text-[#6366F1]">
+              <span className="font-heading text-[32px] font-bold text-[#047857]">
                 {s.num}
               </span>
-              <p className="mt-2 text-[15px] font-medium text-[#F8FAFC]">{s.title}</p>
-              <p className="mt-1 text-[13px] text-[#64748B]">{s.desc}</p>
+              <p className="mt-2 text-[15px] font-medium text-[#292524]">{s.title}</p>
+              <p className="mt-1 text-[13px] text-[#78716C]">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="mt-8">
-        <h2 className="animate-fade-up animate-fade-up-7 font-heading text-lg font-semibold text-[#F8FAFC]">
+        <h2 className="animate-fade-up animate-fade-up-7 font-heading text-lg font-semibold text-[#292524]">
           Recent Sessions
         </h2>
-        <div className="animate-fade-up animate-fade-up-8 mt-4 flex flex-col items-center rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] py-8">
-          <MessageSquare size={32} strokeWidth={1.5} className="text-[#64748B]" />
-          <p className="mt-3 text-[15px] text-[#94A3B8]">No practice sessions yet</p>
-          <p className="mt-1 text-[13px] text-[#64748B]">
+        <div className="animate-fade-up animate-fade-up-8 mt-4 flex flex-col items-center rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] py-8">
+          <MessageSquare size={32} strokeWidth={1.5} className="text-[#78716C]" />
+          <p className="mt-3 text-[15px] text-[#57534E]">No practice sessions yet</p>
+          <p className="mt-1 text-[13px] text-[#78716C]">
             Find a partner to start your first session
           </p>
         </div>

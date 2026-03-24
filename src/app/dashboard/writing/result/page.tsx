@@ -32,10 +32,10 @@ function BandScoreGauge({ score }: { score: number }) {
   }, [score]);
 
   function getScoreColor(s: number) {
-    if (s < 5) return "#EF4444";
-    if (s < 6) return "#F59E0B";
-    if (s < 7) return "#F59E0B";
-    return "#22C55E";
+    if (s < 5) return "#B91C1C";
+    if (s < 6) return "#B45309";
+    if (s < 7) return "#B45309";
+    return "#047857";
   }
 
   const color = getScoreColor(score);
@@ -48,7 +48,7 @@ function BandScoreGauge({ score }: { score: number }) {
           cy="90"
           r={radius}
           fill="none"
-          stroke="#1E2540"
+          stroke="#FFFFFF"
           strokeWidth="10"
         />
         <circle
@@ -75,7 +75,7 @@ function BandScoreGauge({ score }: { score: number }) {
         >
           {animatedScore.toFixed(1)}
         </span>
-        <span className="text-xs text-[#64748B]">Overall Band</span>
+        <span className="text-xs text-[#78716C]">Overall Band</span>
       </div>
     </div>
   );
@@ -93,18 +93,18 @@ function CriteriaCard({
   delay: string;
 }) {
   function getScoreColor(s: number) {
-    if (s < 5) return "#EF4444";
-    if (s < 6) return "#F59E0B";
-    if (s < 7) return "#F59E0B";
-    return "#22C55E";
+    if (s < 5) return "#B91C1C";
+    if (s < 6) return "#B45309";
+    if (s < 7) return "#B45309";
+    return "#047857";
   }
 
   return (
     <div
-      className={`animate-fade-up ${delay} rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4`}
+      className={`animate-fade-up ${delay} rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4`}
     >
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-[#F8FAFC]">{title}</h3>
+        <h3 className="text-sm font-semibold text-[#292524]">{title}</h3>
         <span
           className="text-lg font-bold"
           style={{ color: getScoreColor(band) }}
@@ -112,7 +112,7 @@ function CriteriaCard({
           {band.toFixed(1)}
         </span>
       </div>
-      <p className="mt-2 text-[13px] leading-relaxed text-[#94A3B8]">
+      <p className="mt-2 text-[13px] leading-relaxed text-[#57534E]">
         {feedback}
       </p>
     </div>
@@ -136,7 +136,7 @@ export default function WritingResultPage() {
   if (!evaluation) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <p className="text-[#64748B]">No evaluation data found.</p>
+        <p className="text-[#78716C]">No evaluation data found.</p>
       </div>
     );
   }
@@ -146,11 +146,11 @@ export default function WritingResultPage() {
       <div className="animate-fade-up flex items-center gap-3">
         <Link
           href="/dashboard/writing"
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
         </Link>
-        <h1 className="text-base font-medium text-[#F8FAFC]">
+        <h1 className="text-base font-medium text-[#292524]">
           Evaluation Result
         </h1>
       </div>
@@ -190,17 +190,17 @@ export default function WritingResultPage() {
 
       {/* Strengths */}
       <div className="animate-fade-up animate-fade-up-6 mt-8">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-[#F8FAFC]">
-          <CheckCircle size={20} strokeWidth={1.75} className="text-[#22C55E]" />
+        <h2 className="flex items-center gap-2 text-base font-semibold text-[#292524]">
+          <CheckCircle size={20} strokeWidth={1.75} className="text-[#047857]" />
           Strengths
         </h2>
         <ul className="mt-3 space-y-2">
           {evaluation.strengths.map((s, i) => (
             <li
               key={i}
-              className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(34,197,94,0.2)] bg-[rgba(34,197,94,0.05)] px-4 py-3 text-[13px] text-[#94A3B8]"
+              className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(4,120,87,0.20)] bg-[rgba(4,120,87,0.08)] px-4 py-3 text-[13px] text-[#57534E]"
             >
-              <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#22C55E]" />
+              <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#047857]" />
               {s}
             </li>
           ))}
@@ -209,17 +209,17 @@ export default function WritingResultPage() {
 
       {/* Areas for Improvement */}
       <div className="animate-fade-up animate-fade-up-7 mt-6">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-[#F8FAFC]">
-          <AlertTriangle size={20} strokeWidth={1.75} className="text-[#F59E0B]" />
+        <h2 className="flex items-center gap-2 text-base font-semibold text-[#292524]">
+          <AlertTriangle size={20} strokeWidth={1.75} className="text-[#B45309]" />
           Areas for Improvement
         </h2>
         <ul className="mt-3 space-y-2">
           {evaluation.improvements.map((imp, i) => (
             <li
               key={i}
-              className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(245,158,11,0.2)] bg-[rgba(245,158,11,0.05)] px-4 py-3 text-[13px] text-[#94A3B8]"
+              className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(180,83,9,0.22)] bg-[rgba(180,83,9,0.08)] px-4 py-3 text-[13px] text-[#57534E]"
             >
-              <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#F59E0B]" />
+              <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#B45309]" />
               {imp}
             </li>
           ))}
@@ -228,12 +228,12 @@ export default function WritingResultPage() {
 
       {/* Corrected Version */}
       <div className="animate-fade-up animate-fade-up-8 mt-6">
-        <h2 className="flex items-center gap-2 text-base font-semibold text-[#F8FAFC]">
-          <PenLine size={20} strokeWidth={1.75} className="text-[#6366F1]" />
+        <h2 className="flex items-center gap-2 text-base font-semibold text-[#292524]">
+          <PenLine size={20} strokeWidth={1.75} className="text-[#047857]" />
           Corrected Version
         </h2>
-        <div className="mt-3 rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-5">
-          <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#94A3B8] italic">
+        <div className="mt-3 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-5">
+          <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-[#57534E] italic">
             {evaluation.correctedVersion}
           </p>
         </div>
@@ -243,7 +243,7 @@ export default function WritingResultPage() {
       <div className="animate-fade-up animate-fade-up-9 mt-8 pb-8">
         <Link
           href="/dashboard/writing"
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6366F1] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#047857] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
         >
           Practice Again
         </Link>

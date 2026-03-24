@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectContentDb } from "@/lib/mongodb-connections";
 import ReadingSection from "@/models/ReadingSection";
 
 export async function GET() {
   try {
-    await dbConnect();
+    await connectContentDb();
     const passages = await ReadingSection.find()
       .sort({ bookNumber: 1, testNumber: 1, passageNumber: 1 })
       .lean();

@@ -35,12 +35,12 @@ export default function ListeningTestList() {
   if (loading) {
     return (
       <section className="mt-6">
-        <div className="h-5 w-32 animate-pulse rounded bg-[#1E2540]" />
+        <div className="h-5 w-32 animate-pulse rounded bg-stone-200" />
         <div className="mt-4 flex flex-col gap-3">
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-20 animate-pulse rounded-xl bg-[#1E2540]"
+              className="h-20 animate-pulse rounded-xl bg-stone-200"
             />
           ))}
         </div>
@@ -51,9 +51,9 @@ export default function ListeningTestList() {
   if (tests.length === 0) {
     return (
       <section className="mt-6">
-        <div className="flex min-h-[200px] flex-col items-center justify-center rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-8">
-          <Headphones size={32} strokeWidth={1.75} className="text-[#64748B]" />
-          <p className="mt-3 text-[15px] text-[#94A3B8]">
+        <div className="panel flex min-h-[200px] flex-col items-center justify-center p-8">
+          <Headphones size={32} strokeWidth={1.75} className="text-stone-500" />
+          <p className="mt-3 text-[15px] text-stone-600">
             No listening tests available yet
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function ListeningTestList() {
 
   return (
     <section className="mt-6">
-      <h2 className="animate-fade-up animate-fade-up-1 font-heading text-lg font-semibold text-[#F8FAFC]">
+      <h2 className="animate-fade-up animate-fade-up-1 font-heading text-lg font-semibold text-stone-800">
         Available Tests
       </h2>
       <div className="mt-4 flex flex-col gap-3">
@@ -85,25 +85,25 @@ export default function ListeningTestList() {
             <Link
               key={`${test.bookNumber}-${test.testNumber}`}
               href={`/dashboard/listening/${test.bookNumber}/${test.testNumber}`}
-              className={`animate-fade-up ${staggerClass[i] || ""} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]`}
+              className={`panel animate-fade-up ${staggerClass[i] || ""} group flex cursor-pointer items-center gap-4 p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-stone-50`}
             >
-              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[rgba(34,197,94,0.15)]">
+              <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-emerald-50">
                 <Headphones
                   size={20}
                   strokeWidth={1.75}
-                  className="text-[#22C55E]"
+                  className="text-emerald-700"
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-[15px] font-medium text-[#F8FAFC]">
+                <p className="text-[15px] font-medium text-stone-800">
                   IELTS Book {test.bookNumber} Test {test.testNumber}
                 </p>
                 <div className="mt-1 flex items-center gap-4">
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                  <span className="flex items-center gap-1.5 text-[13px] text-stone-500">
                     <List size={14} strokeWidth={1.75} />
                     {test.parts.length} Sections
                   </span>
-                  <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                  <span className="flex items-center gap-1.5 text-[13px] text-stone-500">
                     <HelpCircle size={14} strokeWidth={1.75} />
                     {totalQuestions} Questions
                   </span>
@@ -112,7 +112,7 @@ export default function ListeningTestList() {
               <ChevronRight
                 size={20}
                 strokeWidth={1.75}
-                className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
+                className="flex-shrink-0 text-stone-500 transition-transform duration-200 group-hover:translate-x-0.5"
               />
             </Link>
           );

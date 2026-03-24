@@ -5,32 +5,61 @@ html {
 }
 
 :root {
-  --background: #0B0F1A;
-  --surface: #12172B;
-  --card: #1E2540;
-  --card-border: #2A3150;
-  --primary: #6366F1;
-  --primary-hover: #818CF8;
-  --primary-text: #EEF2FF;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --success: #22C55E;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-medium: rgba(255, 255, 255, 0.1);
+  --background: #FCFAF8;
+  --surface: #F8F5F1;
+  --card: #FDF8F2;
+  --card-border: #E7E5E4;
+  --primary: #047857;
+  --primary-hover: #0F766E;
+  --primary-text: #FFFFFF;
+  --text-primary: #292524;
+  --text-secondary: #57534E;
+  --text-muted: #78716C;
+  --success: #047857;
+  --warning: #D97706;
+  --error: #DC2626;
+  --border-subtle: #F1EFED;
+  --border-medium: #E7E5E4;
 
   /* Skill colors */
-  --speaking: #0EA5E9;
-  --writing: #F97316;
-  --reading: #A855F7;
-  --listening: #22C55E;
+  --speaking: #0F766E;
+  --writing: #C2410C;
+  --reading: #B45309;
+  --listening: #047857;
 }
 
 @theme inline {
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-ui);
   --font-heading: var(--font-heading);
+}
+
+@layer base {
+  body {
+    @apply bg-stone-50 text-stone-600;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading text-stone-800;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-2xl border border-stone-200 bg-[#FDF8F2] shadow-[0_2px_10px_rgba(0,0,0,0.04)];
+  }
+
+  .btn-primary {
+    @apply rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-700;
+  }
+
+  .btn-secondary {
+    @apply rounded-xl bg-[#F5EEE5] px-4 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-[#EEE4D8];
+  }
 }
 
 /* Slide-up fade-in entrance animation */
@@ -92,10 +121,10 @@ html {
 /* Onboarding progress bar */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 4px white, 0 0 8px rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 4px white, 0 0 8px rgba(4, 120, 87, 0.45);
   }
   50% {
-    box-shadow: 0 0 6px white, 0 0 12px rgba(99, 102, 241, 0.8);
+    box-shadow: 0 0 6px white, 0 0 12px rgba(4, 120, 87, 0.6);
   }
 }
 
@@ -109,8 +138,8 @@ html {
 }
 
 .progress-glow-bar {
-  background: linear-gradient(90deg, #6366F1, #818CF8, #A78BFA);
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
+  background: linear-gradient(90deg, #047857, #0F766E, #B45309);
+  box-shadow: 0 0 8px rgba(4, 120, 87, 0.35), 0 0 20px rgba(4, 120, 87, 0.16);
 }
 
 .progress-glow-dot {

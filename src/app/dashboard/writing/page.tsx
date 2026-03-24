@@ -70,21 +70,21 @@ export default function WritingPage() {
   return (
     <>
       <div className="animate-fade-up">
-        <h1 className="font-heading text-[28px] font-bold text-[#F8FAFC]">
+        <h1 className="font-heading text-[28px] font-bold text-[#292524]">
           Writing Lab
         </h1>
-        <p className="mt-1 text-sm text-[#94A3B8]">
+        <p className="mt-1 text-sm text-[#57534E]">
           Practice IELTS Academic Writing Tasks
         </p>
       </div>
 
-      <div className="animate-fade-up animate-fade-up-1 mt-6 inline-flex rounded-xl bg-[#1E2540] p-1">
+      <div className="animate-fade-up animate-fade-up-1 mt-6 inline-flex rounded-xl bg-[#FDF8F2] p-1">
         <button
           onClick={() => setActive("task1")}
           className={`cursor-pointer rounded-lg px-6 py-2.5 text-center transition-all duration-200 ${
             active === "task1"
-              ? "bg-[#6366F1] text-white"
-              : "text-[#94A3B8] hover:text-[#F8FAFC]"
+              ? "bg-[#047857] text-white"
+              : "text-[#57534E] hover:text-[#292524]"
           }`}
         >
           <span className="block text-sm font-medium">Task 1</span>
@@ -94,8 +94,8 @@ export default function WritingPage() {
           onClick={() => setActive("task2")}
           className={`cursor-pointer rounded-lg px-6 py-2.5 text-center transition-all duration-200 ${
             active === "task2"
-              ? "bg-[#6366F1] text-white"
-              : "text-[#94A3B8] hover:text-[#F8FAFC]"
+              ? "bg-[#047857] text-white"
+              : "text-[#57534E] hover:text-[#292524]"
           }`}
         >
           <span className="block text-sm font-medium">Task 2</span>
@@ -103,7 +103,7 @@ export default function WritingPage() {
         </button>
       </div>
 
-      <p className="animate-fade-up animate-fade-up-2 mt-4 mb-6 text-sm text-[#94A3B8]">
+      <p className="animate-fade-up animate-fade-up-2 mt-4 mb-6 text-sm text-[#57534E]">
         {descriptions[active]}
       </p>
 

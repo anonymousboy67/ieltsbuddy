@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Lora, Nunito } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
+import { AuthModalProvider } from "@/context/AuthModalContext";
+import NextAuthSessionProvider from "@/components/NextAuthSessionProvider";
 
-const inter = Inter({
-  variable: "--font-inter",
+const nunito = Nunito({
+  variable: "--font-ui",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const lora = Lora({
   variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -28,10 +31,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${plusJakartaSans.variable} h-full antialiased`}
+      className={`${nunito.variable} ${lora.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0B0F1A] text-[#F8FAFC]">
-        {children}
+      <body className="min-h-full flex flex-col bg-stone-50 text-stone-800">
+        <NextAuthSessionProvider>
+          <AuthProvider>
+            <AuthModalProvider>{children}</AuthModalProvider>
+          </AuthProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

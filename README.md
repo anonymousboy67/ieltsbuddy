@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# IELTSBuddy
 
-## Getting Started
+Production-ready Next.js application with authentication and an admin-only user management panel.
 
-First, run the development server:
+## Stack
+
+- Next.js App Router + TypeScript
+- NextAuth (Auth.js) for sessions
+- MongoDB + Mongoose for user data
+- Firebase Admin (optional sync for disable/delete/password operations)
+
+## Project Structure
+
+- `src/app`: Pages and API routes
+- `src/app/api/auth`: Auth endpoints (login helpers, OTP, NextAuth handlers)
+- `src/app/api/admin/users`: Admin-only user management API
+- `src/components`: UI components (auth modal, admin user panel, dashboards)
+- `src/lib`: DB/auth/firebase utility modules
+- `src/models`: Mongoose schemas
+- `middleware.ts`: Route access control
+
+## Local Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Add environment values in `.env.local` (Mongo, NextAuth secret, Firebase/Google keys as needed).
+
+3. Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`http://localhost:3000`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Admin Login (Fixed Credentials)
 
-## Learn More
+- Identifier: `admin@iletsbuddy.com` or `admin`
+- Password: `admin`
 
-To learn more about Next.js, take a look at the following resources:
+Admin users are redirected to `/admin` and are blocked from normal dashboard routes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Admin Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Inside `/admin`, admin can:
 
-## Deploy on Vercel
+- View all registered users
+- Search users by email/username/name
+- Disable or re-enable accounts
+- Reset account password
+- Delete accounts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Validation Commands
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+npm run start
+```
+

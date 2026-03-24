@@ -15,10 +15,10 @@ const options = [
 export default function BandScore({ value, onChange }: BandScoreProps) {
   return (
     <div>
-      <h2 className="font-heading text-2xl font-bold text-[#F8FAFC]">
+      <h2 className="font-heading text-2xl font-bold text-[#292524]">
         What&apos;s your target band score?
       </h2>
-      <p className="mt-2 text-sm text-[#94A3B8]">
+      <p className="mt-2 text-sm text-[#57534E]">
         This helps us create the right difficulty level.
       </p>
       <div className="mt-6 flex flex-col gap-3">
@@ -28,14 +28,14 @@ export default function BandScore({ value, onChange }: BandScoreProps) {
             onClick={() => onChange(opt.band)}
             className={`cursor-pointer rounded-xl border-[0.5px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 ${
               value === opt.band
-                ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-                : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+                ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+                : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
             }`}
           >
-            <span className="text-[15px] font-medium text-[#F8FAFC]">
+            <span className="text-[15px] font-medium text-[#292524]">
               Band {opt.band}
             </span>
-            <span className="ml-2 text-sm text-[#64748B]">{opt.label}</span>
+            <span className="ml-2 text-sm text-[#78716C]">{opt.label}</span>
           </button>
         ))}
       </div>

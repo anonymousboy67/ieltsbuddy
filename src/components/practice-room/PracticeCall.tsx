@@ -107,13 +107,13 @@ export default function PracticeCall() {
   if (micError) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(239,68,68,0.15)]">
-          <AlertCircle size={32} strokeWidth={1.75} className="text-[#EF4444]" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(185,28,28,0.15)]">
+          <AlertCircle size={32} strokeWidth={1.75} className="text-[#B91C1C]" />
         </div>
-        <p className="max-w-sm text-center text-[15px] text-[#F8FAFC]">{micError}</p>
+        <p className="max-w-sm text-center text-[15px] text-[#292524]">{micError}</p>
         <button
           onClick={() => router.push("/dashboard/practice-room")}
-          className="mt-2 rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#818CF8]"
+          className="mt-2 rounded-xl bg-[#047857] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#0F766E]"
         >
           Back to Lobby
         </button>
@@ -125,11 +125,11 @@ export default function PracticeCall() {
   if (partnerLeft) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(245,158,11,0.15)]">
-          <User size={32} strokeWidth={1.75} className="text-[#F59E0B]" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(180,83,9,0.15)]">
+          <User size={32} strokeWidth={1.75} className="text-[#B45309]" />
         </div>
-        <p className="text-[15px] font-medium text-[#F8FAFC]">Your partner has left</p>
-        <p className="text-[13px] text-[#64748B]">Redirecting to lobby...</p>
+        <p className="text-[15px] font-medium text-[#292524]">Your partner has left</p>
+        <p className="text-[13px] text-[#78716C]">Redirecting to lobby...</p>
       </div>
     );
   }
@@ -143,12 +143,12 @@ export default function PracticeCall() {
       <div className="flex items-center justify-between">
         <button
           onClick={handleEndCall}
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
         </button>
-        <h1 className="text-base font-medium text-[#F8FAFC]">Practice Session</h1>
-        <span className="flex items-center gap-1.5 text-sm text-[#64748B]">
+        <h1 className="text-base font-medium text-[#292524]">Practice Session</h1>
+        <span className="flex items-center gap-1.5 text-sm text-[#78716C]">
           <Clock size={16} strokeWidth={1.75} />
           {formatTime(elapsed)}
         </span>
@@ -157,33 +157,33 @@ export default function PracticeCall() {
       {/* User avatars */}
       <div className="mt-8 flex items-center justify-center gap-8">
         <div className="flex flex-col items-center gap-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540]">
-            <User size={20} strokeWidth={1.75} className="text-[#0EA5E9]" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2]">
+            <User size={20} strokeWidth={1.75} className="text-[#0F766E]" />
           </div>
-          <span className="text-xs text-[#64748B]">You</span>
+          <span className="text-xs text-[#78716C]">You</span>
         </div>
-        <div className="h-px w-8 bg-[#2A3150]" />
+        <div className="h-px w-8 bg-[#E7E5E4]" />
         <div className="flex flex-col items-center gap-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540]">
-            <User size={20} strokeWidth={1.75} className="text-[#A855F7]" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2]">
+            <User size={20} strokeWidth={1.75} className="text-[#B45309]" />
           </div>
-          <span className="text-xs text-[#64748B]">Partner</span>
+          <span className="text-xs text-[#78716C]">Partner</span>
         </div>
       </div>
 
       {/* Topic card */}
       <div
         key={topicIdx}
-        className="animate-step-enter mt-6 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5"
+        className="animate-step-enter mt-6 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-5"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <span className="text-xs uppercase tracking-wider text-[#64748B]">
+            <span className="text-xs uppercase tracking-wider text-[#78716C]">
               Current Topic
             </span>
-            <p className="mt-2 text-base text-[#F8FAFC]">{topics[topicIdx]}</p>
+            <p className="mt-2 text-base text-[#292524]">{topics[topicIdx]}</p>
             <div className="mt-3 flex items-center gap-2">
-              <span className="text-[13px] text-[#64748B]">
+              <span className="text-[13px] text-[#78716C]">
                 Topic {topicIdx + 1} of {topics.length}
               </span>
               <div className="flex gap-1.5">
@@ -192,8 +192,8 @@ export default function PracticeCall() {
                     key={i}
                     className={`rounded-full ${
                       i === topicIdx
-                        ? "h-2 w-2 bg-[#6366F1]"
-                        : "h-1.5 w-1.5 bg-[#2A3150]"
+                        ? "h-2 w-2 bg-[#047857]"
+                        : "h-1.5 w-1.5 bg-[#E7E5E4]"
                     }`}
                   />
                 ))}
@@ -202,7 +202,7 @@ export default function PracticeCall() {
           </div>
           <button
             onClick={handleNextTopic}
-            className="mt-6 flex flex-shrink-0 cursor-pointer items-center gap-1 rounded-lg border-[0.5px] border-[#2A3150] px-3 py-1.5 text-xs text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
+            className="mt-6 flex flex-shrink-0 cursor-pointer items-center gap-1 rounded-lg border-[0.5px] border-[#E7E5E4] px-3 py-1.5 text-xs text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800"
           >
             Next
             <ChevronRight size={12} strokeWidth={1.75} />
@@ -212,8 +212,8 @@ export default function PracticeCall() {
 
       {/* Audio visualizations */}
       <div className="mt-8 flex items-end justify-center gap-12">
-        <AudioBars color="#0EA5E9" label="You" stream={localStream} />
-        <AudioBars color="#A855F7" label="Partner" stream={remoteStream} />
+        <AudioBars color="#0F766E" label="You" stream={localStream} />
+        <AudioBars color="#B45309" label="Partner" stream={remoteStream} />
       </div>
 
       {/* Controls */}
@@ -222,21 +222,21 @@ export default function PracticeCall() {
           onClick={toggleMute}
           className={`flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-[0.5px] transition-all duration-200 ${
             isMuted
-              ? "border-[#EF4444] bg-[rgba(239,68,68,0.15)]"
-              : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+              ? "border-[#B91C1C] bg-[rgba(185,28,28,0.15)]"
+              : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
           }`}
           aria-label={isMuted ? "Unmute" : "Mute"}
         >
           {isMuted ? (
-            <MicOff size={22} strokeWidth={1.75} className="text-[#EF4444]" />
+            <MicOff size={22} strokeWidth={1.75} className="text-[#B91C1C]" />
           ) : (
-            <Mic size={22} strokeWidth={1.75} className="text-[#F8FAFC]" />
+            <Mic size={22} strokeWidth={1.75} className="text-[#292524]" />
           )}
         </button>
 
         <button
           onClick={handleEndCall}
-          className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#EF4444] transition-colors duration-200 hover:bg-[#DC2626]"
+          className="flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-[#B91C1C] transition-colors duration-200 hover:bg-[#DC2626]"
           aria-label="End call"
         >
           <PhoneOff size={24} strokeWidth={1.75} className="text-white" />
@@ -244,10 +244,10 @@ export default function PracticeCall() {
 
         <button
           onClick={handleNextTopic}
-          className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
           aria-label="Skip topic"
         >
-          <SkipForward size={22} strokeWidth={1.75} className="text-[#F8FAFC]" />
+          <SkipForward size={22} strokeWidth={1.75} className="text-[#292524]" />
         </button>
       </div>
     </div>

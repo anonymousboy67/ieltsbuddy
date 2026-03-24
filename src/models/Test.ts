@@ -1,4 +1,5 @@
 import mongoose, { Schema, type Document } from "mongoose";
+import { getContentConnection } from "@/lib/mongodb-connections";
 
 export interface ITestDoc extends Document {
   bookNumber: number;
@@ -27,5 +28,7 @@ const TestSchema = new Schema(
 
 TestSchema.index({ bookNumber: 1, testNumber: 1 }, { unique: true });
 
-export default mongoose.models.Test ||
-  mongoose.model<ITestDoc>("Test", TestSchema);
+const contentConnection = getContentConnection();
+
+export default (contentConnection.models.Test as mongoose.Model<ITestDoc>) ||
+  contentConnection.model<ITestDoc>("Test", TestSchema);

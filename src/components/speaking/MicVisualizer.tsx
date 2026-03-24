@@ -79,9 +79,9 @@ export default function MicVisualizer({
               x, centerY - barHeight,
               x, centerY + barHeight
             );
-            gradient.addColorStop(0, "rgba(99, 102, 241, 0.8)");
-            gradient.addColorStop(0.5, "rgba(99, 102, 241, 0.4)");
-            gradient.addColorStop(1, "rgba(99, 102, 241, 0.8)");
+            gradient.addColorStop(0, "rgba(4, 120, 87, 0.8)");
+            gradient.addColorStop(0.5, "rgba(4, 120, 87, 0.4)");
+            gradient.addColorStop(1, "rgba(4, 120, 87, 0.8)");
             ctx.fillStyle = gradient;
             ctx.fillRect(x, centerY - barHeight, barWidth - 1, barHeight * 2);
             x += barWidth;
@@ -119,7 +119,7 @@ export default function MicVisualizer({
               {Array.from({ length: 20 }).map((_, i) => (
                 <div
                   key={i}
-                  className="w-1 rounded-full bg-[#2A3150]"
+                  className="w-1 rounded-full bg-[#E7E5E4]"
                   style={{ height: `${8 + Math.sin(i * 0.5) * 8}px` }}
                 />
               ))}
@@ -130,7 +130,7 @@ export default function MicVisualizer({
 
       {/* Duration */}
       {isListening && (
-        <p className="mb-3 font-mono text-lg font-medium text-[#6366F1]">
+        <p className="mb-3 font-mono text-lg font-medium text-[#047857]">
           {formatDuration(duration)}
         </p>
       )}
@@ -145,15 +145,15 @@ export default function MicVisualizer({
         <span
           className={`absolute inset-0 rounded-full border-2 transition-all duration-300 ${
             isListening
-              ? "animate-pulse border-[rgba(239,68,68,0.4)]"
+              ? "animate-pulse border-[rgba(185,28,28,0.32)]"
               : isProcessing
-                ? "border-[rgba(99,102,241,0.08)]"
-                : "border-[rgba(99,102,241,0.2)]"
+                ? "border-[rgba(4,120,87,0.08)]"
+                : "border-[rgba(4,120,87,0.22)]"
           }`}
         />
         <span
           className={`relative flex h-14 w-14 items-center justify-center rounded-full transition-colors duration-300 ${
-            isListening ? "bg-[#EF4444]" : "bg-[#6366F1]"
+            isListening ? "bg-[#B91C1C]" : "bg-[#047857]"
           }`}
         >
           {isListening ? (
@@ -167,10 +167,10 @@ export default function MicVisualizer({
       <p
         className={`mt-3 text-sm transition-colors duration-200 ${
           isListening
-            ? "text-[#EF4444]"
+            ? "text-[#B91C1C]"
             : isProcessing
-              ? "text-[#64748B]"
-              : "text-[#94A3B8]"
+              ? "text-[#78716C]"
+              : "text-[#57534E]"
         }`}
       >
         {isListening

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import {
   LayoutDashboard,
   Calendar,
@@ -26,13 +27,22 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const displayName = session?.user?.name || "Student";
+  const displayEmail = session?.user?.email || "No email";
+  const initials = displayName
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "S";
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-full w-[240px] flex-col bg-[#12172B] border-r-[0.5px] border-[#2A3150] z-40">
+    <aside className="fixed left-0 top-0 z-40 hidden h-full w-[240px] flex-col border-r border-stone-200 bg-[#F8F5F1] md:flex">
       <div className="px-5 py-6">
         <Link href="/dashboard" className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-[#6366F1]" />
-          <span className="font-heading text-xl font-bold text-[#F8FAFC]">
+          <span className="h-2 w-2 rounded-full bg-emerald-700" />
+          <span className="font-heading text-xl font-bold text-stone-800">
             IELTSBuddy
           </span>
         </Link>
@@ -51,16 +61,16 @@ export default function Sidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out ${
+                  className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out ${
                     isActive
-                      ? "bg-[rgba(99,102,241,0.1)] text-[#818CF8]"
-                      : "text-[#94A3B8] hover:bg-[rgba(255,255,255,0.06)] hover:text-[#F8FAFC]"
+                      ? "bg-emerald-50 text-emerald-800"
+                      : "text-stone-600 hover:bg-stone-100 hover:text-stone-800"
                   }`}
                 >
                   <Icon
                     size={20}
                     strokeWidth={1.75}
-                    className={isActive ? "text-[#818CF8]" : ""}
+                    className={isActive ? "text-emerald-700" : ""}
                   />
                   {item.label}
                 </Link>
@@ -70,23 +80,34 @@ export default function Sidebar() {
         </ul>
       </nav>
 
-      <div className="border-t-[0.5px] border-[#2A3150] px-3 py-4">
+      <div className="border-t border-stone-200 px-3 py-4">
         <Link
           href="/dashboard/settings"
-          className={`flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out ${
+          className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-150 ease-out ${
             pathname === "/dashboard/settings"
-              ? "bg-[rgba(99,102,241,0.1)] text-[#818CF8]"
-              : "text-[#94A3B8] hover:bg-[rgba(255,255,255,0.06)] hover:text-[#F8FAFC]"
+              ? "bg-emerald-50 text-emerald-800"
+              : "text-stone-600 hover:bg-stone-100 hover:text-stone-800"
           }`}
         >
           <Settings size={20} strokeWidth={1.75} />
           Settings
         </Link>
         <div className="mt-3 flex items-center gap-3 px-4 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1E2540]">
-            <User size={16} strokeWidth={1.75} className="text-[#64748B]" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-200 text-xs font-semibold text-stone-700">
+            {session?.user?.image ? (
+              <img
+                src={session.user.image}
+                alt={displayName}
+                className="h-9 w-9 rounded-full object-cover"
+              />
+            ) : (
+              initials
+            )}
           </div>
-          <span className="text-sm font-medium text-[#94A3B8]">Student</span>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-stone-800">{displayName}</p>
+            <p className="truncate text-xs text-stone-500">{displayEmail}</p>
+          </div>
         </div>
       </div>
     </aside>

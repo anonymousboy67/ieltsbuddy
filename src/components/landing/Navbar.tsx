@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAuthModal } from "@/context/AuthModalContext";
 
 const links = [
   { label: "Features", href: "#features" },
@@ -12,13 +13,14 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { openModal } = useAuthModal();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b-[0.5px] border-[rgba(255,255,255,0.06)] bg-[#0B0F1A]/80 backdrop-blur-xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-stone-200 bg-[#FCFAF8]/90 backdrop-blur-xl">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-3 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-[#6366F1]" />
-          <span className="font-heading text-lg font-bold text-[#F8FAFC]">
+          <span className="h-2 w-2 rounded-full bg-emerald-700" />
+          <span className="font-heading text-lg font-bold text-stone-800">
             IELTSBuddy
           </span>
         </Link>
@@ -28,29 +30,35 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-[#94A3B8] transition-colors duration-150 hover:text-white"
+              className="text-sm text-stone-600 transition-colors duration-150 hover:text-stone-800"
             >
               {link.label}
             </a>
           ))}
-          <Link
-            href="/onboarding"
-            className="rounded-lg bg-[#6366F1] px-5 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+          <button
+            onClick={() => openModal("login")}
+            className="text-sm font-medium text-stone-600 transition-colors duration-150 hover:text-stone-800"
           >
-            Get Started
-          </Link>
+            Login
+          </button>
+          <button
+            onClick={() => openModal("signup")}
+            className="rounded-xl bg-emerald-700 px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-teal-700"
+          >
+            Register
+          </button>
         </div>
 
         <div className="flex items-center gap-3 md:hidden">
-          <Link
-            href="/onboarding"
-            className="rounded-lg bg-[#6366F1] px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+          <button
+            onClick={() => openModal("signup")}
+            className="rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-teal-700"
           >
-            Get Started
-          </Link>
+            Register
+          </button>
           <button
             onClick={() => setOpen(!open)}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-[#94A3B8]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-stone-600"
             aria-label="Toggle menu"
           >
             {open ? <X size={22} strokeWidth={1.75} /> : <Menu size={22} strokeWidth={1.75} />}
@@ -59,13 +67,13 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div className="border-t-[0.5px] border-[rgba(255,255,255,0.06)] bg-[#0B0F1A] px-4 pb-4 md:hidden">
+        <div className="border-t border-stone-200 bg-[#FCFAF8] px-4 pb-4 md:hidden">
           {links.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="block py-3 text-sm text-[#94A3B8] transition-colors hover:text-white"
+              className="block py-3 text-sm text-stone-600 transition-colors hover:text-stone-800"
             >
               {link.label}
             </a>

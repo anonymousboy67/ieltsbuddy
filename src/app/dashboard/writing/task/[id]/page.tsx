@@ -44,11 +44,11 @@ export default function WritingTaskPage() {
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
-          <div className="h-5 w-32 animate-pulse rounded bg-[#1E2540]" />
+          <div className="h-10 w-10 animate-pulse rounded-full bg-[#FDF8F2]" />
+          <div className="h-5 w-32 animate-pulse rounded bg-[#FDF8F2]" />
         </div>
-        <div className="h-48 animate-pulse rounded-xl bg-[#1E2540]" />
-        <div className="h-64 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-48 animate-pulse rounded-xl bg-[#FDF8F2]" />
+        <div className="h-64 animate-pulse rounded-xl bg-[#FDF8F2]" />
       </div>
     );
   }
@@ -56,10 +56,10 @@ export default function WritingTaskPage() {
   if (!task) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Task not found</p>
+        <p className="text-[15px] text-[#57534E]">Task not found</p>
         <Link
           href="/dashboard/writing"
-          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+          className="rounded-xl bg-[#047857] px-6 py-3 text-sm font-medium text-white hover:bg-[#0F766E]"
         >
           Back to Writing Lab
         </Link>
@@ -75,15 +75,15 @@ export default function WritingTaskPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/writing"
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
           </Link>
-          <h1 className="text-base font-medium text-[#F8FAFC]">
+          <h1 className="text-base font-medium text-[#292524]">
             {task.title || `Writing Task ${taskNumber}`}
           </h1>
         </div>
-        <span className="flex items-center gap-1.5 text-sm text-[#64748B]">
+        <span className="flex items-center gap-1.5 text-sm text-[#78716C]">
           <Clock size={16} strokeWidth={1.75} />
           {task.timeMinutes}:00
         </span>

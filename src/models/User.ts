@@ -1,4 +1,5 @@
 import mongoose, { Schema, type Document } from "mongoose";
+import { getUsersConnection } from "@/lib/mongodb-connections";
 
 export interface IStudyPlanTask {
   skill: "speaking" | "writing" | "reading" | "listening";
@@ -21,13 +22,22 @@ export interface IStudyPlan {
 }
 
 export interface IUser extends Document {
+  firebaseUid?: string;
+  email?: string;
+  username?: string;
+  fullName?: string;
+  image?: string;
+  password?: string;
+  authProvider?: "google" | "credentials";
+  isDisabled: boolean;
+  role: "student" | "admin";
   name?: string;
-  targetBand: number;
-  testType: "academic" | "general";
+  targetBand?: number;
+  testType?: "academic" | "general";
   testDate?: Date;
-  currentLevel: "beginner" | "intermediate" | "advanced";
+  currentLevel?: "beginner" | "intermediate" | "advanced";
   weaknesses: string[];
-  dailyStudyTime: "15min" | "30min" | "1hour" | "2hours";
+  dailyStudyTime?: "15min" | "30min" | "1hour" | "2hours";
   studyPlan?: IStudyPlan;
   createdAt: Date;
 }
@@ -62,16 +72,27 @@ const StudyPlanSchema = new Schema(
 );
 
 const UserSchema = new Schema<IUser>({
+  firebaseUid: { type: String, unique: true, sparse: true },
+  email: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
+  username: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
+  fullName: { type: String, default: "" },
+  image: { type: String },
+  password: { type: String },
+  authProvider: { type: String, enum: ["google", "credentials"] },
+  isDisabled: { type: Boolean, default: false },
+  role: { type: String, enum: ["student", "admin"], default: "student" },
   name: { type: String },
-  targetBand: { type: Number, required: true },
-  testType: { type: String, enum: ["academic", "general"], required: true },
+  targetBand: { type: Number },
+  testType: { type: String, enum: ["academic", "general"] },
   testDate: { type: Date },
-  currentLevel: { type: String, enum: ["beginner", "intermediate", "advanced"], required: true },
-  weaknesses: [{ type: String }],
-  dailyStudyTime: { type: String, enum: ["15min", "30min", "1hour", "2hours"], required: true },
+  currentLevel: { type: String, enum: ["beginner", "intermediate", "advanced"] },
+  weaknesses: { type: [String], default: [] },
+  dailyStudyTime: { type: String, enum: ["15min", "30min", "1hour", "2hours"] },
   studyPlan: StudyPlanSchema,
   createdAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.User ||
-  mongoose.model<IUser>("User", UserSchema);
+const usersConnection = getUsersConnection();
+
+export default (usersConnection.models.User as mongoose.Model<IUser>) ||
+  usersConnection.model<IUser>("User", UserSchema);

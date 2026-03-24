@@ -1,6 +1,7 @@
 import mongoose, { Schema, type Document } from "mongoose";
 import { QuestionType } from "@/types/ielts";
 import type { IReadingSection } from "@/types/ielts";
+import { getContentConnection } from "@/lib/mongodb-connections";
 
 const QuestionSchema = new Schema(
   {
@@ -83,5 +84,7 @@ ReadingSectionSchema.index(
   { unique: true }
 );
 
-export default mongoose.models.ReadingSection ||
-  mongoose.model<IReadingSectionDoc>("ReadingSection", ReadingSectionSchema);
+const contentConnection = getContentConnection();
+
+export default (contentConnection.models.ReadingSection as mongoose.Model<IReadingSectionDoc>) ||
+  contentConnection.model<IReadingSectionDoc>("ReadingSection", ReadingSectionSchema);

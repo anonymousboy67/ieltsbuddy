@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectContentDb } from "@/lib/mongodb-connections";
 import WritingTask from "@/models/WritingTask";
 
 function normalizeTask(doc: Record<string, unknown>): Record<string, unknown> {
@@ -21,13 +21,13 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await dbConnect();
+    await connectContentDb();
     const { id } = await params;
     const task = await WritingTask.findById(id).lean();
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
-    return NextResponse.json(normalizeTask(task as Record<string, unknown>));
+    return NextResponse.json(normalizeTask(task as unknown as Record<string, unknown>));
   } catch (error) {
     console.error("Fetch writing task error:", error);
     return NextResponse.json({ error: "Failed to fetch task" }, { status: 500 });

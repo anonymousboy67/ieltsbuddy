@@ -13,7 +13,7 @@ export default function ReadingTestPage({ params }: PageProps) {
 
   if (!match) {
     return (
-      <p className="py-8 text-center text-sm text-[#64748B]">
+      <p className="py-8 text-center text-sm text-[#78716C]">
         Invalid test URL
       </p>
     );

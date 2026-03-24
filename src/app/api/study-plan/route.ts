@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectUsersDb } from "@/lib/mongodb-connections";
 import User from "@/models/User";
 
 export async function GET(request: NextRequest) {
   try {
-    await dbConnect();
+    await connectUsersDb();
 
     const userId = request.nextUrl.searchParams.get("userId");
     if (!userId) {

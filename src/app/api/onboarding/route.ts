@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectUsersDb } from "@/lib/mongodb-connections";
 import User from "@/models/User";
 
 export async function POST(request: NextRequest) {
   try {
-    await dbConnect();
+    await connectUsersDb();
 
     const body = await request.json();
     const { targetBand, testType, testDate, currentLevel, weaknesses, dailyStudyTime } = body;

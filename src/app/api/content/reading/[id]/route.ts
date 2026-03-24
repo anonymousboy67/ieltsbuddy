@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectContentDb } from "@/lib/mongodb-connections";
 import ReadingSection from "@/models/ReadingSection";
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await dbConnect();
+    await connectContentDb();
     const { id } = await params;
     const section = await ReadingSection.findById(id).lean();
     if (!section) {

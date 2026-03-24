@@ -114,10 +114,10 @@ const TYPE_LABELS: Record<string, string> = {
 };
 
 const inputCls =
-  "w-full rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2.5 text-sm text-[#F8FAFC] outline-none transition-colors placeholder:text-[#64748B] focus:border-[#6366F1]";
+  "w-full rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] px-3 py-2.5 text-sm text-[#292524] outline-none transition-colors placeholder:text-[#78716C] focus:border-[#047857]";
 
 const selectCls =
-  "w-full rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2.5 text-sm text-[#F8FAFC] outline-none transition-colors focus:border-[#6366F1]";
+  "w-full rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] px-3 py-2.5 text-sm text-[#292524] outline-none transition-colors focus:border-[#047857]";
 
 /* ── Shared UI atoms ──────────────────────────────────────────── */
 
@@ -136,19 +136,19 @@ function RadioOption({
     <label
       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
         selected
-          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
       }`}
     >
       <input type="radio" name={name} checked={selected} onChange={onChange} className="sr-only" />
       <span
         className={`flex h-4 w-4 items-center justify-center rounded-full border-[1.5px] ${
-          selected ? "border-[#6366F1]" : "border-[#64748B]"
+          selected ? "border-[#047857]" : "border-[#78716C]"
         }`}
       >
-        {selected && <span className="h-2 w-2 rounded-full bg-[#6366F1]" />}
+        {selected && <span className="h-2 w-2 rounded-full bg-[#047857]" />}
       </span>
-      <span className={`text-sm ${selected ? "text-[#F8FAFC]" : "text-[#94A3B8]"}`}>{label}</span>
+      <span className={`text-sm ${selected ? "text-[#292524]" : "text-[#57534E]"}`}>{label}</span>
     </label>
   );
 }
@@ -166,14 +166,14 @@ function CheckboxOption({
     <label
       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
         checked
-          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
       }`}
     >
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
       <span
         className={`flex h-4 w-4 items-center justify-center rounded border-[1.5px] ${
-          checked ? "border-[#6366F1] bg-[#6366F1]" : "border-[#64748B]"
+          checked ? "border-[#047857] bg-[#047857]" : "border-[#78716C]"
         }`}
       >
         {checked && (
@@ -182,7 +182,7 @@ function CheckboxOption({
           </svg>
         )}
       </span>
-      <span className={`text-sm ${checked ? "text-[#F8FAFC]" : "text-[#94A3B8]"}`}>{label}</span>
+      <span className={`text-sm ${checked ? "text-[#292524]" : "text-[#57534E]"}`}>{label}</span>
     </label>
   );
 }
@@ -206,20 +206,20 @@ function CompletionTemplate({
   const qNums = new Set(questions.map((q) => q.questionNumber));
 
   return (
-    <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-4 text-sm leading-relaxed text-[#94A3B8]">
+    <div className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-4 text-sm leading-relaxed text-[#57534E]">
       {parts.map((part, i) => {
         if (i % 2 === 1) {
           const num = parseInt(part);
           if (qNums.has(num)) {
             return (
               <span key={i} className="inline-flex items-center gap-1">
-                <span className="text-xs font-bold text-[#6366F1]">({num})</span>
+                <span className="text-xs font-bold text-[#047857]">({num})</span>
                 <input
                   type="text"
                   value={answers[num] || ""}
                   onChange={(e) => onAnswer(num, e.target.value)}
                   placeholder="..."
-                  className="mx-1 inline-block w-32 rounded border-[0.5px] border-[#2A3150] bg-[#1E2540] px-2 py-1 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1]"
+                  className="mx-1 inline-block w-32 rounded border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] px-2 py-1 text-sm text-[#292524] outline-none focus:border-[#047857]"
                 />
               </span>
             );
@@ -285,21 +285,21 @@ function QuestionGroupRenderer({
   return (
     <div className="space-y-3">
       {/* Group header */}
-      <div className="rounded-lg border-[0.5px] border-[rgba(99,102,241,0.2)] bg-[rgba(99,102,241,0.05)] px-4 py-3">
-        <p className="text-sm font-semibold text-[#818CF8]">
+      <div className="rounded-lg border-[0.5px] border-[rgba(4,120,87,0.22)] bg-[rgba(4,120,87,0.06)] px-4 py-3">
+        <p className="text-sm font-semibold text-[#0F766E]">
           {group.groupLabel}
         </p>
-        <p className="mt-1 text-xs text-[#94A3B8]">
+        <p className="mt-1 text-xs text-[#57534E]">
           {TYPE_LABELS[t] || t}
           {group.wordLimit && (
-            <span className="ml-2 text-[#64748B]">({group.wordLimit})</span>
+            <span className="ml-2 text-[#78716C]">({group.wordLimit})</span>
           )}
           {group.allowRepeat && (
-            <span className="ml-2 text-[#64748B]">(answers may be reused)</span>
+            <span className="ml-2 text-[#78716C]">(answers may be reused)</span>
           )}
         </p>
         {group.instructions && (
-          <p className="mt-2 text-xs leading-relaxed text-[#64748B]">
+          <p className="mt-2 text-xs leading-relaxed text-[#78716C]">
             {group.instructions}
           </p>
         )}
@@ -307,12 +307,12 @@ function QuestionGroupRenderer({
 
       {/* Word bank */}
       {group.wordBank && group.wordBank.length > 0 && (
-        <div className="flex flex-wrap gap-2 rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-3">
-          <span className="text-xs font-medium text-[#64748B]">Word bank:</span>
+        <div className="flex flex-wrap gap-2 rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-3">
+          <span className="text-xs font-medium text-[#78716C]">Word bank:</span>
           {group.wordBank.map((w) => (
             <span
               key={w}
-              className="rounded-full bg-[#1E2540] px-2.5 py-0.5 text-xs text-[#94A3B8]"
+              className="rounded-full bg-[#FDF8F2] px-2.5 py-0.5 text-xs text-[#57534E]"
             >
               {w}
             </span>
@@ -325,10 +325,10 @@ function QuestionGroupRenderer({
         (t === QuestionType.MATCHING_SENTENCE_ENDINGS ||
           t === QuestionType.MATCHING_FEATURES ||
           t === QuestionType.MATCHING_HEADINGS) && (
-          <div className="rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-3 text-xs text-[#94A3B8]">
+          <div className="rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-3 text-xs text-[#57534E]">
             {group.matchingOptions?.map((o) => (
               <p key={o.letter} className="py-0.5">
-                <span className="font-bold text-[#F8FAFC]">{o.letter}</span> {o.text}
+                <span className="font-bold text-[#292524]">{o.letter}</span> {o.text}
               </p>
             ))}
           </div>
@@ -346,14 +346,14 @@ function QuestionGroupRenderer({
 
       {/* Table completion */}
       {t === QuestionType.TABLE_COMPLETION && group.tableData && (
-        <div className="overflow-x-auto rounded-lg border-[0.5px] border-[#2A3150]">
+        <div className="overflow-x-auto rounded-lg border-[0.5px] border-[#E7E5E4]">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-[#12172B]">
+              <tr className="bg-[#F8F5F1]">
                 {group.tableData.headers.map((h, i) => (
                   <th
                     key={i}
-                    className="border-[0.5px] border-[#2A3150] px-3 py-2 text-left text-xs font-medium text-[#94A3B8]"
+                    className="border-[0.5px] border-[#E7E5E4] px-3 py-2 text-left text-xs font-medium text-[#57534E]"
                   >
                     {h}
                   </th>
@@ -370,10 +370,10 @@ function QuestionGroupRenderer({
                       return (
                         <td
                           key={ci}
-                          className="border-[0.5px] border-[#2A3150] px-2 py-1.5"
+                          className="border-[0.5px] border-[#E7E5E4] px-2 py-1.5"
                         >
                           <div className="flex items-center gap-1">
-                            <span className="text-xs font-bold text-[#6366F1]">
+                            <span className="text-xs font-bold text-[#047857]">
                               ({qNum})
                             </span>
                             <input
@@ -381,7 +381,7 @@ function QuestionGroupRenderer({
                               value={answers[qNum] || ""}
                               onChange={(e) => onAnswer(qNum, e.target.value)}
                               placeholder="..."
-                              className="w-full rounded border-[0.5px] border-[#2A3150] bg-[#1E2540] px-2 py-1 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1]"
+                              className="w-full rounded border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] px-2 py-1 text-sm text-[#292524] outline-none focus:border-[#047857]"
                             />
                           </div>
                         </td>
@@ -390,7 +390,7 @@ function QuestionGroupRenderer({
                     return (
                       <td
                         key={ci}
-                        className="border-[0.5px] border-[#2A3150] px-3 py-1.5 text-[#94A3B8]"
+                        className="border-[0.5px] border-[#E7E5E4] px-3 py-1.5 text-[#57534E]"
                       >
                         {cell}
                       </td>
@@ -406,7 +406,7 @@ function QuestionGroupRenderer({
       {/* Diagram / Map image */}
       {(t === QuestionType.DIAGRAM_LABELLING || t === QuestionType.MAP_LABELLING) &&
         group.imageUrl && (
-          <div className="flex justify-center rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-4">
+          <div className="flex justify-center rounded-lg border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={group.imageUrl}
@@ -435,10 +435,10 @@ function QuestionGroupRenderer({
         return (
           <div
             key={q.questionNumber}
-            className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4"
+            className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4"
           >
-            <p className="mb-3 text-sm text-[#F8FAFC]">
-              <span className="mr-1.5 font-bold text-[#6366F1]">
+            <p className="mb-3 text-sm text-[#292524]">
+              <span className="mr-1.5 font-bold text-[#047857]">
                 {q.questionNumber}.
               </span>
               {q.questionText || ""}
@@ -487,8 +487,8 @@ function QuestionGroupRenderer({
                       key={i}
                       className={`flex cursor-pointer items-center gap-3 rounded-lg border-[0.5px] px-4 py-2.5 transition-all duration-150 ${
                         answer === letter
-                          ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-                          : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+                          ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+                          : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
                       }`}
                     >
                       <input
@@ -501,15 +501,15 @@ function QuestionGroupRenderer({
                       <span
                         className={`flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium ${
                           answer === letter
-                            ? "bg-[#6366F1] text-white"
-                            : "bg-[#2A3150] text-[#94A3B8]"
+                            ? "bg-[#047857] text-white"
+                            : "bg-[#E7E5E4] text-[#57534E]"
                         }`}
                       >
                         {letter}
                       </span>
                       <span
                         className={`text-sm ${
-                          answer === letter ? "text-[#F8FAFC]" : "text-[#94A3B8]"
+                          answer === letter ? "text-[#292524]" : "text-[#57534E]"
                         }`}
                       >
                         {o}
@@ -639,13 +639,13 @@ function ScoreGauge({ correct, total }: { correct: number; total: number }) {
     requestAnimationFrame(tick);
   }, [correct]);
 
-  const color = pct >= 0.7 ? "#22C55E" : pct >= 0.5 ? "#F59E0B" : "#EF4444";
+  const color = pct >= 0.7 ? "#047857" : pct >= 0.5 ? "#B45309" : "#B91C1C";
 
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="relative flex items-center justify-center">
         <svg width="150" height="150" className="-rotate-90">
-          <circle cx="75" cy="75" r={radius} fill="none" stroke="#1E2540" strokeWidth="8" />
+          <circle cx="75" cy="75" r={radius} fill="none" stroke="#FFFFFF" strokeWidth="8" />
           <circle
             cx="75" cy="75" r={radius} fill="none" stroke={color} strokeWidth="8"
             strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={offset}
@@ -655,11 +655,11 @@ function ScoreGauge({ correct, total }: { correct: number; total: number }) {
           <span className="text-3xl font-bold" style={{ color }}>
             {animated}/{total}
           </span>
-          <span className="text-xs text-[#64748B]">Correct</span>
+          <span className="text-xs text-[#78716C]">Correct</span>
         </div>
       </div>
-      <p className="text-sm text-[#94A3B8]">
-        Estimated Band: <span className="font-bold text-[#F8FAFC]">{band}</span>
+      <p className="text-sm text-[#57534E]">
+        Estimated Band: <span className="font-bold text-[#292524]">{band}</span>
       </p>
     </div>
   );
@@ -776,10 +776,10 @@ export default function ReadingTestPage() {
     return (
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 animate-pulse rounded-full bg-[#1E2540]" />
-          <div className="h-5 w-48 animate-pulse rounded bg-[#1E2540]" />
+          <div className="h-10 w-10 animate-pulse rounded-full bg-[#FDF8F2]" />
+          <div className="h-5 w-48 animate-pulse rounded bg-[#FDF8F2]" />
         </div>
-        <div className="h-96 animate-pulse rounded-xl bg-[#1E2540]" />
+        <div className="h-96 animate-pulse rounded-xl bg-[#FDF8F2]" />
       </div>
     );
   }
@@ -787,10 +787,10 @@ export default function ReadingTestPage() {
   if (!passage) {
     return (
       <div className="flex min-h-[300px] flex-col items-center justify-center gap-4">
-        <p className="text-[15px] text-[#94A3B8]">Passage not found</p>
+        <p className="text-[15px] text-[#57534E]">Passage not found</p>
         <button
           onClick={() => router.push("/dashboard/reading")}
-          className="rounded-xl bg-[#6366F1] px-6 py-3 text-sm font-medium text-white hover:bg-[#818CF8]"
+          className="rounded-xl bg-[#047857] px-6 py-3 text-sm font-medium text-white hover:bg-[#0F766E]"
         >
           Back to Reading
         </button>
@@ -805,11 +805,11 @@ export default function ReadingTestPage() {
         <div className="animate-fade-up flex items-center gap-3">
           <button
             onClick={() => router.push("/dashboard/reading")}
-            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+            className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
           </button>
-          <h1 className="text-base font-medium text-[#F8FAFC]">Test Results</h1>
+          <h1 className="text-base font-medium text-[#292524]">Test Results</h1>
         </div>
 
         {gradableTotal > 0 ? (
@@ -818,60 +818,60 @@ export default function ReadingTestPage() {
           </div>
         ) : (
           <div className="animate-fade-up mt-8 flex flex-col items-center gap-2">
-            <p className="text-lg font-semibold text-[#F8FAFC]">Answers Submitted</p>
-            <p className="text-sm text-[#94A3B8]">
+            <p className="text-lg font-semibold text-[#292524]">Answers Submitted</p>
+            <p className="text-sm text-[#57534E]">
               Answer key not available for auto-grading.
             </p>
           </div>
         )}
 
         <div className="mt-8 space-y-3">
-          <h2 className="text-base font-semibold text-[#F8FAFC]">Answer Review</h2>
+          <h2 className="text-base font-semibold text-[#292524]">Answer Review</h2>
           {results.map((r) => (
             <div
               key={r.questionNumber}
               className={`rounded-xl border-[0.5px] p-4 ${
                 !r.hasAnswer
-                  ? "border-[#2A3150] bg-[#1E2540]"
+                  ? "border-[#E7E5E4] bg-[#FDF8F2]"
                   : r.isCorrect
-                    ? "border-[rgba(34,197,94,0.3)] bg-[#1E2540]"
-                    : "border-[rgba(239,68,68,0.3)] bg-[#1E2540]"
+                    ? "border-[rgba(4,120,87,0.28)] bg-[#FDF8F2]"
+                    : "border-[rgba(185,28,28,0.25)] bg-[#FDF8F2]"
               }`}
             >
               <div className="flex items-start gap-3">
                 {r.hasAnswer ? (
                   r.isCorrect ? (
-                    <CheckCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#22C55E]" />
+                    <CheckCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#047857]" />
                   ) : (
-                    <XCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#EF4444]" />
+                    <XCircle size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#B91C1C]" />
                   )
                 ) : (
-                  <FileText size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#64748B]" />
+                  <FileText size={18} strokeWidth={1.75} className="mt-0.5 shrink-0 text-[#78716C]" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm text-[#F8FAFC]">
-                    <span className="font-medium text-[#64748B]">Q{r.questionNumber}.</span>{" "}
+                  <p className="text-sm text-[#292524]">
+                    <span className="font-medium text-[#78716C]">Q{r.questionNumber}.</span>{" "}
                     {r.questionText || `(${TYPE_LABELS[r.questionType] || r.questionType})`}
                   </p>
                   <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1 text-[13px]">
-                    <span className="text-[#94A3B8]">
+                    <span className="text-[#57534E]">
                       Your answer:{" "}
                       <span
                         className={`font-medium ${
                           !r.hasAnswer
-                            ? "text-[#F8FAFC]"
+                            ? "text-[#292524]"
                             : r.isCorrect
-                              ? "text-[#22C55E]"
-                              : "text-[#EF4444]"
+                              ? "text-[#047857]"
+                              : "text-[#B91C1C]"
                         }`}
                       >
                         {r.studentAnswer || "(blank)"}
                       </span>
                     </span>
                     {r.hasAnswer && !r.isCorrect && (
-                      <span className="text-[#94A3B8]">
+                      <span className="text-[#57534E]">
                         Correct:{" "}
-                        <span className="font-medium text-[#22C55E]">
+                        <span className="font-medium text-[#047857]">
                           {Array.isArray(r.correctAnswer)
                             ? r.correctAnswer.join(", ")
                             : r.correctAnswer}
@@ -893,13 +893,13 @@ export default function ReadingTestPage() {
               setSubmitted(false);
               setTimeLeft(20 * 60);
             }}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] py-3 text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#E7E5E4] py-3 text-[15px] font-medium text-[#57534E] transition-all duration-200 hover:border-[#047857] hover:text-stone-800"
           >
             Practice Again
           </button>
           <button
             onClick={() => router.push("/dashboard/reading")}
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6366F1] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#047857] py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E]"
           >
             Back to Reading
           </button>
@@ -914,27 +914,27 @@ export default function ReadingTestPage() {
   const passagePanel = (
     <div className="space-y-4">
       {passage.title && (
-        <h2 className="font-heading text-xl font-bold text-[#F8FAFC]">{passage.title}</h2>
+        <h2 className="font-heading text-xl font-bold text-[#292524]">{passage.title}</h2>
       )}
       {passage.subtitle && (
-        <p className="text-sm italic text-[#94A3B8]">{passage.subtitle}</p>
+        <p className="text-sm italic text-[#57534E]">{passage.subtitle}</p>
       )}
       {passage.topic && (
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 rounded-full bg-[rgba(168,85,247,0.15)] px-3 py-1 text-xs font-medium text-[#A855F7]">
+          <span className="flex items-center gap-1.5 rounded-full bg-[rgba(180,83,9,0.15)] px-3 py-1 text-xs font-medium text-[#B45309]">
             <Tag size={12} strokeWidth={1.75} />
             {passage.topic}
           </span>
           {passage.difficulty && (
-            <span className="text-xs capitalize text-[#64748B]">{passage.difficulty}</span>
+            <span className="text-xs capitalize text-[#78716C]">{passage.difficulty}</span>
           )}
         </div>
       )}
       {passage.passageSections && passage.passageSections.length > 0 ? (
-        <div className="text-[15px] leading-[1.8] text-[#94A3B8]">
+        <div className="text-[15px] leading-[1.8] text-[#57534E]">
           {passage.passageSections.map((s) => (
             <div key={s.label} className="mb-4">
-              <p className="font-bold text-[#F8FAFC]">{s.label}</p>
+              <p className="font-bold text-[#292524]">{s.label}</p>
               {s.text.split("\n").map((p, i) =>
                 p.trim() ? <p key={i} className="mb-3">{p}</p> : null
               )}
@@ -942,16 +942,16 @@ export default function ReadingTestPage() {
           ))}
         </div>
       ) : (
-        <div className="text-[15px] leading-[1.8] text-[#94A3B8]">
+        <div className="text-[15px] leading-[1.8] text-[#57534E]">
           {passage.passage.split("\n").map((p, i) =>
             p.trim() ? <p key={i} className="mb-4">{p}</p> : null
           )}
         </div>
       )}
       {passage.footnotes && passage.footnotes.length > 0 && (
-        <div className="border-t-[0.5px] border-[#2A3150] pt-3">
+        <div className="border-t-[0.5px] border-[#E7E5E4] pt-3">
           {passage.footnotes.map((fn, i) => (
-            <p key={i} className="text-xs italic text-[#64748B]">{fn}</p>
+            <p key={i} className="text-xs italic text-[#78716C]">{fn}</p>
           ))}
         </div>
       )}
@@ -960,11 +960,11 @@ export default function ReadingTestPage() {
 
   const questionsPanel = (
     <div className="space-y-6">
-      <h2 className="text-base font-semibold text-[#F8FAFC]">
+      <h2 className="text-base font-semibold text-[#292524]">
         Questions ({passage.totalQuestions || totalQuestions})
       </h2>
       {passage.questionGroups.length === 0 ? (
-        <p className="text-sm text-[#64748B]">No questions available for this passage.</p>
+        <p className="text-sm text-[#78716C]">No questions available for this passage.</p>
       ) : (
         passage.questionGroups.map((group, i) => (
           <QuestionGroupRenderer
@@ -985,21 +985,21 @@ export default function ReadingTestPage() {
       {/* Leave dialog */}
       {showLeaveDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-sm rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-6">
-            <h3 className="text-base font-semibold text-[#F8FAFC]">Leave test?</h3>
-            <p className="mt-2 text-sm text-[#94A3B8]">
+          <div className="w-full max-w-sm rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#F8F5F1] p-6">
+            <h3 className="text-base font-semibold text-[#292524]">Leave test?</h3>
+            <p className="mt-2 text-sm text-[#57534E]">
               Your progress will be lost.
             </p>
             <div className="mt-5 flex gap-3">
               <button
                 onClick={() => setShowLeaveDialog(false)}
-                className="flex-1 rounded-lg border-[0.5px] border-[#2A3150] py-2.5 text-sm font-medium text-[#94A3B8] transition-all hover:border-[#6366F1] hover:text-white"
+                className="flex-1 rounded-lg border-[0.5px] border-[#E7E5E4] py-2.5 text-sm font-medium text-[#57534E] transition-all hover:border-[#047857] hover:text-stone-800"
               >
                 Stay
               </button>
               <button
                 onClick={() => router.push("/dashboard/reading")}
-                className="flex-1 rounded-lg bg-[#EF4444] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#DC2626]"
+                className="flex-1 rounded-lg bg-[#B91C1C] py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#DC2626]"
               >
                 Leave
               </button>
@@ -1012,16 +1012,16 @@ export default function ReadingTestPage() {
       <div className="animate-fade-up flex items-center justify-between">
         <button
           onClick={handleBack}
-          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+          className="flex h-10 w-10 items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
         >
-          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+          <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
         </button>
-        <h1 className="text-base font-medium text-[#F8FAFC]">
+        <h1 className="text-base font-medium text-[#292524]">
           {passage.title || "Reading Test"}
         </h1>
         <span
           className={`flex items-center gap-1.5 text-sm font-medium ${
-            timeLeft < 300 ? "text-[#EF4444]" : "text-[#64748B]"
+            timeLeft < 300 ? "text-[#B91C1C]" : "text-[#78716C]"
           }`}
         >
           <Clock size={16} strokeWidth={1.75} />
@@ -1035,8 +1035,8 @@ export default function ReadingTestPage() {
           onClick={() => setMobileTab("passage")}
           className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-medium transition-all ${
             mobileTab === "passage"
-              ? "bg-[#6366F1] text-white"
-              : "bg-[#1E2540] text-[#94A3B8]"
+              ? "bg-[#047857] text-white"
+              : "bg-[#FDF8F2] text-[#57534E]"
           }`}
         >
           <BookOpen size={16} strokeWidth={1.75} />
@@ -1046,14 +1046,14 @@ export default function ReadingTestPage() {
           onClick={() => setMobileTab("questions")}
           className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-2.5 text-sm font-medium transition-all ${
             mobileTab === "questions"
-              ? "bg-[#6366F1] text-white"
-              : "bg-[#1E2540] text-[#94A3B8]"
+              ? "bg-[#047857] text-white"
+              : "bg-[#FDF8F2] text-[#57534E]"
           }`}
         >
           <FileText size={16} strokeWidth={1.75} />
           Questions
           {answeredCount > 0 && (
-            <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-[rgba(99,102,241,0.3)] text-xs text-white">
+            <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-[rgba(4,120,87,0.28)] text-xs text-white">
               {answeredCount}
             </span>
           )}
@@ -1062,31 +1062,31 @@ export default function ReadingTestPage() {
 
       {/* Desktop two-column */}
       <div className="mt-4 hidden flex-1 gap-4 overflow-hidden md:flex">
-        <div className="w-[55%] overflow-y-auto rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-6">
+        <div className="w-[55%] overflow-y-auto rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-6">
           {passagePanel}
         </div>
-        <div className="w-[45%] overflow-y-auto rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-6">
+        <div className="w-[45%] overflow-y-auto rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-6">
           {questionsPanel}
         </div>
       </div>
 
       {/* Mobile single view */}
       <div className="mt-4 flex-1 overflow-y-auto md:hidden">
-        <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5">
+        <div className="rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-5">
           {mobileTab === "passage" ? passagePanel : questionsPanel}
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="mt-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+      <div className="mt-4 rounded-xl border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] p-4">
         <div className="flex items-center justify-between gap-4">
           <div className="min-w-0 flex-1">
-            <p className="text-[13px] text-[#64748B]">
+            <p className="text-[13px] text-[#78716C]">
               {answeredCount} of {totalQuestions} answered
             </p>
-            <div className="mt-1.5 h-1 w-full rounded-full bg-[#2A3150]">
+            <div className="mt-1.5 h-1 w-full rounded-full bg-[#E7E5E4]">
               <div
-                className="h-1 rounded-full bg-[#6366F1] transition-all duration-300"
+                className="h-1 rounded-full bg-[#047857] transition-all duration-300"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -1094,7 +1094,7 @@ export default function ReadingTestPage() {
           <button
             onClick={handleSubmit}
             disabled={answeredCount === 0}
-            className="shrink-0 rounded-xl bg-[#6366F1] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-xl bg-[#047857] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E] disabled:cursor-not-allowed disabled:opacity-50"
           >
             Submit Answers
           </button>

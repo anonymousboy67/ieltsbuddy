@@ -60,17 +60,17 @@ export default function WritingEditor({
 
   if (isSubmitting) {
     return (
-      <div className="animate-fade-up animate-fade-up-2 mt-5 flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-8">
+      <div className="panel animate-fade-up animate-fade-up-2 mt-5 flex min-h-[300px] flex-col items-center justify-center gap-4 p-8">
         <Loader2
           size={40}
           strokeWidth={1.75}
-          className="animate-spin text-[#6366F1]"
+          className="animate-spin text-emerald-700"
         />
         <div className="text-center">
-          <p className="text-[15px] font-medium text-[#F8FAFC]">
+          <p className="text-[15px] font-medium text-stone-800">
             AI is evaluating your response...
           </p>
-          <p className="animate-loading-pulse mt-2 text-[13px] text-[#64748B]">
+          <p className="animate-loading-pulse mt-2 text-[13px] text-stone-500">
             This may take a few seconds
           </p>
         </div>
@@ -82,7 +82,7 @@ export default function WritingEditor({
     <div className="animate-fade-up animate-fade-up-2 mt-5">
       <label
         htmlFor="writing-response"
-        className="text-base font-semibold text-[#F8FAFC]"
+        className="text-base font-semibold text-stone-800"
       >
         Your Response
       </label>
@@ -92,30 +92,30 @@ export default function WritingEditor({
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Start writing your response here..."
-        className="mt-3 min-h-[300px] w-full resize-y rounded-xl border-[0.5px] border-[#2A3150] bg-[#12172B] p-4 text-[15px] text-[#F8FAFC] outline-none transition-colors duration-200 placeholder:text-[#64748B] focus:border-[#6366F1]"
+        className="mt-3 min-h-[300px] w-full resize-y rounded-xl border border-stone-200 bg-[#FDF8F2] p-4 text-[15px] text-stone-800 outline-none transition-colors duration-200 placeholder:text-stone-400 focus:border-emerald-700"
       />
 
       <p
         className={`mt-2 text-right text-[13px] transition-colors duration-200 ${
-          metGoal ? "text-[#22C55E]" : "text-[#64748B]"
+          metGoal ? "text-emerald-700" : "text-stone-500"
         }`}
       >
         {wordCount} / {minWords} words
       </p>
 
       {error && (
-        <p className="mt-2 text-[13px] text-[#EF4444]">{error}</p>
+        <p className="mt-2 text-[13px] text-[#B91C1C]">{error}</p>
       )}
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <button className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-[0.5px] border-[#2A3150] px-6 py-3 text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white sm:flex-1">
+        <button className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-stone-200 bg-stone-100 px-6 py-3 text-[15px] font-medium text-stone-700 transition-all duration-200 hover:bg-stone-200 sm:flex-1">
           <Save size={18} strokeWidth={1.75} />
           Save Draft
         </button>
         <button
           onClick={handleSubmit}
           disabled={!text.trim()}
-          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#6366F1] px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-1"
+          className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-700 px-6 py-3 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-1"
         >
           <Send size={18} strokeWidth={1.75} />
           Submit for Review

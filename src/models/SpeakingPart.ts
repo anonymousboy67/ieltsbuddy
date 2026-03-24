@@ -1,6 +1,7 @@
 import mongoose, { Schema, type Document } from "mongoose";
 import { SpeakingPartType } from "@/types/ielts";
 import type { ISpeakingPart } from "@/types/ielts";
+import { getContentConnection } from "@/lib/mongodb-connections";
 
 const SpeakingQuestionSchema = new Schema(
   {
@@ -47,5 +48,7 @@ SpeakingPartSchema.index(
   { unique: true }
 );
 
-export default mongoose.models.SpeakingPart ||
-  mongoose.model<ISpeakingPartDoc>("SpeakingPart", SpeakingPartSchema);
+const contentConnection = getContentConnection();
+
+export default (contentConnection.models.SpeakingPart as mongoose.Model<ISpeakingPartDoc>) ||
+  contentConnection.model<ISpeakingPartDoc>("SpeakingPart", SpeakingPartSchema);

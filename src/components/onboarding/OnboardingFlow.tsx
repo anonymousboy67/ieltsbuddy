@@ -71,21 +71,21 @@ export default function OnboardingFlow() {
   };
 
   return (
-    <div className="flex min-h-dvh flex-col bg-[#0B0F1A]">
+    <div className="flex min-h-dvh flex-col bg-[#FCFAF8]">
       <div className="flex items-center gap-3 px-4 pt-4 md:px-6">
         {step > 1 ? (
           <button
             onClick={() => setStep(step - 1)}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[0.5px] border-[#E7E5E4] bg-[#FDF8F2] transition-all duration-200 hover:border-[rgba(4,120,87,0.28)]"
             aria-label="Go back"
           >
-            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#94A3B8]" />
+            <ArrowLeft size={20} strokeWidth={1.75} className="text-[#57534E]" />
           </button>
         ) : (
           <div className="h-10 w-10" />
         )}
         <div className="flex-1">
-          <div className="relative h-[3px] w-full rounded-full bg-[#1E2540]">
+          <div className="relative h-[3px] w-full rounded-full bg-[#FDF8F2]">
             <div
               className="progress-glow-bar relative h-[3px] rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progress}%` }}
@@ -93,7 +93,7 @@ export default function OnboardingFlow() {
               <div className="progress-shimmer absolute inset-0 overflow-hidden rounded-full">
                 <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               </div>
-              <div className="progress-glow-dot absolute -right-[3px] top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-white" />
+              <div className="progress-glow-dot absolute -right-[3px] top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#FDF8F2]" />
             </div>
           </div>
         </div>
@@ -122,12 +122,12 @@ export default function OnboardingFlow() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-[#0B0F1A] px-4 pb-6 pt-3 md:px-6">
+      <div className="fixed bottom-0 left-0 right-0 bg-[#FCFAF8] px-4 pb-6 pt-3 md:px-6">
         <div className="mx-auto max-w-lg">
           <button
             onClick={handleContinue}
             disabled={submitting}
-            className="w-full cursor-pointer rounded-xl bg-[#6366F1] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full cursor-pointer rounded-xl bg-[#047857] py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#0F766E] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {submitting ? "Setting up..." : step === TOTAL_STEPS ? "Let's get started!" : "Continue"}
           </button>

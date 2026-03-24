@@ -81,7 +81,7 @@ export default function AudioBars({ color, label, stream }: AudioBarsProps) {
         className="h-10 w-16"
         style={{ imageRendering: "auto" }}
       />
-      <span className="text-xs text-[#64748B]">{label}</span>
+      <span className="text-xs text-[#78716C]">{label}</span>
     </div>
   );
 }

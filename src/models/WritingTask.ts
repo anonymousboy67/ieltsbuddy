@@ -1,6 +1,7 @@
 import mongoose, { Schema, type Document } from "mongoose";
 import { WritingTaskType, VisualType } from "@/types/ielts";
 import type { IWritingTask } from "@/types/ielts";
+import { getContentConnection } from "@/lib/mongodb-connections";
 
 const SampleAnswerSchema = new Schema(
   {
@@ -58,5 +59,7 @@ WritingTaskSchema.index(
   { unique: true }
 );
 
-export default mongoose.models.WritingTask ||
-  mongoose.model<IWritingTaskDoc>("WritingTask", WritingTaskSchema);
+const contentConnection = getContentConnection();
+
+export default (contentConnection.models.WritingTask as mongoose.Model<IWritingTaskDoc>) ||
+  contentConnection.model<IWritingTaskDoc>("WritingTask", WritingTaskSchema);

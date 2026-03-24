@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectUsersDb } from "@/lib/mongodb-connections";
 import User from "@/models/User";
 import { generateStudyPlan } from "@/lib/studyPlan";
 
 export async function POST(request: NextRequest) {
   try {
-    await dbConnect();
+    await connectUsersDb();
 
     const { userId } = await request.json();
     if (!userId) {
@@ -17,11 +17,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    // New users can have partial onboarding data; guard and normalize for generator input.
+    const targetBand =
+      typeof user.targetBand === "number" && Number.isFinite(user.targetBand)
+        ? user.targetBand
+        : 6;
+    const currentLevel = user.currentLevel || "intermediate";
+    const weaknesses = Array.isArray(user.weaknesses) ? user.weaknesses : [];
+    const dailyStudyTime = user.dailyStudyTime || "30min";
+
     const plan = await generateStudyPlan({
-      targetBand: user.targetBand,
-      currentLevel: user.currentLevel,
-      weaknesses: user.weaknesses,
-      dailyStudyTime: user.dailyStudyTime,
+      targetBand,
+      currentLevel,
+      weaknesses,
+      dailyStudyTime,
       testDate: user.testDate,
     });
 

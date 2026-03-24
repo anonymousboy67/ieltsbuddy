@@ -1,4 +1,5 @@
 import mongoose, { Schema, type Document } from "mongoose";
+import { getUsersConnection } from "@/lib/mongodb-connections";
 
 export interface IUserAttemptDoc extends Document {
   userId: mongoose.Types.ObjectId;
@@ -125,5 +126,7 @@ const UserAttemptSchema = new Schema(
 UserAttemptSchema.index({ userId: 1, sectionId: 1, createdAt: -1 });
 UserAttemptSchema.index({ userId: 1, sectionType: 1, createdAt: -1 });
 
-export default mongoose.models.UserAttempt ||
-  mongoose.model<IUserAttemptDoc>("UserAttempt", UserAttemptSchema);
+const usersConnection = getUsersConnection();
+
+export default (usersConnection.models.UserAttempt as mongoose.Model<IUserAttemptDoc>) ||
+  usersConnection.model<IUserAttemptDoc>("UserAttempt", UserAttemptSchema);

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/lib/mongodb";
+import { connectContentDb } from "@/lib/mongodb-connections";
 import WritingTask from "@/models/WritingTask";
 
 // Normalize old docs (taskType "task1"/"task2") to new format,
@@ -22,12 +22,12 @@ function normalizeTask(doc: Record<string, unknown>): Record<string, unknown> {
 
 export async function GET() {
   try {
-    await dbConnect();
+    await connectContentDb();
     const tasks = await WritingTask.collection
       .find({})
       .sort({ bookNumber: 1, testNumber: 1, taskNumber: 1 })
       .toArray();
-    const normalized = tasks.map((t) => normalizeTask(t as Record<string, unknown>));
+    const normalized = tasks.map((t) => normalizeTask(t as unknown as Record<string, unknown>));
     return NextResponse.json(normalized);
   } catch (error) {
     console.error("Fetch writing tasks error:", error);

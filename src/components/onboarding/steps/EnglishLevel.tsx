@@ -37,10 +37,10 @@ const options: Option[] = [
 export default function EnglishLevel({ value, onChange }: EnglishLevelProps) {
   return (
     <div>
-      <h2 className="font-heading text-2xl font-bold text-[#F8FAFC]">
+      <h2 className="font-heading text-2xl font-bold text-[#292524]">
         What&apos;s your current English level?
       </h2>
-      <p className="mt-2 text-sm text-[#94A3B8]">
+      <p className="mt-2 text-sm text-[#57534E]">
         Be honest - it helps us personalize your plan.
       </p>
       <div className="mt-6 flex flex-col gap-3">
@@ -53,16 +53,16 @@ export default function EnglishLevel({ value, onChange }: EnglishLevelProps) {
               onClick={() => onChange(opt.id)}
               className={`flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] p-4 text-left transition-all duration-200 hover:-translate-y-0.5 ${
                 selected
-                  ? "border-[#6366F1] bg-[rgba(99,102,241,0.1)]"
-                  : "border-[#2A3150] bg-[#1E2540] hover:border-[rgba(99,102,241,0.3)]"
+                  ? "border-[#047857] bg-[rgba(4,120,87,0.10)]"
+                  : "border-[#E7E5E4] bg-[#FDF8F2] hover:border-[rgba(4,120,87,0.28)]"
               }`}
             >
-              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[rgba(99,102,241,0.15)]">
-                <Icon size={24} strokeWidth={1.75} className="text-[#6366F1]" />
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[rgba(4,120,87,0.15)]">
+                <Icon size={24} strokeWidth={1.75} className="text-[#047857]" />
               </div>
               <div className="min-w-0">
-                <p className="text-[15px] font-medium text-[#F8FAFC]">{opt.label}</p>
-                <p className="mt-0.5 text-sm text-[#64748B]">{opt.desc}</p>
+                <p className="text-[15px] font-medium text-[#292524]">{opt.label}</p>
+                <p className="mt-0.5 text-sm text-[#78716C]">{opt.desc}</p>
               </div>
             </button>
           );
