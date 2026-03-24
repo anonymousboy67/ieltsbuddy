@@ -40,21 +40,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, trigger }) {
+      if (user || trigger === "signIn" || trigger === "update") {
         await dbConnect();
-        const dbUser = await User.findOne({ email: user.email });
+        const dbUser = await User.findOne({ email: token.email }).lean();
         if (dbUser) {
-          token.id = dbUser._id.toString();
+          token.id = (dbUser._id as object).toString();
+          token.onboardingComplete = dbUser.onboardingComplete ?? false;
         }
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id as string;
+      if (session.user) {
+        session.user.id = (token.id as string) || "";
+        (session as any).onboardingComplete = token.onboardingComplete ?? false;
       }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allow relative URLs and same-origin URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl;
     },
   },
 });

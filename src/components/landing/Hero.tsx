@@ -25,7 +25,7 @@ export default function Hero() {
 
         <div className="animate-fade-up animate-fade-up-3 mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Link
-            href="/onboarding"
+            href="/api/auth/signin?callbackUrl=/dashboard"
             className="inline-flex items-center gap-2 rounded-xl bg-[#6366F1] px-8 py-3.5 text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
           >
             Start Free Practice

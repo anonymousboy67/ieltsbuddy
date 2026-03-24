@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 
 export async function POST(request: NextRequest) {
   try {
-    await dbConnect();
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
+    await dbConnect();
     const body = await request.json();
     const { targetBand, testType, testDate, currentLevel, weaknesses, dailyStudyTime } = body;
 
@@ -16,14 +21,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await User.create({
-      targetBand: parseFloat(targetBand),
-      testType,
-      testDate: testDate ? new Date(testDate) : undefined,
-      currentLevel,
-      weaknesses: weaknesses || [],
-      dailyStudyTime,
-    });
+    const user = await User.findOneAndUpdate(
+      { email: session.user.email },
+      {
+        $set: {
+          targetBand: parseFloat(targetBand),
+          testType,
+          testDate: testDate ? new Date(testDate) : undefined,
+          currentLevel,
+          weaknesses: weaknesses || [],
+          dailyStudyTime,
+          onboardingComplete: true,
+        },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     return NextResponse.json({ userId: user._id });
   } catch (error) {

@@ -29,6 +29,7 @@ export interface IUser extends Document {
   emailVerified?: Date | null;
 
   // Onboarding fields
+  onboardingComplete: boolean;
   targetBand: number;
   testType: "academic" | "general";
   testDate?: Date;
@@ -91,6 +92,7 @@ const UserSchema = new Schema<IUser>(
     emailVerified: { type: Date, default: null },
 
     // Onboarding
+    onboardingComplete: { type: Boolean, default: false },
     targetBand: { type: Number, default: 6.5 },
     testType: { type: String, enum: ["academic", "general"], default: "academic" },
     testDate: { type: Date },

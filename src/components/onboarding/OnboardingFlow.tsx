@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { ArrowLeft } from "lucide-react";
 import BandScore from "./steps/BandScore";
 import TestType from "./steps/TestType";
@@ -28,6 +29,7 @@ const studyTimeMap: Record<string, string> = {
 
 export default function OnboardingFlow() {
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const [step, setStep] = useState(1);
   const [band, setBand] = useState("");
   const [testType, setTestType] = useState("");
@@ -58,14 +60,12 @@ export default function OnboardingFlow() {
             dailyStudyTime: studyTimeMap[studyTime] || "30min",
           }),
         });
-        const data = await res.json();
-        if (data.userId) {
-          localStorage.setItem("userId", data.userId);
-        }
+        await res.json();
+        // Refresh JWT so middleware sees onboardingComplete=true
+        await updateSession();
         router.push("/dashboard");
       } catch {
         setSubmitting(false);
-        router.push("/dashboard");
       }
     }
   };

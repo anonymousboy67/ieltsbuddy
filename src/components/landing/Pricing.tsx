@@ -53,7 +53,7 @@ export default function Pricing() {
             ))}
           </ul>
           <Link
-            href="/onboarding"
+            href="/api/auth/signin?callbackUrl=/dashboard"
             className="mt-8 block w-full rounded-xl border-[0.5px] border-[#2A3150] py-3 text-center text-[15px] font-medium text-[#94A3B8] transition-all duration-200 hover:border-[#6366F1] hover:text-white"
           >
             Get Started Free
@@ -82,7 +82,7 @@ export default function Pricing() {
             ))}
           </ul>
           <Link
-            href="/onboarding"
+            href="/api/auth/signin?callbackUrl=/dashboard"
             className="mt-8 block w-full rounded-xl bg-[#6366F1] py-3 text-center text-[15px] font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
           >
             Start Pro Plan

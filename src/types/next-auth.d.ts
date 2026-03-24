@@ -8,5 +8,6 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
     };
+    onboardingComplete: boolean;
   }
 }

@@ -34,7 +34,7 @@ export default function Navbar() {
             </a>
           ))}
           <Link
-            href="/onboarding"
+            href="/api/auth/signin?callbackUrl=/dashboard"
             className="rounded-lg bg-[#6366F1] px-5 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
           >
             Get Started
@@ -43,7 +43,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3 md:hidden">
           <Link
-            href="/onboarding"
+            href="/api/auth/signin?callbackUrl=/dashboard"
             className="rounded-lg bg-[#6366F1] px-4 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#818CF8]"
           >
             Get Started
