@@ -20,15 +20,8 @@ export default function PlanPage() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchPlan = useCallback(async () => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      setLoading(false);
-      setError("No user profile found. Please complete onboarding first.");
-      return;
-    }
-
     try {
-      const res = await fetch(`/api/study-plan?userId=${userId}`);
+      const res = await fetch("/api/study-plan");
       const result = await res.json();
       if (!res.ok) throw new Error(result.error);
 
@@ -36,7 +29,7 @@ export default function PlanPage() {
         setData(result);
         setLoading(false);
       } else {
-        await generatePlan(userId);
+        await generatePlan();
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load plan");
@@ -44,18 +37,11 @@ export default function PlanPage() {
     }
   }, []);
 
-  async function generatePlan(userId?: string) {
-    const id = userId || localStorage.getItem("userId");
-    if (!id) return;
-
+  async function generatePlan() {
     setGenerating(true);
     setError(null);
     try {
-      const res = await fetch("/api/study-plan/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: id }),
-      });
+      const res = await fetch("/api/study-plan/generate", { method: "POST" });
       const result = await res.json();
       if (!res.ok) throw new Error(result.error);
       setData(result);

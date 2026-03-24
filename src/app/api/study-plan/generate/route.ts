@@ -1,18 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
 import { generateStudyPlan } from "@/lib/studyPlan";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    await dbConnect();
-
-    const { userId } = await request.json();
-    if (!userId) {
-      return NextResponse.json({ error: "userId is required" }, { status: 400 });
+    const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const user = await User.findById(userId);
+    await dbConnect();
+    const user = await User.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
