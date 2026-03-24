@@ -323,16 +323,21 @@ export default function QuestionGroupBuilder({ groups, setGroups }: QuestionGrou
                 </div>
 
                 {group.questions.map((q, qIdx) => (
-                  <div key={qIdx} className="flex flex-wrap items-center gap-2 rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-2">
-                    <span className="w-10 text-center text-xs font-medium text-[#94A3B8]">Q{q.questionNumber}</span>
+                  <div key={qIdx} className="flex flex-col gap-2 rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] p-2 sm:flex-row sm:items-center">
+                    <div className="flex items-center gap-2">
+                      <span className="w-10 flex-shrink-0 text-center text-xs font-medium text-[#94A3B8]">Q{q.questionNumber}</span>
+                      <button type="button" onClick={() => removeQuestion(gIdx, qIdx)} className="cursor-pointer text-[#64748B] hover:text-[#EF4444] sm:hidden">
+                        <Trash2 size={14} strokeWidth={1.75} />
+                      </button>
+                    </div>
                     {showQuestionText && (
-                      <input placeholder="Question text" value={q.questionText} onChange={(e) => updateQuestion(gIdx, qIdx, "questionText", e.target.value)} className={`${inputCls} min-w-[120px] flex-1`} />
+                      <input placeholder="Question text" value={q.questionText} onChange={(e) => updateQuestion(gIdx, qIdx, "questionText", e.target.value)} className={`${inputCls} flex-1`} />
                     )}
                     {showOptions && (
-                      <input placeholder="Options (comma sep)" value={q.options} onChange={(e) => updateQuestion(gIdx, qIdx, "options", e.target.value)} className={`${inputCls} min-w-[120px] flex-1`} />
+                      <input placeholder="Options (comma sep)" value={q.options} onChange={(e) => updateQuestion(gIdx, qIdx, "options", e.target.value)} className={`${inputCls} flex-1`} />
                     )}
-                    <input placeholder="Correct answer" value={q.correctAnswer} onChange={(e) => updateQuestion(gIdx, qIdx, "correctAnswer", e.target.value)} className={`${inputCls} min-w-[100px] flex-1`} />
-                    <button type="button" onClick={() => removeQuestion(gIdx, qIdx)} className="cursor-pointer text-[#64748B] hover:text-[#EF4444]">
+                    <input placeholder="Correct answer" value={q.correctAnswer} onChange={(e) => updateQuestion(gIdx, qIdx, "correctAnswer", e.target.value)} className={`${inputCls} flex-1`} />
+                    <button type="button" onClick={() => removeQuestion(gIdx, qIdx)} className="hidden cursor-pointer text-[#64748B] hover:text-[#EF4444] sm:block">
                       <Trash2 size={14} strokeWidth={1.75} />
                     </button>
                   </div>

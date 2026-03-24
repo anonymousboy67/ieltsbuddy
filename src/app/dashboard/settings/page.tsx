@@ -238,9 +238,9 @@ export default function SettingsPage() {
 
           {/* Exam date */}
           <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[rgba(249,115,22,0.15)]">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-[rgba(249,115,22,0.15)]">
                   <Calendar size={20} strokeWidth={1.75} className="text-[#F97316]" />
                 </div>
                 <div>
@@ -256,7 +256,7 @@ export default function SettingsPage() {
                 type="date"
                 value={settings.examDate}
                 onChange={(e) => update({ examDate: e.target.value })}
-                className="rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1]"
+                className="w-full rounded-lg border-[0.5px] border-[#2A3150] bg-[#12172B] px-3 py-2 text-sm text-[#F8FAFC] outline-none focus:border-[#6366F1] sm:w-auto"
               />
             </div>
           </div>
@@ -291,12 +291,12 @@ export default function SettingsPage() {
           </div>
 
           {/* Daily study hours */}
-          <div className="flex items-center justify-between rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
+          <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[rgba(34,197,94,0.15)]">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-[rgba(34,197,94,0.15)]">
                 <Clock size={20} strokeWidth={1.75} className="text-[#22C55E]" />
               </div>
-              <div>
+              <div className="min-w-0 flex-1">
                 <p className="text-[15px] font-medium text-[#F8FAFC]">Daily Study Hours</p>
                 <p className="text-[13px] text-[#64748B]">{settings.dailyStudyHours}h per day</p>
               </div>
@@ -307,7 +307,7 @@ export default function SettingsPage() {
               max={8}
               value={settings.dailyStudyHours}
               onChange={(e) => update({ dailyStudyHours: Number(e.target.value) })}
-              className="w-32 accent-[#6366F1]"
+              className="mt-3 w-full accent-[#6366F1]"
             />
           </div>
         </div>
