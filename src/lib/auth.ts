@@ -4,6 +4,7 @@ import dbConnect from "./mongodb";
 import User from "@/models/User";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
