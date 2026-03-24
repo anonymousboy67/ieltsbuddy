@@ -59,7 +59,7 @@ RULES:
    - Two question entries with consecutive numbers
    - correctAnswer as a string array: ["A", "E"]
 
-4. For completion types, preserve the full template text with blank markers like (7), (8), etc.
+4. For completion types, preserve the full template text with blank markers. CRITICAL: every blank MUST use the format (N) ...... where N is the question number in parentheses, e.g. "Sales of (32) ...... food brands". NEVER use bare numbers like "32 ___" or "32__________".
 
 5. For passages with lettered sections (A, B, C...), split into passageSections array with label and text.
 
@@ -301,7 +301,7 @@ Each questionGroup MUST have ALL of these fields (none optional):
   "startQuestion": X,
   "endQuestion": Y,
   "wordLimit": "ONE WORD AND/OR A NUMBER" (if applicable),
-  "completionTemplate": "..." (for completion types),
+  "completionTemplate": "..." (for completion types — CRITICAL: every blank MUST use the format (N) ...... where N is the question number in parentheses, e.g. "The park covers (1) ...... hectares". NEVER use bare numbers like "1 ___" or "31__________"),
   "matchingOptions": [{"letter": "A", "text": "..."}] (for matching/select types),
   "allowRepeat": true/false,
   "questions": [{"questionNumber": 1, "questionText": "...", "correctAnswer": "..."}]
