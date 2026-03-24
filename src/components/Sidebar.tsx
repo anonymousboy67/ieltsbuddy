@@ -106,7 +106,7 @@ export default function Sidebar() {
               </p>
             </div>
             <button
-              onClick={() => signOut()}
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="text-[#64748B] transition-colors hover:text-[#EF4444]"
               title="Sign out"
             >

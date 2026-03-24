@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import BandScore from "./steps/BandScore";
 import TestType from "./steps/TestType";
@@ -33,8 +33,8 @@ const studyTimeMap: Record<string, string> = {
 };
 
 export default function OnboardingFlow() {
+  const { update } = useSession();
   const router = useRouter();
-  const { update: updateSession } = useSession();
   const [step, setStep] = useState(1);
   const [band, setBand] = useState("");
   const [testType, setTestType] = useState("");
@@ -71,11 +71,10 @@ export default function OnboardingFlow() {
           setSubmitting(false);
           return;
         }
-        // Refresh JWT so middleware sees onboardingComplete=true
-        await updateSession();
-        // Hard navigation ensures the browser sends the updated JWT cookie
-        // (router.push can race on mobile where cookie write is slower)
-        window.location.href = "/dashboard";
+        // Force JWT refresh so onboardingComplete:true is in the cookie
+        // before we navigate — eliminates the race condition.
+        await update();
+        router.replace("/dashboard");
       } catch (err) {
         console.error("Onboarding error:", err);
         setSubmitting(false);

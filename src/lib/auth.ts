@@ -41,11 +41,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
       } catch (error) {
         console.error("[auth] signIn DB error:", error);
-        // Still allow sign-in even if DB fails — JWT works without DB
       }
       return true;
     },
     async jwt({ token, user, trigger }) {
+      // On first sign-in or explicit update, fetch user data from DB
       if (user || trigger === "signIn" || trigger === "update") {
         try {
           await dbConnect();
@@ -66,12 +66,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         (session as any).onboardingComplete = token.onboardingComplete ?? false;
       }
       return session;
-    },
-    async redirect({ url, baseUrl }) {
-      // Allow relative URLs and same-origin URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
     },
   },
 });
