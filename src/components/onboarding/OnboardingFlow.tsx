@@ -73,7 +73,9 @@ export default function OnboardingFlow() {
         }
         // Refresh JWT so middleware sees onboardingComplete=true
         await updateSession();
-        router.push("/dashboard");
+        // Hard navigation ensures the browser sends the updated JWT cookie
+        // (router.push can race on mobile where cookie write is slower)
+        window.location.href = "/dashboard";
       } catch (err) {
         console.error("Onboarding error:", err);
         setSubmitting(false);
