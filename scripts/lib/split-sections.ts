@@ -235,11 +235,40 @@ export function splitTestSections(testContent: string, testNumber: number): Test
     ["SPEAKING"]
   );
 
-  const speaking = extractBetween(
+  let speaking = extractBetween(
     testContent,
     ["SPEAKING"],
     ["Answer", "ANSWER", "KEY"]
   );
+
+  // Fallback: In some books (e.g. Book 19), speaking questions appear as
+  // "## PART 1" / "## PART 2" / "## PART 3" after the Writing section,
+  // without a "## SPEAKING" heading. The "## SPEAKING" heading may appear
+  // as a stray footer AFTER the actual questions.
+  // Detect this by checking if the speaking section is too short (< 300 chars)
+  // and looking for "## PART 1" + examiner-style content after Writing.
+  if (speaking.length < 300) {
+    const writingEnd = findSectionBoundary(testContent, "WRITING");
+    if (writingEnd !== -1) {
+      // Look for "## PART 1" after the writing section
+      const afterWriting = testContent.slice(writingEnd);
+      const partOneMatch = /\n##\s+PART\s+1\b/i.exec(afterWriting);
+      if (partOneMatch) {
+        const speakingStart = writingEnd + partOneMatch.index;
+        // End at "## SPEAKING" footer, answer block, or end of content
+        const speakingHeaderPos = findSectionBoundary(testContent, "SPEAKING", speakingStart + 50);
+        const answerPos = findSectionBoundary(testContent, "Answer", speakingStart + 50);
+        let speakingEnd = testContent.length;
+        if (speakingHeaderPos !== -1 && speakingHeaderPos < speakingEnd) speakingEnd = speakingHeaderPos;
+        if (answerPos !== -1 && answerPos < speakingEnd) speakingEnd = answerPos;
+        const candidate = testContent.slice(speakingStart, speakingEnd).trim();
+        // Only use if it looks like speaking content (has examiner/describe/discuss keywords)
+        if (candidate.length > 200 && /examiner|Describe|Discussion/i.test(candidate)) {
+          speaking = candidate;
+        }
+      }
+    }
+  }
 
   // Extract answer block — look for "Answer Key" (injected by splitIntoTests)
   // or the original "Answer"/"ANSWER" patterns
