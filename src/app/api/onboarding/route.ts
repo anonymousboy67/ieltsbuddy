@@ -12,28 +12,29 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
     const body = await request.json();
-    const { targetBand, testType, testDate, currentLevel, weaknesses, dailyStudyTime } = body;
+    const {
+      targetBand,
+      testType,
+      testDate,
+      currentLevel,
+      weaknesses,
+      dailyStudyTime,
+    } = body;
 
-    if (!targetBand || !testType || !currentLevel || !dailyStudyTime) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
-    }
+    const update: Record<string, unknown> = {
+      onboardingComplete: true,
+    };
+
+    if (targetBand) update.targetBand = parseFloat(targetBand);
+    if (testType) update.testType = testType;
+    if (testDate) update.testDate = new Date(testDate);
+    if (currentLevel) update.currentLevel = currentLevel;
+    if (weaknesses) update.weaknesses = weaknesses;
+    if (dailyStudyTime) update.dailyStudyTime = dailyStudyTime;
 
     const user = await User.findOneAndUpdate(
       { email: session.user.email },
-      {
-        $set: {
-          targetBand: parseFloat(targetBand),
-          testType,
-          testDate: testDate ? new Date(testDate) : undefined,
-          currentLevel,
-          weaknesses: weaknesses || [],
-          dailyStudyTime,
-          onboardingComplete: true,
-        },
-      },
+      { $set: update },
       { new: true }
     );
 

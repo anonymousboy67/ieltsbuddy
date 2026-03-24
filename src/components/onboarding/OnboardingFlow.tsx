@@ -21,6 +21,11 @@ const levelMap: Record<string, string> = {
 };
 
 const studyTimeMap: Record<string, string> = {
+  "15min": "15min",
+  "30min": "30min",
+  "1hr": "1hour",
+  "2hr": "2hours",
+  // Legacy label-based keys
   "15 min / day": "15min",
   "30 min / day": "30min",
   "1 hour / day": "1hour",
@@ -52,19 +57,25 @@ export default function OnboardingFlow() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            targetBand: band,
-            testType: testType.toLowerCase() === "general training" ? "general" : "academic",
+            targetBand: band || "6.5",
+            testType: testType === "general" ? "general" : "academic",
             testDate: booked && testDate ? testDate : undefined,
             currentLevel: levelMap[level.toLowerCase()] || "intermediate",
             weaknesses: challenges,
             dailyStudyTime: studyTimeMap[studyTime] || "30min",
           }),
         });
-        await res.json();
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          console.error("Onboarding failed:", res.status, err);
+          setSubmitting(false);
+          return;
+        }
         // Refresh JWT so middleware sees onboardingComplete=true
         await updateSession();
         router.push("/dashboard");
-      } catch {
+      } catch (err) {
+        console.error("Onboarding error:", err);
         setSubmitting(false);
       }
     }
