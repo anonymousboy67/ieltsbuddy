@@ -17,36 +17,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (!user.email) return false;
-      await dbConnect();
-      const existing = await User.findOne({ email: user.email });
-      if (!existing) {
-        await User.create({
-          email: user.email,
-          name: user.name,
-          image: user.image,
-          googleId: account?.providerAccountId,
-        });
-      } else {
-        await User.updateOne(
-          { email: user.email },
-          {
-            $set: {
-              name: user.name || existing.name,
-              image: user.image || existing.image,
-              googleId: account?.providerAccountId || existing.googleId,
-            },
-          }
-        );
+      try {
+        await dbConnect();
+        const existing = await User.findOne({ email: user.email });
+        if (!existing) {
+          await User.create({
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            googleId: account?.providerAccountId,
+          });
+        } else {
+          await User.updateOne(
+            { email: user.email },
+            {
+              $set: {
+                name: user.name || existing.name,
+                image: user.image || existing.image,
+                googleId: account?.providerAccountId || existing.googleId,
+              },
+            }
+          );
+        }
+      } catch (error) {
+        console.error("[auth] signIn DB error:", error);
+        // Still allow sign-in even if DB fails — JWT works without DB
       }
       return true;
     },
     async jwt({ token, user, trigger }) {
       if (user || trigger === "signIn" || trigger === "update") {
-        await dbConnect();
-        const dbUser = await User.findOne({ email: token.email }).lean();
-        if (dbUser) {
-          token.id = (dbUser._id as object).toString();
-          token.onboardingComplete = dbUser.onboardingComplete ?? false;
+        try {
+          await dbConnect();
+          const dbUser = await User.findOne({ email: token.email }).lean();
+          if (dbUser) {
+            token.id = (dbUser._id as object).toString();
+            token.onboardingComplete = dbUser.onboardingComplete ?? false;
+          }
+        } catch (error) {
+          console.error("[auth] jwt DB error:", error);
         }
       }
       return token;
