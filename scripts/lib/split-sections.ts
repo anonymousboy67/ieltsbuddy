@@ -47,6 +47,103 @@ function extractBetween(
   return content.slice(start, end).trim();
 }
 
+/**
+ * Detect and extract a trailing "answer keys" section that contains answers
+ * for ALL tests in one block (common in Books 15-19). Returns the section
+ * text and the index where it starts, or null if not found.
+ */
+function extractTrailingAnswerKeys(content: string): {
+  answerSection: string;
+  startIndex: number;
+} | null {
+  // Look for a combined answer keys heading
+  const patterns = [
+    /(?:^|\n)(#{1,3}\s*Listening\s+and\s+Reading\s+answer\s+keys?\b)/im,
+    /(?:^|\n)(#{1,3}\s*Answer\s+Keys?\s*$)/im,
+  ];
+
+  for (const pat of patterns) {
+    const match = pat.exec(content);
+    if (match) {
+      const startIndex = match.index + (match[0].startsWith("\n") ? 1 : 0);
+      let answerSection = content.slice(startIndex);
+
+      // Trim off any trailing "Sample Writing answers" section
+      const writingCutoff = /(?:^|\n)#{1,3}\s*Sample\s+Writing/im.exec(answerSection);
+      if (writingCutoff) {
+        answerSection = answerSection.slice(0, writingCutoff.index);
+      }
+
+      return { answerSection, startIndex };
+    }
+  }
+  return null;
+}
+
+/**
+ * Split a trailing answer keys section into per-test answer blocks.
+ * The section alternates between LISTENING and READING sub-sections,
+ * with each pair belonging to one test (in order).
+ */
+function splitAnswerKeysByTest(
+  answerSection: string,
+  testCount: number
+): Map<number, string> {
+  const result = new Map<number, string>();
+
+  // Find only standalone ## LISTENING and ## READING headings.
+  // Exclude "Listening and Reading answer keys" (the section title)
+  // and "Reading Passage N" sub-headings.
+  const sectionPattern =
+    /(?:^|\n)#{1,3}\s*(LISTENING|READING)[\t ]*(?:\n|$)/gim;
+
+  const boundaries: { index: number; type: string }[] = [];
+  let m;
+  while ((m = sectionPattern.exec(answerSection)) !== null) {
+    boundaries.push({
+      index: m.index,
+      type: m[1].toUpperCase(),
+    });
+  }
+
+  if (boundaries.length === 0) return result;
+
+  // Group into pairs: each test has one LISTENING + one READING section
+  // They come in order: L1, R1, L2, R2, L3, R3, L4, R4
+  let testNum = 1;
+  let currentTestText = "";
+
+  for (let i = 0; i < boundaries.length; i++) {
+    const start = boundaries[i].index;
+    const end =
+      i + 1 < boundaries.length
+        ? boundaries[i + 1].index
+        : answerSection.length;
+    const sectionText = answerSection.slice(start, end);
+    const sectionType = boundaries[i].type;
+
+    if (sectionType === "LISTENING") {
+      // Start of a new test's answers
+      if (currentTestText) {
+        // Save previous test
+        result.set(testNum, currentTestText);
+        testNum++;
+      }
+      currentTestText = sectionText;
+    } else {
+      // READING — append to current test
+      currentTestText += "\n" + sectionText;
+    }
+  }
+
+  // Save last test
+  if (currentTestText) {
+    result.set(testNum, currentTestText);
+  }
+
+  return result;
+}
+
 export function splitIntoTests(content: string): { testNumber: number; content: string }[] {
   // Match real test boundaries: lines that are ONLY a test heading.
   // Avoids matching "Test 1" in page headers/footers/running text.
@@ -81,15 +178,41 @@ export function splitIntoTests(content: string): { testNumber: number; content: 
   // Sort by position in file (should already be sorted, but be safe)
   matches.sort((a, b) => a.index - b.index);
 
+  // Detect trailing answer keys section BEFORE slicing into tests.
+  // This section contains answers for ALL tests and should be excluded
+  // from individual test content, then distributed to each test separately.
+  const trailing = extractTrailingAnswerKeys(content);
+  const contentEnd = trailing ? trailing.startIndex : content.length;
+
   const tests: { testNumber: number; content: string }[] = [];
   for (let i = 0; i < matches.length; i++) {
     const start = matches[i].index;
-    const end = i + 1 < matches.length ? matches[i + 1].index : content.length;
+    const end = i + 1 < matches.length
+      ? Math.min(matches[i + 1].index, contentEnd)
+      : contentEnd;
     tests.push({
       testNumber: matches[i].testNumber,
       content: content.slice(start, end),
     });
   }
+
+  // If there was a trailing answer keys section, split it and append
+  // the relevant answer block to each test's content.
+  if (trailing) {
+    const answersByTest = splitAnswerKeysByTest(
+      trailing.answerSection,
+      tests.length
+    );
+
+    for (const t of tests) {
+      const answerBlock = answersByTest.get(t.testNumber);
+      if (answerBlock) {
+        // Append with a clear marker so splitTestSections can find it
+        t.content += "\n\n## Answer Key\n\n" + answerBlock;
+      }
+    }
+  }
+
   return tests;
 }
 
@@ -118,8 +241,10 @@ export function splitTestSections(testContent: string, testNumber: number): Test
     ["Answer", "ANSWER", "KEY"]
   );
 
-  // Extract answer block
+  // Extract answer block — look for "Answer Key" (injected by splitIntoTests)
+  // or the original "Answer"/"ANSWER" patterns
   const answerPatterns = [
+    /(?:^|\n)#{0,3}\s*(?:\*\*)?(?:Answer\s*Key)(?:\*\*)?/i,
     /(?:^|\n)#{0,3}\s*(?:\*\*)?(?:Answer|ANSWER)s?\s*(?:Key|KEY)?(?:\*\*)?/i,
   ];
   let answerBlock = "";

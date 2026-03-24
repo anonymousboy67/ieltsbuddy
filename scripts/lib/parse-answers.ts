@@ -52,7 +52,8 @@ export function parseAnswerBlock(text: string): AnswerMap {
     if (!trimmed) continue;
 
     // Skip header lines
-    if (/^(Listening|Reading|Writing|Speaking|Answer|Test|Part|Section)/i.test(trimmed)) continue;
+    if (/^(Listening|Reading|Writing|Speaking|Answer|Test|Section)/i.test(trimmed)) continue;
+    if (/^Part\s+\d+,?\s*Questions?\s/i.test(trimmed)) continue;
     if (/^[-=|]+$/.test(trimmed)) continue;
 
     // Pipe table format: | 1 | F |

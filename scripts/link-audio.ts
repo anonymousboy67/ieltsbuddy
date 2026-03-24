@@ -7,8 +7,9 @@ import { v2 as cloudinary } from "cloudinary";
 import ListeningSection from "../src/models/ListeningSection";
 
 const bookNumber = Number(process.argv[2]);
+const folder = process.argv[3] || undefined;
 if (!bookNumber) {
-  console.error("Usage: npx tsx scripts/link-audio.ts <book_number>");
+  console.error("Usage: npx tsx scripts/link-audio.ts <book_number> [folder]");
   process.exit(1);
 }
 
@@ -37,13 +38,14 @@ async function main() {
         resource_type: "video", // Cloudinary stores audio under "video"
         type: "upload",
         max_results: 500,
+        ...(folder ? { prefix: folder } : {}),
         ...(nextCursor ? { next_cursor: nextCursor } : {}),
       });
     resources.push(...result.resources);
     nextCursor = result.next_cursor;
   } while (nextCursor);
 
-  console.log(`Found ${resources.length} audio assets in Cloudinary`);
+  console.log(`Found ${resources.length} audio assets in Cloudinary${folder ? ` (folder: ${folder})` : ""}`);
 
   // Match files named like T1S1, T1S2, T2S1, etc.
   const pattern = /T(\d+)S(\d+)/i;
