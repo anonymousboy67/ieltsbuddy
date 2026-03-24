@@ -22,14 +22,15 @@ cloudinary.config({
 interface CloudinaryResource {
   public_id: string;
   secure_url: string;
+  asset_folder?: string;
 }
 
 async function main() {
   await mongoose.connect(process.env.MONGODB_URI!);
   console.log("Connected to MongoDB");
 
-  // List all audio assets from Cloudinary
-  const resources: CloudinaryResource[] = [];
+  // List audio assets from Cloudinary
+  const allResources: CloudinaryResource[] = [];
   let nextCursor: string | undefined;
 
   do {
@@ -38,26 +39,51 @@ async function main() {
         resource_type: "video", // Cloudinary stores audio under "video"
         type: "upload",
         max_results: 500,
-        ...(folder ? { prefix: folder } : {}),
         ...(nextCursor ? { next_cursor: nextCursor } : {}),
       });
-    resources.push(...result.resources);
+    allResources.push(...result.resources);
     nextCursor = result.next_cursor;
   } while (nextCursor);
 
-  console.log(`Found ${resources.length} audio assets in Cloudinary${folder ? ` (folder: ${folder})` : ""}`);
+  // Filter by folder using asset_folder (dynamic folders) if specified
+  const resources = folder
+    ? allResources.filter((r) => r.asset_folder === folder)
+    : allResources;
 
-  // Match files named like T1S1, T1S2, T2S1, etc.
-  const pattern = /T(\d+)S(\d+)/i;
+  console.log(
+    `Found ${resources.length} audio assets` +
+      (folder ? ` in folder "${folder}" (${allResources.length} total)` : "")
+  );
+
+  // Match filenames like:
+  //   T1S1, T1S2          (TnSn format)
+  //   Test1_Part2_abc123   (Test_Part format with Cloudinary suffix)
+  //   Test2_Part3          (Test_Part format without suffix)
+  const patterns = [
+    /T(\d+)S(\d+)/i,
+    /Test[\s_-]*(\d+)[\s_-]*Part[\s_-]*(\d+)/i,
+  ];
+
   let updated = 0;
 
   for (const asset of resources) {
     const filename = asset.public_id.split("/").pop() || "";
-    const match = filename.match(pattern);
-    if (!match) continue;
+    let testNumber: number | null = null;
+    let partNumber: number | null = null;
 
-    const testNumber = Number(match[1]);
-    const partNumber = Number(match[2]);
+    for (const pattern of patterns) {
+      const match = filename.match(pattern);
+      if (match) {
+        testNumber = Number(match[1]);
+        partNumber = Number(match[2]);
+        break;
+      }
+    }
+
+    if (testNumber === null || partNumber === null) {
+      console.log(`Skipped (no match): ${asset.public_id}`);
+      continue;
+    }
 
     const result = await ListeningSection.updateOne(
       { bookNumber, testNumber, partNumber },
