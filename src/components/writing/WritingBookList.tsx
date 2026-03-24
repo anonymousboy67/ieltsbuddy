@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   PenLine,
   ChevronRight,
-  Lock,
   List,
 } from "lucide-react";
 
@@ -93,14 +92,9 @@ export default function WritingBookList({ books, loading, taskType }: WritingBoo
         {books.map((book, i) => {
           const taskCount = taskType === "task1" ? book.task1Count : book.task2Count;
           const firstTask = book.tasks.find((t) => t.taskType === taskType);
-          const isLocked = i > 0;
           const stagger = staggerClass[i] || staggerClass[staggerClass.length - 1];
 
-          const className = `animate-fade-up ${stagger} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out ${
-            isLocked
-              ? "opacity-60"
-              : "hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]"
-          }`;
+          const className = `animate-fade-up ${stagger} group flex cursor-pointer items-center gap-4 rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-4 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(99,102,241,0.3)]`;
 
           const content = (
             <>
@@ -109,30 +103,22 @@ export default function WritingBookList({ books, loading, taskType }: WritingBoo
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[15px] font-medium text-[#F8FAFC]">{book.name}</p>
-                {isLocked ? (
-                  <p className="mt-1 text-[13px] text-[#64748B]">Premium Content</p>
-                ) : (
-                  <div className="mt-1 flex items-center gap-4">
-                    <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
-                      <List size={14} strokeWidth={1.75} />
-                      {taskCount} {taskCount === 1 ? "Task" : "Tasks"}
-                    </span>
-                  </div>
-                )}
+                <div className="mt-1 flex items-center gap-4">
+                  <span className="flex items-center gap-1.5 text-[13px] text-[#64748B]">
+                    <List size={14} strokeWidth={1.75} />
+                    {taskCount} {taskCount === 1 ? "Task" : "Tasks"}
+                  </span>
+                </div>
               </div>
-              {isLocked ? (
-                <Lock size={18} strokeWidth={1.75} className="flex-shrink-0 text-[#64748B]" />
-              ) : (
-                <ChevronRight
-                  size={20}
-                  strokeWidth={1.75}
-                  className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
-                />
-              )}
+              <ChevronRight
+                size={20}
+                strokeWidth={1.75}
+                className="flex-shrink-0 text-[#64748B] transition-transform duration-200 group-hover:translate-x-0.5"
+              />
             </>
           );
 
-          return isLocked || !firstTask ? (
+          return !firstTask ? (
             <div key={book.bookNumber} className={className}>
               {content}
             </div>
