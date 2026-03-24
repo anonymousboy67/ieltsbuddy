@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession, signIn, signOut } from "next-auth/react";
 import {
   LayoutDashboard,
   Calendar,
@@ -11,7 +12,8 @@ import {
   Headphones,
   Users,
   Settings,
-  User,
+  LogIn,
+  LogOut,
 } from "lucide-react";
 
 const navItems = [
@@ -26,6 +28,7 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   return (
     <aside className="hidden md:flex fixed left-0 top-0 h-full w-[240px] flex-col bg-[#12172B] border-r-[0.5px] border-[#2A3150] z-40">
@@ -82,12 +85,43 @@ export default function Sidebar() {
           <Settings size={20} strokeWidth={1.75} />
           Settings
         </Link>
-        <div className="mt-3 flex items-center gap-3 px-4 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1E2540]">
-            <User size={16} strokeWidth={1.75} className="text-[#64748B]" />
+
+        {session?.user ? (
+          <div className="mt-3 flex items-center gap-3 px-4 py-2">
+            {session.user.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={session.user.image}
+                alt=""
+                className="h-8 w-8 rounded-full"
+              />
+            ) : (
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#6366F1] text-xs font-bold text-white">
+                {(session.user.name || session.user.email || "U")[0].toUpperCase()}
+              </div>
+            )}
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-[#F8FAFC]">
+                {session.user.name || "Student"}
+              </p>
+            </div>
+            <button
+              onClick={() => signOut()}
+              className="text-[#64748B] transition-colors hover:text-[#EF4444]"
+              title="Sign out"
+            >
+              <LogOut size={16} strokeWidth={1.75} />
+            </button>
           </div>
-          <span className="text-sm font-medium text-[#94A3B8]">Student</span>
-        </div>
+        ) : (
+          <button
+            onClick={() => signIn("google")}
+            className="mt-3 flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-[#94A3B8] transition-all duration-150 hover:bg-[rgba(255,255,255,0.06)] hover:text-[#F8FAFC]"
+          >
+            <LogIn size={20} strokeWidth={1.75} />
+            Sign In
+          </button>
+        )}
       </div>
     </aside>
   );
