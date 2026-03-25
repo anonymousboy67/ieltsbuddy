@@ -2,6 +2,7 @@ import GreetingHeader from "@/components/dashboard/GreetingHeader";
 import CurrentLevelCard from "@/components/dashboard/CurrentLevelCard";
 import PracticeArea from "@/components/dashboard/PracticeArea";
 import ContinueLearning from "@/components/dashboard/ContinueLearning";
+import RecentActivity from "@/components/dashboard/RecentActivity";
 
 export default function DashboardPage() {
   return (
@@ -10,6 +11,8 @@ export default function DashboardPage() {
       <CurrentLevelCard />
       <PracticeArea />
       <ContinueLearning />
+      <RecentActivity />
     </>
   );
 }
+

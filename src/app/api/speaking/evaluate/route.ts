@@ -30,7 +30,7 @@ Return ONLY valid JSON (no markdown, no code blocks):
 
 export async function POST(request: NextRequest) {
   try {
-    const { transcript, question, partType } = await request.json();
+    const { transcript, question, partType, partNumber, bookNumber, testNumber, sectionId } = await request.json();
 
     if (!transcript || !question) {
       return NextResponse.json(
@@ -54,6 +54,42 @@ export async function POST(request: NextRequest) {
     const text =
       message.content[0].type === "text" ? message.content[0].text : "";
     const result = JSON.parse(text);
+
+    // Save attempt to DB (best-effort — don't fail the request if this errors)
+    try {
+      const { auth } = await import("@/lib/auth");
+      const session = await auth();
+      if (session?.user?.id) {
+        const { default: dbConnect } = await import("@/lib/mongodb");
+        const { default: UserAttempt } = await import("@/models/UserAttempt");
+        const mongoose = await import("mongoose");
+        await dbConnect();
+        await UserAttempt.create({
+          userId: new mongoose.Types.ObjectId(session.user.id),
+          sectionType: "speaking",
+          sectionId: sectionId
+            ? new mongoose.Types.ObjectId(sectionId)
+            : new mongoose.Types.ObjectId(),
+          sectionModel: "SpeakingPart",
+          bookNumber: bookNumber ?? null,
+          testNumber: testNumber ?? null,
+          bandScore: result.overallBand,
+          speakingResponses: [{ partNumber: partNumber ?? 1, transcript }],
+          speakingFeedback: {
+            bandScore: result.overallBand,
+            fluencyCoherence: result.criteria.fluencyCoherence,
+            lexicalResource: result.criteria.lexicalResource,
+            grammaticalRange: result.criteria.grammaticalRange,
+            pronunciation: result.criteria.pronunciation,
+            overallFeedback: result.overallFeedback,
+          },
+          completedAt: new Date(),
+          mode: "practice",
+        });
+      }
+    } catch (saveErr) {
+      console.error("[speaking/evaluate] DB save error:", saveErr);
+    }
 
     return NextResponse.json(result);
   } catch (error) {

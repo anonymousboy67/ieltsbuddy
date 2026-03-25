@@ -27,6 +27,51 @@ export async function POST(request: NextRequest) {
 
     const evaluation = await evaluateWriting(taskInstructions, studentResponse, taskType);
     console.log("[evaluate/writing] Success, band:", evaluation.overallBand);
+
+    // Save attempt to DB (best-effort — don't fail the request if this errors)
+    try {
+      const { auth } = await import("@/lib/auth");
+      const session = await auth();
+      if (session?.user?.id) {
+        const { default: dbConnect } = await import("@/lib/mongodb");
+        const { default: UserAttempt } = await import("@/models/UserAttempt");
+        const mongoose = await import("mongoose");
+        await dbConnect();
+        await UserAttempt.create({
+          userId: new mongoose.Types.ObjectId(session.user.id),
+          sectionType: "writing",
+          sectionId: new mongoose.Types.ObjectId(),
+          sectionModel: "WritingTask",
+          bandScore: evaluation.overallBand,
+          writingResponse: studentResponse,
+          writingFeedback: {
+            bandScore: evaluation.overallBand,
+            taskAchievement: {
+              score: evaluation.taskAchievement.band,
+              feedback: evaluation.taskAchievement.feedback,
+            },
+            coherenceCohesion: {
+              score: evaluation.coherenceCohesion.band,
+              feedback: evaluation.coherenceCohesion.feedback,
+            },
+            lexicalResource: {
+              score: evaluation.lexicalResource.band,
+              feedback: evaluation.lexicalResource.feedback,
+            },
+            grammaticalRange: {
+              score: evaluation.grammaticalRange.band,
+              feedback: evaluation.grammaticalRange.feedback,
+            },
+            overallFeedback: evaluation.improvements?.join(" ") ?? "",
+          },
+          completedAt: new Date(),
+          mode: "practice",
+        });
+      }
+    } catch (saveErr) {
+      console.error("[evaluate/writing] DB save error:", saveErr);
+    }
+
     return NextResponse.json(evaluation);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";

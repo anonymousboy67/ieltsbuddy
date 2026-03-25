@@ -14,17 +14,20 @@ import {
   Settings,
   LogIn,
   LogOut,
+  TrendingUp,
 } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "/dashboard", icon: LayoutDashboard },
   { label: "Study Plan", href: "/dashboard/plan", icon: Calendar },
+  { label: "History", href: "/dashboard/history", icon: TrendingUp },
   { label: "Speaking", href: "/dashboard/speaking", icon: Mic },
   { label: "Reading", href: "/dashboard/reading", icon: BookOpen },
   { label: "Writing", href: "/dashboard/writing", icon: PenLine },
   { label: "Listening", href: "/dashboard/listening", icon: Headphones },
   { label: "Practice Room", href: "/dashboard/practice-room", icon: Users },
 ];
+
 
 export default function Sidebar() {
   const pathname = usePathname();
