@@ -45,6 +45,8 @@ export function useWebRTC({ socket, roomId, isInitiator }: UseWebRTCParams) {
 
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
+  // FIX 1: Queue candidates that arrive before remoteDescription is set
+  const iceCandidateQueue = useRef<RTCIceCandidateInit[]>([]);
 
   const cleanup = useCallback(() => {
     if (pcRef.current) {
@@ -55,6 +57,7 @@ export function useWebRTC({ socket, roomId, isInitiator }: UseWebRTCParams) {
       localStreamRef.current.getTracks().forEach((t) => t.stop());
       localStreamRef.current = null;
     }
+    iceCandidateQueue.current = [];
     setLocalStream(null);
     setRemoteStream(null);
     setConnectionState("closed");
@@ -76,6 +79,23 @@ export function useWebRTC({ socket, roomId, isInitiator }: UseWebRTCParams) {
       }
     }
   }, []);
+
+  // Apply remote description then flush any queued ICE candidates
+  async function applyRemoteDescriptionAndFlush(
+    pc: RTCPeerConnection,
+    description: RTCSessionDescriptionInit
+  ) {
+    await pc.setRemoteDescription(new RTCSessionDescription(description));
+    // Flush all candidates that arrived before remoteDescription was ready
+    for (const candidate of iceCandidateQueue.current) {
+      try {
+        await pc.addIceCandidate(new RTCIceCandidate(candidate));
+      } catch {
+        // ignore stale candidates
+      }
+    }
+    iceCandidateQueue.current = [];
+  }
 
   useEffect(() => {
     if (!socket || !roomId) return;
@@ -132,48 +152,69 @@ export function useWebRTC({ socket, roomId, isInitiator }: UseWebRTCParams) {
         setConnectionState(pc.connectionState);
       };
 
-      // ICE candidates
+      // Send our ICE candidates to the peer
       pc.onicecandidate = (event) => {
         if (event.candidate) {
           sock.emit("ice-candidate", { roomId, candidate: event.candidate });
         }
       };
 
-      // Listen for remote ICE candidates
-      sock.on("ice-candidate", ({ candidate }) => {
-        if (pc.remoteDescription) {
-          pc.addIceCandidate(new RTCIceCandidate(candidate));
+      // FIX 1 + FIX 2: Named handler — queues candidates before remoteDescription,
+      // and allows precise cleanup (not sock.off("ice-candidate") which removes all)
+      const handleIceCandidate = async ({ candidate }: { candidate: RTCIceCandidateInit }) => {
+        if (!pc.remoteDescription) {
+          iceCandidateQueue.current.push(candidate);
+        } else {
+          try {
+            await pc.addIceCandidate(new RTCIceCandidate(candidate));
+          } catch {
+            // ignore stale candidates
+          }
         }
-      });
+      };
 
-      // Signaling
+      // FIX 3: Register offer + answer listeners BEFORE sending the offer so the
+      // responder's listener is ready even if the offer arrives immediately.
+      const handleOffer = async ({ offer }: { offer: RTCSessionDescriptionInit }) => {
+        if (pc.signalingState !== "stable") return;
+        await applyRemoteDescriptionAndFlush(pc, offer);
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        sock.emit("answer", { roomId, answer });
+      };
+
+      const handleAnswer = async ({ answer }: { answer: RTCSessionDescriptionInit }) => {
+        if (pc.signalingState === "have-local-offer") {
+          await applyRemoteDescriptionAndFlush(pc, answer);
+        }
+      };
+
+      sock.on("ice-candidate", handleIceCandidate);
+      sock.on("offer", handleOffer);
+      sock.on("answer", handleAnswer);
+
+      // Only the initiator sends the offer; responder waits via the listener above
       if (isInitiator) {
         const offer = await pc.createOffer();
         await pc.setLocalDescription(offer);
         sock.emit("offer", { roomId, offer });
-
-        sock.on("answer", async ({ answer }) => {
-          if (pc.signalingState === "have-local-offer") {
-            await pc.setRemoteDescription(new RTCSessionDescription(answer));
-          }
-        });
-      } else {
-        sock.on("offer", async ({ offer }) => {
-          await pc.setRemoteDescription(new RTCSessionDescription(offer));
-          const answer = await pc.createAnswer();
-          await pc.setLocalDescription(answer);
-          sock.emit("answer", { roomId, answer });
-        });
       }
+
+      return { handleIceCandidate, handleOffer, handleAnswer };
     }
 
-    startConnection();
+    const handlersPromise = startConnection();
 
     return () => {
       cancelled = true;
-      sock.off("offer");
-      sock.off("answer");
-      sock.off("ice-candidate");
+      // FIX 2: Remove only OUR named listeners, not every listener on the socket
+      handlersPromise.then((handlers) => {
+        if (handlers) {
+          sock.off("offer", handlers.handleOffer);
+          sock.off("answer", handlers.handleAnswer);
+          sock.off("ice-candidate", handlers.handleIceCandidate);
+        }
+      });
       cleanup();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
