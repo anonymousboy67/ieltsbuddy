@@ -10,6 +10,8 @@ const io = new Server(httpServer, {
     origin: [
       "http://localhost:3000",
       "https://ieltsbuddyv2.vercel.app",
+      "https://ieltsbuddy.app",
+      "https://www.ieltsbuddy.app",
       /\.vercel\.app$/
     ],
     methods: ["GET", "POST"]
