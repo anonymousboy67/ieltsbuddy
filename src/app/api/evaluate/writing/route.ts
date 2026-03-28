@@ -1,85 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
-import { evaluateWriting } from "@/lib/claude";
+import { auth } from "@/lib/auth";
+import dbConnect from "@/lib/mongodb";
+import UserAttempt from "@/models/UserAttempt";
+import { evaluationQueue } from "@/lib/queue";
+import mongoose from "mongoose";
 
 export async function POST(request: NextRequest) {
-  console.log("[evaluate/writing] ANTHROPIC_API_KEY defined:", !!process.env.ANTHROPIC_API_KEY);
-  console.log("[evaluate/writing] Key prefix:", process.env.ANTHROPIC_API_KEY?.slice(0, 10) + "...");
-
   try {
-    const body = await request.json();
-    const { taskInstructions, studentResponse, taskType } = body;
+    const session = await auth();
+    if (!session?.user?.id) {
+       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    console.log("[evaluate/writing] Received:", { taskType, instructionsLen: taskInstructions?.length, responseLen: studentResponse?.length });
+    const { taskInstructions, studentResponse, taskType } = await request.json();
 
     if (!taskInstructions || !studentResponse || !taskType) {
       return NextResponse.json(
-        { error: "Missing required fields: taskInstructions, studentResponse, taskType" },
+        { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    if (taskType !== "task1" && taskType !== "task2") {
-      return NextResponse.json(
-        { error: "taskType must be 'task1' or 'task2'" },
-        { status: 400 }
-      );
-    }
+    await dbConnect();
 
-    const evaluation = await evaluateWriting(taskInstructions, studentResponse, taskType);
-    console.log("[evaluate/writing] Success, band:", evaluation.overallBand);
+    // 1. Create the Attempt in "evaluating" state
+    const attempt = await UserAttempt.create({
+      userId: new mongoose.Types.ObjectId(session.user.id),
+      sectionType: "writing",
+      sectionId: new mongoose.Types.ObjectId(), // Placeholder for now
+      sectionModel: "WritingTask",
+      writingResponse: studentResponse,
+      status: "evaluating",
+      mode: "practice",
+    });
 
-    // Save attempt to DB (best-effort — don't fail the request if this errors)
-    try {
-      const { auth } = await import("@/lib/auth");
-      const session = await auth();
-      if (session?.user?.id) {
-        const { default: dbConnect } = await import("@/lib/mongodb");
-        const { default: UserAttempt } = await import("@/models/UserAttempt");
-        const mongoose = await import("mongoose");
-        await dbConnect();
-        await UserAttempt.create({
-          userId: new mongoose.Types.ObjectId(session.user.id),
-          sectionType: "writing",
-          sectionId: new mongoose.Types.ObjectId(),
-          sectionModel: "WritingTask",
-          bandScore: evaluation.overallBand,
-          writingResponse: studentResponse,
-          writingFeedback: {
-            bandScore: evaluation.overallBand,
-            taskAchievement: {
-              score: evaluation.taskAchievement.band,
-              feedback: evaluation.taskAchievement.feedback,
-            },
-            coherenceCohesion: {
-              score: evaluation.coherenceCohesion.band,
-              feedback: evaluation.coherenceCohesion.feedback,
-            },
-            lexicalResource: {
-              score: evaluation.lexicalResource.band,
-              feedback: evaluation.lexicalResource.feedback,
-            },
-            grammaticalRange: {
-              score: evaluation.grammaticalRange.band,
-              feedback: evaluation.grammaticalRange.feedback,
-            },
-            overallFeedback: evaluation.improvements?.join(" ") ?? "",
-          },
-          completedAt: new Date(),
-          mode: "practice",
-        });
-      }
-    } catch (saveErr) {
-      console.error("[evaluate/writing] DB save error:", saveErr);
-    }
+    // 2. Add to the BullMQ Job Queue
+    const job = await evaluationQueue.add(`writing-${attempt._id}`, {
+      attemptId: attempt._id.toString(),
+      taskInstructions,
+      studentResponse,
+      taskType,
+      userId: session.user.id,
+    });
 
-    return NextResponse.json(evaluation);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    const errorDetails = error instanceof Error ? { name: error.name, message: error.message, stack: error.stack } : error;
-    console.error("[evaluate/writing] Error:", errorMessage);
-    console.error("[evaluate/writing] Full error:", errorDetails);
+    console.log(`[evaluate/writing] Queued job: ${job.id} for attempt: ${attempt._id}`);
+
+    return NextResponse.json({ 
+      success: true, 
+      status: "evaluating", 
+      attemptId: attempt._id,
+      jobId: job.id
+    }, { status: 202 });
+
+  } catch (error: any) {
+    console.error("[evaluate/writing] Error:", error.message);
     return NextResponse.json(
-      { error: errorMessage },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }

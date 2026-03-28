@@ -12,6 +12,7 @@ const io = new Server(httpServer, {
       "https://ieltsbuddyv2.vercel.app",
       "https://ieltsbuddy.app",
       "https://www.ieltsbuddy.app",
+      "http://64.227.183.105:3000",
       /\.vercel\.app$/
     ],
     methods: ["GET", "POST"]
@@ -24,6 +25,22 @@ const activeSessions = new Map();
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
+  // --- PRIVATE NOTIFICATIONS ---
+  socket.on('join-user-room', (userId) => {
+    if (userId) {
+      socket.join(`user-${userId}`);
+      console.log(`Socket ${socket.id} joined room: user-${userId}`);
+    }
+  });
+
+  // Internal event for worker to notify completion
+  socket.on('evaluation-finished', (data) => {
+    const { userId, attemptId, sectionType } = data;
+    console.log(`Evaluation finished for user ${userId}, attempt ${attemptId}`);
+    io.to(`user-${userId}`).emit('evaluation-ready', { attemptId, sectionType });
+  });
+
+  // --- EXISTING P2P LOGIC ---
   io.emit('online-count', io.engine.clientsCount);
 
   socket.on('find-partner', (userData) => {

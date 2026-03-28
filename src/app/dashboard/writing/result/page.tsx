@@ -7,6 +7,7 @@ import {
   CheckCircle,
   AlertTriangle,
   PenLine,
+  Loader2,
 } from "lucide-react";
 import type { WritingEvaluation } from "@/lib/claude";
 
@@ -120,18 +121,61 @@ function CriteriaCard({
 }
 
 export default function WritingResultPage() {
-  const [evaluation, setEvaluation] = useState<WritingEvaluation | null>(null);
+  const [evaluation, setEvaluation] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem("writingEvaluation");
-    if (stored) {
-      try {
-        setEvaluation(JSON.parse(stored));
-      } catch {
-        // invalid data
+    async function loadResult() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const attemptId = urlParams.get("attemptId");
+
+      if (attemptId) {
+        // Fetch from API
+        try {
+          const res = await fetch(`/api/attempts/${attemptId}`);
+          if (res.ok) {
+            const attempt = await res.json();
+            if (attempt.writingFeedback) {
+              setEvaluation({
+                overallBand: attempt.writingFeedback.bandScore || attempt.bandScore,
+                taskAchievement: attempt.writingFeedback.taskAchievement,
+                coherenceCohesion: attempt.writingFeedback.coherenceCohesion,
+                lexicalResource: attempt.writingFeedback.lexicalResource,
+                grammaticalRange: attempt.writingFeedback.grammaticalRange,
+                strengths: [], // Worker should eventually populate these
+                improvements: attempt.writingFeedback.overallFeedback ? [attempt.writingFeedback.overallFeedback] : [],
+                correctedVersion: attempt.writingResponse || "",
+              });
+            }
+          }
+        } catch (err) {
+          console.error("Failed to fetch attempt:", err);
+        }
+      } else {
+        // Fallback to localStorage (old way)
+        const stored = localStorage.getItem("writingEvaluation");
+        if (stored) {
+          try {
+            setEvaluation(JSON.parse(stored));
+          } catch {
+            // invalid data
+          }
+        }
       }
+      setLoading(false);
     }
+
+    loadResult();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-[#6366F1]" />
+        <p className="text-[#64748B]">Loading your assessment...</p>
+      </div>
+    );
+  }
 
   if (!evaluation) {
     return (
@@ -195,7 +239,7 @@ export default function WritingResultPage() {
           Strengths
         </h2>
         <ul className="mt-3 space-y-2">
-          {evaluation.strengths.map((s, i) => (
+          {evaluation.strengths.map((s: string, i: number) => (
             <li
               key={i}
               className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(34,197,94,0.2)] bg-[rgba(34,197,94,0.05)] px-4 py-3 text-[13px] text-[#94A3B8]"
@@ -214,7 +258,7 @@ export default function WritingResultPage() {
           Areas for Improvement
         </h2>
         <ul className="mt-3 space-y-2">
-          {evaluation.improvements.map((imp, i) => (
+          {evaluation.improvements.map((imp: string, i: number) => (
             <li
               key={i}
               className="flex items-start gap-2.5 rounded-lg border-[0.5px] border-[rgba(245,158,11,0.2)] bg-[rgba(245,158,11,0.05)] px-4 py-3 text-[13px] text-[#94A3B8]"

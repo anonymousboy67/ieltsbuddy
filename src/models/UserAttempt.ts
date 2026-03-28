@@ -42,6 +42,7 @@ export interface IUserAttemptDoc extends Document {
   timeSpent?: number;
   completedAt?: Date;
   mode?: "practice" | "timed" | "review";
+  status?: "pending" | "evaluating" | "completed" | "failed";
 }
 
 const AnswerSchema = new Schema(
@@ -117,6 +118,11 @@ const UserAttemptSchema = new Schema(
       type: String,
       enum: ["practice", "timed", "review"],
       default: "practice",
+    },
+    status: {
+      type: String,
+      enum: ["pending", "evaluating", "completed", "failed"],
+      default: "completed",
     },
   },
   { timestamps: true }

@@ -28,6 +28,17 @@ export interface IUser extends Document {
   googleId?: string;
   emailVerified?: Date | null;
 
+  // B2B & Auth fields
+  password?: string;
+  role: "admin" | "institute" | "teacher" | "student";
+  instituteId?: mongoose.Types.ObjectId;
+  teacherId?: mongoose.Types.ObjectId;
+  quotaConsumed: number;
+  
+  // Marketplace fields (for Teachers)
+  isFreelance?: boolean;
+  hourlyRate?: number;
+
   // Onboarding fields
   onboardingComplete: boolean;
   targetBand: number;
@@ -90,6 +101,21 @@ const UserSchema = new Schema<IUser>(
     image: { type: String },
     googleId: { type: String },
     emailVerified: { type: Date, default: null },
+
+    // B2B & Auth
+    password: { type: String, select: false },
+    role: { 
+      type: String, 
+      enum: ["admin", "institute", "teacher", "student"], 
+      default: "student" 
+    },
+    instituteId: { type: Schema.Types.ObjectId, ref: "Institute" },
+    teacherId: { type: Schema.Types.ObjectId, ref: "User" },
+    quotaConsumed: { type: Number, default: 0 },
+
+    // Marketplace
+    isFreelance: { type: Boolean, default: false },
+    hourlyRate: { type: Number, default: 20 },
 
     // Onboarding
     onboardingComplete: { type: Boolean, default: false },

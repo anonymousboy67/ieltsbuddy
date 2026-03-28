@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Send, Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { socket } from "@/lib/socket";
 
 interface WritingEditorProps {
   minWords: number;
@@ -19,12 +21,34 @@ export default function WritingEditor({
   taskInstructions,
   taskType,
 }: WritingEditorProps) {
+  const { data: session } = useSession();
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const wordCount = countWords(text);
   const metGoal = wordCount >= minWords;
+
+  useEffect(() => {
+    if (session?.user?.id && isSubmitting) {
+      if (!socket.connected) socket.connect();
+      
+      socket.emit("join-user-room", session.user.id);
+
+      const handleReady = (data: { attemptId: string }) => {
+        console.log("Evaluation ready event received:", data);
+        // Clean up local storage as the new result will be fetched on the result page
+        localStorage.removeItem("writingEvaluation"); 
+        router.push(`/dashboard/writing/result?attemptId=${data.attemptId}`);
+      };
+
+      socket.on("evaluation-ready", handleReady);
+
+      return () => {
+        socket.off("evaluation-ready", handleReady);
+      };
+    }
+  }, [session, isSubmitting, router]);
 
   async function handleSubmit() {
     if (!text.trim()) return;
@@ -47,9 +71,9 @@ export default function WritingEditor({
         throw new Error(data.error || "Evaluation failed");
       }
 
-      const evaluation = await res.json();
-      localStorage.setItem("writingEvaluation", JSON.stringify(evaluation));
-      router.push("/dashboard/writing/result");
+      // Instead of waiting here, we wait for the Socket.io event in useEffect
+      console.log("Job queued successfully 🚀");
+      
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Something went wrong. Please try again."
@@ -57,6 +81,7 @@ export default function WritingEditor({
       setIsSubmitting(false);
     }
   }
+// ... rest of the component (truncated for brevity)
 
   if (isSubmitting) {
     return (

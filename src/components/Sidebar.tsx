@@ -15,6 +15,7 @@ import {
   LogIn,
   LogOut,
   TrendingUp,
+  Trophy,
 } from "lucide-react";
 
 const navItems = [
@@ -25,6 +26,7 @@ const navItems = [
   { label: "Reading", href: "/dashboard/reading", icon: BookOpen },
   { label: "Writing", href: "/dashboard/writing", icon: PenLine },
   { label: "Listening", href: "/dashboard/listening", icon: Headphones },
+  { label: "Mock Test", href: "/dashboard/mock-test", icon: Trophy },
   { label: "Practice Room", href: "/dashboard/practice-room", icon: Users },
 ];
 

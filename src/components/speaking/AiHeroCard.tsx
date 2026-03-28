@@ -1,4 +1,5 @@
 import { Sparkles, AudioLines, Mic, Volume2, Brain } from "lucide-react";
+import Link from "next/link";
 
 const pills = [
   { label: "Voice Chat", icon: Mic },
@@ -8,7 +9,7 @@ const pills = [
 
 export default function AiHeroCard() {
   return (
-    <div className="animate-fade-up animate-fade-up-1 group mt-6 cursor-pointer rounded-xl bg-gradient-to-r from-[#6366F1] to-[#4F46E5] p-6 transition-transform duration-200 ease-out hover:scale-[1.01]">
+    <Link href="/dashboard/speaking/live" className="block animate-fade-up animate-fade-up-1 group mt-6 cursor-pointer rounded-xl bg-gradient-to-r from-[#6366F1] to-[#4F46E5] p-6 transition-transform duration-200 ease-out hover:scale-[1.01]">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -42,6 +43,6 @@ export default function AiHeroCard() {
           <AudioLines size={28} strokeWidth={1.75} className="text-white" />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
