@@ -15,6 +15,8 @@ import {
   Lock,
 } from "lucide-react";
 import MockTestTimer from "@/components/mock-test/MockTestTimer";
+import MockReadingWrapper, { PassageData } from "@/components/mock-test/MockReadingWrapper";
+import MockListeningWrapper, { ListeningPart } from "@/components/mock-test/MockListeningWrapper";
 
 /* ── Types ─────────────────────────────────────────────────── */
 type SectionKey = "listening" | "reading" | "writing";
@@ -64,8 +66,20 @@ export default function MockTestExamPage({ params }: { params: Promise<{ testId:
     writing: {},
   });
   const [writingText, setWritingText] = useState("");
+  const [listeningParts, setListeningParts] = useState<ListeningPart[]>([]);
+  const [readingPassages, setReadingPassages] = useState<PassageData[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+
+  const handleAnswer = useCallback((section: SectionKey, qNum: number, value: string) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [qNum]: value,
+      },
+    }));
+  }, []);
 
   // Load test info
   useEffect(() => {
@@ -77,6 +91,20 @@ export default function MockTestExamPage({ params }: { params: Promise<{ testId:
         if (!found) { router.push("/dashboard/mock-test"); return; }
 
         setTestInfo(found);
+
+        // Fetch actual test data if present
+        if (found.hasListening) {
+          fetch(`/api/listening/${book}/${test}`)
+            .then((r) => r.json())
+            .then((data) => setListeningParts(Array.isArray(data) ? data : []))
+            .catch(() => {});
+        }
+        if (found.hasReading) {
+          fetch(`/api/reading/${book}/${test}`)
+            .then((r) => r.json())
+            .then((data) => setReadingPassages(Array.isArray(data) ? data : []))
+            .catch(() => {});
+        }
 
         // Build only sections that exist for this test
         const available = SECTION_DEFS.filter((s) => {
@@ -122,9 +150,34 @@ export default function MockTestExamPage({ params }: { params: Promise<{ testId:
     }
   }, [currentSectionIdx, sections.length]);
 
-  const finishExam = () => {
-    // TODO: save writing via BullMQ queue
-    setDone(true);
+  const finishExam = async () => {
+    setSubmitting(true);
+    try {
+      const payload = {
+        bookNumber: testInfo?.bookNumber,
+        testNumber: testInfo?.testNumber,
+        answers: {
+          listening: answers.listening,
+          reading: answers.reading,
+        },
+        writingText: writingText,
+      };
+
+      const res = await fetch("/api/mock-test/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        setDone(true);
+      } else {
+        console.error("Failed to submit test");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // Warn before leaving
@@ -323,7 +376,7 @@ export default function MockTestExamPage({ params }: { params: Promise<{ testId:
       </div>
 
       {/* Content area */}
-      <div className="rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] p-5 min-h-[40vh]">
+      <div className={`rounded-xl border-[0.5px] border-[#2A3150] bg-[#1E2540] ${currentSection.key === "writing" ? "p-5" : "p-3"} min-h-[600px]`}>
         {currentSection.key === "writing" ? (
           <div className="flex flex-col gap-3">
             <p className="text-xs font-medium uppercase tracking-wider text-[#64748B]">Writing Task</p>
@@ -341,15 +394,11 @@ export default function MockTestExamPage({ params }: { params: Promise<{ testId:
               <span>Min. 250 words recommended</span>
             </div>
           </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center gap-3 py-10 text-center">
-            <Icon size={36} strokeWidth={1.25} style={{ color: currentSection.color }} />
-            <p className="font-medium text-[#F8FAFC]">{currentSection.label} Section</p>
-            <p className="max-w-sm text-sm text-[#94A3B8]">
-              Your {currentSection.label.toLowerCase()} content loads here. Complete the questions and click &quot;Next Section&quot; when ready, or let the timer auto-advance.
-            </p>
-          </div>
-        )}
+        ) : currentSection.key === "reading" ? (
+          <MockReadingWrapper passages={readingPassages} answers={answers.reading} onAnswer={(q, v) => handleAnswer("reading", q, v)} />
+        ) : currentSection.key === "listening" ? (
+          <MockListeningWrapper parts={listeningParts} answers={answers.listening} onAnswer={(q, v) => handleAnswer("listening", q, v)} />
+        ) : null}
       </div>
 
       {/* Bottom controls */}
