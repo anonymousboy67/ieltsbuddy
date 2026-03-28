@@ -13,8 +13,8 @@ import StudyTime from "./steps/StudyTime";
 import DiagnosticQuiz from "./steps/DiagnosticQuiz";
 import StudyPlanReady from "./steps/StudyPlanReady";
 
-// Step 7 is the diagnostic quiz, step 8 is the AI analysis screen, step 9 is the result
-const TOTAL_STEPS = 9;
+// Step 7 is the AI analysis screen, step 8 is the result
+const TOTAL_STEPS = 8;
 
 const levelMap: Record<string, string> = {
   beginner: "beginner",
@@ -44,7 +44,6 @@ export default function OnboardingFlow() {
   const [level, setLevel] = useState("");
   const [challenges, setChallenges] = useState<string[]>([]);
   const [studyTime, setStudyTime] = useState("");
-  const [diagnosticAnswers, setDiagnosticAnswers] = useState<Record<number, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
 
@@ -77,7 +76,7 @@ export default function OnboardingFlow() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          answers: diagnosticAnswers,
+          answers: {}, // Removed diagnostic quiz
           targetBand: parseFloat(band) || 6.5,
           currentLevel: levelMap[level.toLowerCase()] || "intermediate",
           weaknesses: challenges,
@@ -98,19 +97,19 @@ export default function OnboardingFlow() {
       setDetectedWeaknesses(challenges);
     } finally {
       setAnalyzing(false);
-      setStep(9); // Jump to StudyPlanReady
+      setStep(8); // Jump to StudyPlanReady
     }
   };
 
   const handleContinue = async () => {
-    if (step === 7) {
-      // After quiz — run AI analysis then jump to step 9
-      setStep(8); // Show loading step
+    if (step === 6) {
+      // After study time — run AI analysis then jump to step 8
+      setStep(7); // Show loading step
       await runDiagnosticAnalysis();
       return;
     }
 
-    if (step === 9) {
+    if (step === 8) {
       // Final step — refresh session and go to dashboard
       setSubmitting(true);
       try {
@@ -129,21 +128,20 @@ export default function OnboardingFlow() {
   };
 
   const canContinue = () => {
-    if (step === 8) return false; // Loading — no button
-    if (step === 7 && Object.keys(diagnosticAnswers).length < 3) return false;
+    if (step === 7) return false; // Loading — no button
     return true;
   };
 
   const buttonLabel = () => {
-    if (step === 7) return "Analyse My Level →";
-    if (step === 9) return submitting ? "Setting up..." : "Go to My Dashboard 🚀";
+    if (step === 6) return "Analyse My Profile →";
+    if (step === 8) return submitting ? "Setting up..." : "Go to My Dashboard 🚀";
     return "Continue";
   };
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#0B0F1A]">
       <div className="flex items-center gap-3 px-4 pt-4 md:px-6">
-        {step > 1 && step !== 8 && step !== 9 ? (
+        {step > 1 && step !== 7 && step !== 8 ? (
           <button
             onClick={() => setStep(step - 1)}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[0.5px] border-[#2A3150] bg-[#1E2540] transition-all duration-200 hover:border-[rgba(99,102,241,0.3)]"
@@ -188,12 +186,6 @@ export default function OnboardingFlow() {
             )}
             {step === 6 && <StudyTime value={studyTime} onChange={setStudyTime} />}
             {step === 7 && (
-              <DiagnosticQuiz
-                answers={diagnosticAnswers}
-                onChange={setDiagnosticAnswers}
-              />
-            )}
-            {step === 8 && (
               <div className="flex flex-col items-center justify-center gap-6 py-20 text-center">
                 <div className="relative flex h-24 w-24 items-center justify-center">
                   <div className="absolute inset-0 animate-ping rounded-full bg-[rgba(99,102,241,0.15)]" />
@@ -203,10 +195,10 @@ export default function OnboardingFlow() {
                 </div>
                 <div>
                   <h2 className="font-heading text-2xl font-bold text-[#F8FAFC]">
-                    Analysing Your Level...
+                    Analysing Your Profile...
                   </h2>
                   <p className="mt-2 text-sm text-[#94A3B8]">
-                    Our AI is evaluating your answers and building your personalised 7-day study plan.
+                    Our AI is evaluating your goals and building your personalised 7-day study plan.
                   </p>
                 </div>
                 <div className="flex gap-1.5">
@@ -220,7 +212,7 @@ export default function OnboardingFlow() {
                 </div>
               </div>
             )}
-            {step === 9 && (
+            {step === 8 && (
               <StudyPlanReady
                 band={band}
                 weaknesses={detectedWeaknesses}
@@ -233,8 +225,8 @@ export default function OnboardingFlow() {
       </div>
 
       {/* Bottom CTA — hidden during loading */}
-      {step !== 8 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#0B0F1A] px-4 pb-6 pt-3 md:px-6">
+      {step !== 7 && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#0B0F1A] px-4 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] pt-3 md:px-6 shadow-[0_-10px_40px_rgba(11,15,26,0.9)]">
           <div className="mx-auto max-w-lg">
             <button
               onClick={handleContinue}

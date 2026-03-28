@@ -49,12 +49,12 @@ Based on these answers, provide a JSON response (no markdown, pure JSON) with th
           }
         ]
       },
-      { "day": "Tuesday", "tasks": [...] },
-      { "day": "Wednesday", "tasks": [...] },
-      { "day": "Thursday", "tasks": [...] },
-      { "day": "Friday", "tasks": [...] },
-      { "day": "Saturday", "tasks": [...] },
-      { "day": "Sunday", "tasks": [...] }
+      { "day": "Tuesday", "tasks": [] },
+      { "day": "Wednesday", "tasks": [] },
+      { "day": "Thursday", "tasks": [] },
+      { "day": "Friday", "tasks": [] },
+      { "day": "Saturday", "tasks": [] },
+      { "day": "Sunday", "tasks": [] }
     ],
     "focusAreas": [<same as top-level focusAreas>],
     "estimatedBandImprovement": <number like 0.5 or 1.0>,

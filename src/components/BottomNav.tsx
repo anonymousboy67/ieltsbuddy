@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import {
   LayoutDashboard,
   Calendar,
   Mic,
   BookOpen,
   TrendingUp,
+  LogOut,
 } from "lucide-react";
 
 const tabs = [
@@ -45,6 +47,15 @@ export default function BottomNav() {
             </li>
           );
         })}
+        <li>
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="flex w-full flex-col items-center gap-1 px-3 py-1 text-[#EF4444]"
+          >
+            <LogOut size={20} strokeWidth={1.75} />
+            <span className="text-[11px] font-medium">Logout</span>
+          </button>
+        </li>
       </ul>
     </nav>
   );

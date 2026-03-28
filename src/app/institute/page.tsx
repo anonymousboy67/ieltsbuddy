@@ -102,13 +102,18 @@ export default async function InstituteDashboard() {
             ) : (
               <ul className="divide-y divide-slate-800">
                 {students.map((s: any) => (
-                  <li key={s._id.toString()} className="py-3 flex justify-between items-center">
+                  <li key={s._id.toString()} className="py-3 flex justify-between items-center group">
                     <div>
                       <p className="text-white font-medium">{s.name || "Unnamed Student"}</p>
                       <p className="text-slate-400 text-xs">{s.email}</p>
                     </div>
-                    <div className="text-right">
-                      <p className="text-xs text-slate-300">Quota Used: <span className="text-white font-bold">{s.quotaConsumed || 0}</span></p>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <p className="text-xs text-slate-300">Quota Used: <span className="text-white font-bold">{s.quotaConsumed || 0}</span></p>
+                      </div>
+                      <a href={`/institute/student/${s._id.toString()}`} className="text-xs text-purple-400 hover:text-purple-300 opacity-0 group-hover:opacity-100 transition-opacity">
+                        View Profile
+                      </a>
                     </div>
                   </li>
                 ))}

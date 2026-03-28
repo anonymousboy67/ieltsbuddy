@@ -8,8 +8,9 @@ import ListeningTab from "./ListeningTab";
 import ReadingTab from "./ReadingTab";
 import WritingTab from "./WritingTab";
 import SpeakingTab from "./SpeakingTab";
+import StudentsTab from "./StudentsTab";
 
-const tabs = ["Listening", "Reading", "Writing", "Speaking"];
+const tabs = ["Listening", "Reading", "Writing", "Speaking", "Students"];
 
 interface Toast {
   message: string;
@@ -98,6 +99,7 @@ export default function AdminPanel() {
           {active === 1 && <ReadingTab onToast={showToast} />}
           {active === 2 && <WritingTab onToast={showToast} />}
           {active === 3 && <SpeakingTab onToast={showToast} />}
+          {active === 4 && <StudentsTab onToast={showToast} />}
         </div>
       </div>
 

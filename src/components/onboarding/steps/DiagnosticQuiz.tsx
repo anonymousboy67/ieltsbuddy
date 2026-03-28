@@ -16,12 +16,12 @@ const QUESTIONS: Question[] = [
     id: 1,
     skill: "reading",
     type: "mcq",
-    question: "The graph below shows changes in the population of three cities between 1990 and 2020. According to the graph, which city showed the MOST consistent growth?",
+    question: "Read the text: 'The advent of modern agricultural technology in the 19th century drastically reduced the need for manual farm labor, triggering a massive migration of workers to urban industrial centers.'\nWhat was the primary cause of this urban migration?",
     options: [
-      "City A, which grew steadily throughout the period",
-      "City B, which had fluctuations but ended higher",
-      "City C, which declined then recovered sharply",
-      "All cities showed equal growth",
+      "The invention and implementation of new farming machinery",
+      "The rapid growth of cities creating new factory jobs",
+      "A sudden decline in overall crop yields",
+      "The increasing cost of rural living",
     ],
   },
   {
