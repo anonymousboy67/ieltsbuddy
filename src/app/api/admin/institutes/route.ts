@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
-import Institute from "@/models/Institute";
+import Institute, { PLAN_LIMITS, type InstitutePlan } from "@/models/Institute";
 
 export async function POST(req: Request) {
   try {
@@ -10,20 +10,30 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { name, contactEmail, totalQuota } = await req.json();
+    const { name, contactEmail, plan, validityMonths } = await req.json();
 
     if (!name || !contactEmail) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
+
+    const selectedPlan: InstitutePlan = plan || "basic";
+    const planLimits = PLAN_LIMITS[selectedPlan];
+    const months = validityMonths || 3;
+
+    // Calculate validUntil date
+    const validUntil = new Date();
+    validUntil.setMonth(validUntil.getMonth() + months);
 
     await dbConnect();
 
     const newInstitute = await Institute.create({
       name,
       contactEmail,
-      totalQuota: totalQuota || 100000,
-      usedQuota: 0,
+      plan: selectedPlan,
+      maxStudents: planLimits.maxStudents,
+      totalQuota: 0,
       status: "active",
+      validUntil,
     });
 
     return NextResponse.json(newInstitute, { status: 201 });

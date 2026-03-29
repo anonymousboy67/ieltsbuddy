@@ -7,6 +7,7 @@ import ListeningSection from "@/models/ListeningSection";
 import WritingTask from "@/models/WritingTask";
 import mongoose from "mongoose";
 import { Queue } from "bullmq";
+import { checkDailyLimit, recordUsage } from "@/lib/dailyLimit";
 
 /* ── Grading Helpers ────────────────────────────────────────── */
 const READING_BAND_MAP: Record<number, number> = {
@@ -51,6 +52,12 @@ export async function POST(req: Request) {
 
     if (!bookNumber || !testNumber) {
       return NextResponse.json({ error: "Missing bookNumber or testNumber" }, { status: 400 });
+    }
+
+    // Check daily mock test limit
+    const limit = await checkDailyLimit(session.user.id, "mockTest");
+    if (!limit.allowed) {
+      return NextResponse.json({ error: limit.message }, { status: 429 });
     }
 
     await dbConnect();
@@ -181,6 +188,9 @@ export async function POST(req: Request) {
         { attempts: 3, backoff: 5000 }
       );
     }
+
+    // Record mock test usage
+    await recordUsage(session.user.id, "mockTest");
 
     return NextResponse.json({ success: true, attemptsCreated });
   } catch (error) {

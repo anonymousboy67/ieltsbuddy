@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/mongodb";
 import User from "@/models/User";
+import Institute from "@/models/Institute";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
@@ -23,6 +24,30 @@ export async function POST(req: Request) {
     }
 
     await dbConnect();
+
+    // Check institute student limit
+    const institute = await Institute.findById(instituteId);
+    if (!institute) {
+      return NextResponse.json({ error: "Institute not found" }, { status: 404 });
+    }
+
+    if (institute.status === "suspended") {
+      return NextResponse.json({ error: "Institute is suspended. Contact support." }, { status: 403 });
+    }
+
+    if (institute.validUntil && new Date(institute.validUntil) < new Date()) {
+      return NextResponse.json({ error: "Institute plan has expired. Contact support to renew." }, { status: 403 });
+    }
+
+    if (role === "student") {
+      const currentStudentCount = await User.countDocuments({ role: "student", instituteId });
+      if (currentStudentCount >= institute.maxStudents) {
+        return NextResponse.json(
+          { error: `Student limit reached (${institute.maxStudents}). Upgrade your plan to add more students.` },
+          { status: 403 }
+        );
+      }
+    }
 
     // Check if user already exists
     const existing = await User.findOne({ email });

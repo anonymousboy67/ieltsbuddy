@@ -165,6 +165,20 @@ export default function GeminiLiveExaminer() {
   /* ── Start Session ─────────────────────────────────────────── */
 
   const startSession = useCallback(async () => {
+    // Check daily Gemini session limit before connecting
+    try {
+      const checkRes = await fetch("/api/usage/gemini");
+      const checkData = await checkRes.json();
+      if (!checkData.allowed) {
+        setErrorMessage(checkData.message || "Daily live speaking session limit reached. Come back tomorrow.");
+        setState("error");
+        sessionStateRef.current = "error";
+        return;
+      }
+    } catch {
+      // If check fails, allow the session (don't block on usage check failure)
+    }
+
     setState("connecting");
     sessionStateRef.current = "connecting";
     setTranscript([]);
@@ -248,6 +262,8 @@ export default function GeminiLiveExaminer() {
           if (data.setupComplete) {
             setState("connected");
             sessionStateRef.current = "connected";
+            // Record Gemini session usage
+            fetch("/api/usage/gemini", { method: "POST" }).catch(() => {});
             startAudioCapture(stream);
             return;
           }

@@ -118,6 +118,7 @@ export default function SpeakingTestInterface({
   // Evaluation
   const [evalResult, setEvalResult] = useState<EvalResult | null>(null);
   const [showSample, setShowSample] = useState(false);
+  const [limitError, setLimitError] = useState<string | null>(null);
 
   const part = parts[partIdx] ?? null;
   const isCueCard = part?.partType === "CUE_CARD";
@@ -325,6 +326,7 @@ export default function SpeakingTestInterface({
   async function handleEvaluate() {
     if (!transcript.trim()) return;
     setMicState("processing");
+    setLimitError(null);
 
     try {
       const res = await fetch("/api/speaking/evaluate", {
@@ -336,6 +338,12 @@ export default function SpeakingTestInterface({
           partType: part?.partType || "INTERVIEW",
         }),
       });
+
+      if (res.status === 429) {
+        const data = await res.json();
+        setLimitError(data.error || "Daily speaking evaluation limit reached. Come back tomorrow.");
+        return;
+      }
 
       if (res.ok) {
         const data: EvalResult = await res.json();
@@ -733,8 +741,16 @@ export default function SpeakingTestInterface({
         )}
       </div>
 
+      {/* Limit reached error */}
+      {limitError && (
+        <div className="mt-4 rounded-xl border-[0.5px] border-[rgba(239,68,68,0.3)] bg-[rgba(239,68,68,0.08)] p-4 text-center">
+          <p className="text-sm font-medium text-[#EF4444]">{limitError}</p>
+          <p className="mt-1 text-xs text-[#94A3B8]">Reading and listening tests are still available with no limits.</p>
+        </div>
+      )}
+
       {/* Evaluate button */}
-      {transcript.trim() && micState !== "listening" && (
+      {transcript.trim() && micState !== "listening" && !limitError && (
         <button
           onClick={handleEvaluate}
           disabled={micState === "processing"}

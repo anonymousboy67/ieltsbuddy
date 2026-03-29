@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { checkDailyLimit, recordUsage } from "@/lib/dailyLimit";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -39,6 +40,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get session and check daily speaking evaluation limit
+    const { auth } = await import("@/lib/auth");
+    const session = await auth();
+    if (session?.user?.id) {
+      const limit = await checkDailyLimit(session.user.id, "speakingEval");
+      if (!limit.allowed) {
+        return NextResponse.json({ error: limit.message }, { status: 429 });
+      }
+    }
+
     const message = await client.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
@@ -55,10 +66,13 @@ export async function POST(request: NextRequest) {
       message.content[0].type === "text" ? message.content[0].text : "";
     const result = JSON.parse(text);
 
+    // Record usage after successful evaluation
+    if (session?.user?.id) {
+      await recordUsage(session.user.id, "speakingEval");
+    }
+
     // Save attempt to DB (best-effort — don't fail the request if this errors)
     try {
-      const { auth } = await import("@/lib/auth");
-      const session = await auth();
       if (session?.user?.id) {
         const { default: dbConnect } = await import("@/lib/mongodb");
         const { default: UserAttempt } = await import("@/models/UserAttempt");

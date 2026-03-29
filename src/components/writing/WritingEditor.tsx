@@ -66,6 +66,13 @@ export default function WritingEditor({
         }),
       });
 
+      if (res.status === 429) {
+        const data = await res.json();
+        setError(data.error || "Daily writing evaluation limit reached. Come back tomorrow.");
+        setIsSubmitting(false);
+        return;
+      }
+
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Evaluation failed");

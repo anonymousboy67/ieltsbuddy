@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import Institute from "@/models/Institute";
 import User from "@/models/User";
-import { Plus, Building2, Users, Database } from "lucide-react";
+import { Building2, Users, Calendar } from "lucide-react";
 import Link from "next/link";
 import AddInstituteModal from "./AddInstituteModal";
 
@@ -46,9 +46,9 @@ export default async function AdminInstitutesPage() {
           <p className="text-3xl font-bold text-white mt-1">{totalStudents}</p>
         </div>
         <div className="bg-[#131B2C] border border-slate-800 rounded-xl p-6 flex flex-col items-center justify-center">
-          <Database className="w-8 h-8 text-purple-400 mb-2" />
-          <h3 className="text-slate-300 font-medium">API Tokens Used</h3>
-          <p className="text-3xl font-bold text-white mt-1">45,230</p>
+          <Calendar className="w-8 h-8 text-purple-400 mb-2" />
+          <h3 className="text-slate-300 font-medium">Active Plans</h3>
+          <p className="text-3xl font-bold text-white mt-1">{institutes.filter((i: any) => i.status === "active").length}</p>
         </div>
       </div>
 
@@ -67,8 +67,9 @@ export default async function AdminInstitutesPage() {
               <tr>
                 <th className="px-6 py-4 font-medium">Institute Name</th>
                 <th className="px-6 py-4 font-medium">Contact Email</th>
-                <th className="px-6 py-4 font-medium">Domain</th>
-                <th className="px-6 py-4 font-medium">Quota Used</th>
+                <th className="px-6 py-4 font-medium">Plan</th>
+                <th className="px-6 py-4 font-medium">Students</th>
+                <th className="px-6 py-4 font-medium">Valid Until</th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
@@ -78,18 +79,17 @@ export default async function AdminInstitutesPage() {
                 <tr key={inst._id.toString()} className="hover:bg-slate-800/30 transition">
                   <td className="px-6 py-4 font-medium text-white">{inst.name}</td>
                   <td className="px-6 py-4 text-slate-300">{inst.contactEmail}</td>
-                  <td className="px-6 py-4 text-slate-400">{inst.domain || "N/A"}</td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-full bg-slate-800 rounded-full h-2 max-w-[100px]">
-                        <div 
-                          className="bg-cyan-500 h-2 rounded-full" 
-                          style={{ width: `${Math.min((inst.usedQuota || 0) / (inst.totalQuota || 1) * 100, 100)}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-slate-400 text-xs">{inst.usedQuota || 0} / {inst.totalQuota || 0}</span>
-                    </div>
+                    <span className={`px-2 py-1 rounded-md text-xs font-medium capitalize ${
+                      inst.plan === "platinum" ? "bg-purple-500/10 text-purple-400" :
+                      inst.plan === "silver" ? "bg-slate-500/10 text-slate-300" :
+                      "bg-blue-500/10 text-blue-400"
+                    }`}>
+                      {inst.plan || "basic"}
+                    </span>
                   </td>
+                  <td className="px-6 py-4 text-slate-300">{inst.maxStudents || 50} max</td>
+                  <td className="px-6 py-4 text-slate-400 text-xs">{inst.validUntil ? new Date(inst.validUntil).toLocaleDateString() : "N/A"}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-md text-xs font-medium ${
                       inst.status === "active" ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"

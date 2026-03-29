@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import dbConnect from "@/lib/mongodb";
 import Institute from "@/models/Institute";
 import User from "@/models/User";
-import { Users, BookOpen, GraduationCap, Plus } from "lucide-react";
+import { Users, BookOpen, GraduationCap, Crown, Gem, Calendar } from "lucide-react";
 import AddUserModal from "./AddUserModal";
 
 export default async function InstituteDashboard() {
@@ -31,7 +31,26 @@ export default async function InstituteDashboard() {
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500">
             {institute.name} Portal
           </h1>
-          <p className="text-slate-400 mt-2">Manage your AI quota, teachers, and enrolled students.</p>
+          <div className="flex items-center gap-3 mt-2">
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium capitalize ${
+              institute.plan === "platinum" ? "bg-purple-500/10 text-purple-400 border border-purple-500/30" :
+              institute.plan === "silver" ? "bg-slate-500/10 text-slate-300 border border-slate-400/30" :
+              "bg-blue-500/10 text-blue-400 border border-blue-500/30"
+            }`}>
+              {institute.plan === "platinum" ? <Gem className="w-3.5 h-3.5" /> :
+               institute.plan === "silver" ? <Crown className="w-3.5 h-3.5" /> :
+               <Users className="w-3.5 h-3.5" />}
+              {institute.plan || "basic"} plan
+            </span>
+            {institute.validUntil && (
+              <span className={`inline-flex items-center gap-1.5 text-xs ${
+                new Date(institute.validUntil) < new Date() ? "text-red-400" : "text-slate-400"
+              }`}>
+                <Calendar className="w-3.5 h-3.5" />
+                Valid until {new Date(institute.validUntil).toLocaleDateString()}
+              </span>
+            )}
+          </div>
         </div>
         <AddUserModal instituteId={institute._id.toString()} />
       </div>
@@ -39,16 +58,17 @@ export default async function InstituteDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-[#131B2C] border border-slate-800 rounded-xl p-6">
           <div className="flex justify-between items-start mb-4">
-            <h3 className="text-slate-300 font-medium">AI Quota Status</h3>
-            <DatabaseIcon />
+            <h3 className="text-slate-300 font-medium">Students</h3>
+            <GraduationCap className="w-6 h-6 text-blue-400" />
           </div>
-          <p className="text-3xl font-bold text-white mb-2">{institute.usedQuota || 0} / {institute.totalQuota || 0}</p>
+          <p className="text-3xl font-bold text-white mb-2">{students.length} / {institute.maxStudents || 50}</p>
           <div className="w-full bg-slate-800 rounded-full h-2">
-            <div 
-              className="bg-purple-500 h-2 rounded-full" 
-              style={{ width: `${Math.min(((institute.usedQuota || 0) / (institute.totalQuota || 1)) * 100, 100)}%` }}
+            <div
+              className={`h-2 rounded-full ${students.length >= (institute.maxStudents || 50) ? "bg-red-500" : "bg-blue-500"}`}
+              style={{ width: `${Math.min((students.length / (institute.maxStudents || 50)) * 100, 100)}%` }}
             ></div>
           </div>
+          <p className="text-xs text-slate-500 mt-2">{(institute.maxStudents || 50) - students.length} slots remaining</p>
         </div>
 
         <div className="bg-[#131B2C] border border-slate-800 rounded-xl p-6 flex flex-col items-center justify-center">
@@ -57,10 +77,28 @@ export default async function InstituteDashboard() {
           <p className="text-3xl font-bold text-white mt-1">{teachers.length}</p>
         </div>
 
-        <div className="bg-[#131B2C] border border-slate-800 rounded-xl p-6 flex flex-col items-center justify-center">
-          <GraduationCap className="w-8 h-8 text-blue-400 mb-2" />
-          <h3 className="text-slate-300 font-medium">Enrolled Students</h3>
-          <p className="text-3xl font-bold text-white mt-1">{students.length}</p>
+        <div className="bg-[#131B2C] border border-slate-800 rounded-xl p-6">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-slate-300 font-medium">Daily Limits per Student</h3>
+          </div>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between text-slate-400">
+              <span>Live Speaking</span>
+              <span className="text-white font-medium">1 session (12 min)</span>
+            </div>
+            <div className="flex justify-between text-slate-400">
+              <span>Mock Test</span>
+              <span className="text-white font-medium">1 per day</span>
+            </div>
+            <div className="flex justify-between text-slate-400">
+              <span>Writing Eval</span>
+              <span className="text-white font-medium">2 per day</span>
+            </div>
+            <div className="flex justify-between text-slate-400">
+              <span>Speaking Eval</span>
+              <span className="text-white font-medium">2 per day</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -126,12 +164,3 @@ export default async function InstituteDashboard() {
   );
 }
 
-function DatabaseIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400">
-      <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-      <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-      <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-    </svg>
-  );
-}

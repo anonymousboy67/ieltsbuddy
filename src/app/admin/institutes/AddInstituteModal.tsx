@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, X, Loader2 } from "lucide-react";
+import { Plus, X, Loader2, Users, Crown, Gem } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+const PLANS = [
+  { value: "basic", label: "Basic", maxStudents: 50, icon: Users, color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
+  { value: "silver", label: "Silver", maxStudents: 150, icon: Crown, color: "text-slate-300", bg: "bg-slate-500/10", border: "border-slate-400/30" },
+  { value: "platinum", label: "Platinum", maxStudents: 400, icon: Gem, color: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30" },
+] as const;
 
 export default function AddInstituteModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,9 +16,12 @@ export default function AddInstituteModal() {
   const [formData, setFormData] = useState({
     name: "",
     contactEmail: "",
-    totalQuota: 100000,
+    plan: "basic" as "basic" | "silver" | "platinum",
+    validityMonths: 3,
   });
   const router = useRouter();
+
+  const selectedPlan = PLANS.find((p) => p.value === formData.plan)!;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,12 +31,17 @@ export default function AddInstituteModal() {
       const res = await fetch("/api/admin/institutes", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          contactEmail: formData.contactEmail,
+          plan: formData.plan,
+          validityMonths: formData.validityMonths,
+        }),
       });
 
       if (res.ok) {
         setIsOpen(false);
-        setFormData({ name: "", contactEmail: "", totalQuota: 100000 });
+        setFormData({ name: "", contactEmail: "", plan: "basic", validityMonths: 3 });
         router.refresh();
       } else {
         const err = await res.json();
@@ -42,7 +56,7 @@ export default function AddInstituteModal() {
 
   return (
     <>
-      <button 
+      <button
         onClick={() => setIsOpen(true)}
         className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-2 rounded-xl hover:opacity-90 transition font-medium"
       >
@@ -85,18 +99,63 @@ export default function AddInstituteModal() {
                 />
               </div>
 
+              {/* Plan Selector */}
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1">AI Quota (Tests)</label>
-                <input
-                  required
-                  type="number"
-                  value={formData.totalQuota}
-                  onChange={(e) => setFormData({ ...formData, totalQuota: parseInt(e.target.value) })}
-                  className="w-full bg-[#0F1523] border border-slate-800 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none transition"
-                />
+                <label className="block text-sm font-medium text-slate-400 mb-2">Plan</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {PLANS.map((plan) => {
+                    const Icon = plan.icon;
+                    const isSelected = formData.plan === plan.value;
+                    return (
+                      <button
+                        key={plan.value}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, plan: plan.value })}
+                        className={`flex flex-col items-center gap-1.5 rounded-xl border px-3 py-3 transition ${
+                          isSelected
+                            ? `${plan.bg} ${plan.border} ${plan.color}`
+                            : "border-slate-800 text-slate-500 hover:border-slate-600"
+                        }`}
+                      >
+                        <Icon className="w-5 h-5" />
+                        <span className="text-xs font-medium">{plan.label}</span>
+                        <span className="text-[10px] opacity-70">{plan.maxStudents} students</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="pt-4">
+              {/* Validity Period */}
+              <div>
+                <label className="block text-sm font-medium text-slate-400 mb-1">Validity (months)</label>
+                <select
+                  value={formData.validityMonths}
+                  onChange={(e) => setFormData({ ...formData, validityMonths: parseInt(e.target.value) })}
+                  className="w-full bg-[#0F1523] border border-slate-800 rounded-xl px-4 py-2 text-white focus:border-cyan-500 outline-none transition"
+                >
+                  <option value={1}>1 month</option>
+                  <option value={2}>2 months</option>
+                  <option value={3}>3 months (recommended)</option>
+                  <option value={6}>6 months</option>
+                  <option value={12}>12 months</option>
+                </select>
+              </div>
+
+              {/* Plan Summary */}
+              <div className={`rounded-xl border ${selectedPlan.border} ${selectedPlan.bg} p-3`}>
+                <p className={`text-xs font-medium ${selectedPlan.color}`}>Plan Summary</p>
+                <div className="mt-1 flex justify-between text-xs text-slate-400">
+                  <span>Max Students</span>
+                  <span className="text-white font-medium">{selectedPlan.maxStudents}</span>
+                </div>
+                <div className="mt-1 flex justify-between text-xs text-slate-400">
+                  <span>Validity</span>
+                  <span className="text-white font-medium">{formData.validityMonths} month{formData.validityMonths > 1 ? "s" : ""}</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
                 <button
                   disabled={loading}
                   type="submit"

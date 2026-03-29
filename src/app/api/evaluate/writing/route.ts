@@ -4,6 +4,7 @@ import dbConnect from "@/lib/mongodb";
 import UserAttempt from "@/models/UserAttempt";
 import { evaluationQueue } from "@/lib/queue";
 import mongoose from "mongoose";
+import { checkDailyLimit, recordUsage } from "@/lib/dailyLimit";
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,6 +20,12 @@ export async function POST(request: NextRequest) {
         { error: "Missing required fields" },
         { status: 400 }
       );
+    }
+
+    // Check daily writing evaluation limit
+    const limit = await checkDailyLimit(session.user.id, "writingEval");
+    if (!limit.allowed) {
+      return NextResponse.json({ error: limit.message }, { status: 429 });
     }
 
     await dbConnect();
@@ -42,6 +49,9 @@ export async function POST(request: NextRequest) {
       taskType,
       userId: session.user.id,
     });
+
+    // Record usage
+    await recordUsage(session.user.id, "writingEval");
 
     console.log(`[evaluate/writing] Queued job: ${job.id} for attempt: ${attempt._id}`);
 
